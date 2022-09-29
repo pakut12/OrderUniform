@@ -2,9 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.pg.lib.Servlet;
-
 
 import com.pg.lib.model.OUCustomerDetail;
 import com.pg.lib.model.OUUploadCustomer;
@@ -33,31 +31,32 @@ import org.apache.commons.io.FilenameUtils;
  * @author 111525
  */
 public class UploadCustomer extends HttpServlet {
-   
+
     /** 
-    * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-    * @param request servlet request
-    * @param response servlet response
-    */
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * @param request servlet request
+     * @param response servlet response
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+       
         PrintWriter out = response.getWriter();
-        HashMap<String, String> uploadDetail = new HashMap<String,String>();
+        HashMap<String, String> uploadDetail = new HashMap<String, String>();
         String returnResult = "";
-        
+
         //Upload files to Server
         UploadFileService oupload = new UploadFileService();
-        uploadDetail = oupload.checkMultiContent(request,"uploadCustomer");
-        
+        uploadDetail = oupload.checkMultiContent(request, "uploadCustomer");
+
         //Read xlsx file and save into database;
         ReadExcelService oreadfile = new ReadExcelService();
         List<OUUploadCustomer> customerList = oreadfile.readExcelFileCustomer(uploadDetail);
-        
+
         //Insert data into database;
         CustomerService ocustomer = new CustomerService();
-        
-        if(ocustomer.addCustomer(customerList)){
+
+        if (ocustomer.addCustomer(customerList)) {
             //Load data customer and Generate to HTML
             List<OUCustomerDetail> customerDetail = ocustomer.getDataUpload(uploadDetail.get("comp"));
             returnResult += "<table id=\"uploaddetail\" class=\"table table-striped\" >";
@@ -72,48 +71,48 @@ public class UploadCustomer extends HttpServlet {
             returnResult += "</tr>";
             returnResult += "</thead>";
             returnResult += "<tbody>";
-                for(int i = 0 ; i <= customerDetail.size()-1 ; i++){
-                    returnResult += "<tr>";
-                    returnResult += "<th scope=\"row\">"+customerDetail.get(i).getCusSeq()+"</th>";
-                    returnResult += "<td>"+customerDetail.get(i).getCusNo()+"</td>";
-                    returnResult += "<td>"+customerDetail.get(i).getCusPreName()+"</td>";
-                    returnResult += "<td>"+customerDetail.get(i).getCusFName()+"</td>";
-                    returnResult += "<td>"+customerDetail.get(i).getCusDepartmet()+"</td>";
-                    returnResult += "<td>"+customerDetail.get(i).getCusCompany()+"</td>";
-                    returnResult += "</tr>";
-                }
+            for (int i = 0; i <= customerDetail.size() - 1; i++) {
+                returnResult += "<tr>";
+                returnResult += "<th scope=\"row\">" + customerDetail.get(i).getCusSeq() + "</th>";
+                returnResult += "<td>" + customerDetail.get(i).getCusNo() + "</td>";
+                returnResult += "<td>" + customerDetail.get(i).getCusPreName() + "</td>";
+                returnResult += "<td>" + customerDetail.get(i).getCusFName() + "</td>";
+                returnResult += "<td>" + customerDetail.get(i).getCusDepartmet() + "</td>";
+                returnResult += "<td>" + customerDetail.get(i).getCusCompany() + "</td>";
+                returnResult += "</tr>";
+            }
             returnResult += "</tbody>";
             returnResult += "</table>";
             out.print(returnResult);
             out.close();
-        } 
-        
-    } 
+        }
+
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
-    * Handles the HTTP <code>GET</code> method.
-    * @param request servlet request
-    * @param response servlet response
-    */
+     * Handles the HTTP <code>GET</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-            processRequest(request, response);
-    } 
-
-    /** 
-    * Handles the HTTP <code>POST</code> method.
-    * @param request servlet request
-    * @param response servlet response
-    */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-            processRequest(request, response); 
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /** 
-    * Returns a short description of the servlet.
-    */
+     * Handles the HTTP <code>POST</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /** 
+     * Returns a short description of the servlet.
+     */
     public String getServletInfo() {
         return "Short description";
     }

@@ -27,7 +27,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  */
 public class UploadFileService {
     
-    private final String  pathAttachfileLocalhost = "C:/Users/111525/Documents/NetBeansProjects6.1/OrderUniform/web/attachfile/";
+    private final String  pathAttachfileLocalhost = "C:/Users/pakutsing/Desktop/Github/OU/web/attachfile/";
     private final String  pathAttachfileOnServer = "/web/webapps/OrderUniform/attachfile/";
     
     public HashMap<String,String> checkMultiContent(HttpServletRequest request, String content) throws UnsupportedEncodingException {

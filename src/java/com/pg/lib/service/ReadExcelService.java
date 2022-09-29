@@ -28,8 +28,8 @@ import org.apache.poi.ss.usermodel.Row;
  * @author 111525
  */
 public class ReadExcelService {
-    
-    private final String  pathAttachfileLocalhost = "C:/Users/111525/Documents/NetBeansProjects6.1/OrderUniform/web/attachfile/";
+    //C:/Users/pakutsing/Desktop/Github/OU/web/attachfile/
+    private final String  pathAttachfileLocalhost = "C:/Users/pakutsing/Desktop/Github/OU/web/attachfile/";
     private final String  pathAttachfileOnServer = "/web/webapps/OrderUniform/attachfile/";
     
     public List<OUUploadCustomer> readExcelFileCustomer(HashMap<String,String> pathfile)
@@ -253,6 +253,7 @@ public class ReadExcelService {
                                                 //บวกค่าของ cell เอาไว้ใช้เก็บค่า จำนวน ในเงื่อนไขถัดไป
                                                 countDetailItem ++;
                                             }  else if (countDetailItem == 1){
+                                                cell.setCellType(Cell.CELL_TYPE_STRING);
                                                 quatity = cell.getStringCellValue();
                                                 
                                                 //บวกค่าของ cell ให้เริ่มเก็บข้อมูลจาก cell ที่เป็น size ;
