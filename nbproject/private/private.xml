@@ -2,9 +2,7 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/C:/Users/pakutsing/Desktop/Github/OU/src/java/com/pg/lib/Servlet/UploadTransactionCustomer.java</file>
-        <file>file:/C:/Users/pakutsing/Desktop/Github/OU/src/java/com/pg/lib/service/ReadExcelService.java</file>
-        <file>file:/C:/Users/pakutsing/Desktop/Github/OU/src/java/com/pg/lib/service/TransactionCustomerService.java</file>
-        <file>file:/C:/Users/pakutsing/Desktop/Github/OU/web/uploadtransaction.jsp</file>
+        <file>file:/C:/Users/Gus/Desktop/Github/OrderUniform/src/java/com/pg/lib/Servlet/UploadCustomer.java</file>
+        <file>file:/C:/Users/Gus/Desktop/Github/OrderUniform/src/java/com/pg/lib/service/UploadFileService.java</file>
     </open-files>
 </project-private>
