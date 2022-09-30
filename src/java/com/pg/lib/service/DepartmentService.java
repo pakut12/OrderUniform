@@ -107,8 +107,10 @@ public class DepartmentService {
                         + "'new',"
                         + "TO_DATE('"+date+"','yyyy-mm-dd'),"
                         + "'') ";
+          
             }
             temp += "select * from dual";
+           // System.out.print(temp);
         return temp;
         
     }

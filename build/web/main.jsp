@@ -38,7 +38,7 @@
                                     <li><b>ขั้นตอนที่ 1 </b><span>: เลือกดาวน์โหลดฟอร์มเพื่อนำไปกรอกข้อมูลของลูกค้า(เลือกตามประเภทของข้อมูล)</span> 
                                     <span style="color:green"> - 
                                         [ 
-                                            <a href="attachfile/download/form/OrderUniform_Department.xls">แบบแผนก</a> 
+                                            <a href="attachfile/download/form/Department.xls">แบบแผนก</a> 
                                             ||
                                             <a  href="attachfile/download/form/OrderUniform_Customer.xls">แบบรายชื่อพนักงาน</a>
                                         ]
