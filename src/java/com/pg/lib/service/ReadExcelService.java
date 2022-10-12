@@ -61,7 +61,7 @@ public class ReadExcelService {
                 //Loop Column
                 while (cellIterator.hasNext()) {
                     Cell cell = cellIterator.next();
-
+                    cell.setCellType(Cell.CELL_TYPE_STRING);
                     switch (cell.getCellType()) {
                         case Cell.CELL_TYPE_NUMERIC:
                             System.out.println(cell.getNumericCellValue() + "\t");
