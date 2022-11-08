@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -269,11 +270,12 @@ public class TransactionCustomerService {
                 ps = conn.prepareStatement("SELECT h_id, h_name, h_filename, h_filename, h_create_date FROM ou_header_transaction_customer WHERE h_id != 99 ");
                 rs = ps.executeQuery();
                     while(rs.next()){
+                        String datetime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(rs.getTimestamp("h_create_date"));
                         TreeMap<String,String> objtree = new TreeMap<String,String>();
                             objtree.put("h_id", String.valueOf(rs.getInt("h_id")));
                             objtree.put("h_name", rs.getString("h_name"));
                             objtree.put("h_filename", rs.getString("h_filename"));
-                            objtree.put("h_create_date", rs.getTimestamp("h_create_date").toString());
+                            objtree.put("h_create_date", datetime);
                         arrlist.add(objtree);
                     }
             } catch (Exception e){

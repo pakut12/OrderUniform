@@ -254,7 +254,7 @@
         });
         
         function updateBarcode(docid){
-            location.reload();
+           // location.reload();
             $.post("Barcode",{
                 documentID : docid
             },

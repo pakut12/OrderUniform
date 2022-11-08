@@ -54,7 +54,7 @@ public class BarcodeService {
                         strWhereClause += "\'"+data.get(i).getMatfullname()+"\',";
                     }
                 }
-            
+            System.out.println(strWhereClause);
         return strWhereClause;
     }
 }
