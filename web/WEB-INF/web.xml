@@ -60,6 +60,10 @@
         <servlet-name>Barcode</servlet-name>
         <servlet-class>com.pg.lib.Servlet.Barcode</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetDataStock</servlet-name>
+        <servlet-class>com.pg.lib.Servlet.GetDataStock</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ChkAuthorized</servlet-name>
         <url-pattern>/ChkAuthorized</url-pattern>
@@ -119,6 +123,10 @@
     <servlet-mapping>
         <servlet-name>Barcode</servlet-name>
         <url-pattern>/Barcode</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetDataStock</servlet-name>
+        <url-pattern>/GetDataStock</url-pattern>
     </servlet-mapping>
     <session-config>
     <session-timeout>

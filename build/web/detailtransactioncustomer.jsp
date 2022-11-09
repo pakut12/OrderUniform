@@ -3,58 +3,59 @@
 <%@page import="java.util.*" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+"http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <%
             OUPermission pm = (OUPermission) request.getSession().getAttribute("role");
-            if(pm == null || !pm.getRole().equals("1")){
+            if (pm == null || !pm.getRole().equals("1")) {
                 RequestDispatcher rdp = getServletContext().getRequestDispatcher("/login.jsp");
                 rdp.forward(request, response);
             }
     %>
-     <head>
+    <head>
         <%@ include file = "share/header.jsp" %>
-     </head>
+    </head>
     
     <body>
         <!-- nav -->
         <%@ include file = "share/navbar.jsp" %>
         <!-- end nav -->
         <div class="container" >
-        <% 
-           List<OUTransactionCustomerDetail> detail = (List<OUTransactionCustomerDetail>) request.getAttribute("detaildoc");
-           List<OUSummaryOrderByCustomer> summary = (List<OUSummaryOrderByCustomer>) request.getAttribute("listSummaryByCustomer");
-           List<OUSummaryOrderCustomerByMaterialAndSize> summaryQuantity = (List<OUSummaryOrderCustomerByMaterialAndSize>) request.getAttribute("listSummaryQuantity");
-           HashMap<String,Integer> totalSummaryByMaterailID = (HashMap<String,Integer>) request.getAttribute("totalByMaterialid");
-        %> 
-        
-                <br>
-                <div class="shadow-none p-3 mb-5 bg-light rounded">
-                    <div class="shadow-lg p-3 mb-2 bg-body rounded">
-                        <div class="row">
-                            <div class="col-10">
-                                <h1><u>ประเภทเอกสาร</u> : รูปแบบพนักงาน</h1>
-                                <h2>เลขเอกสาร : <%=detail.get(0).getDocID()%> , ชื่อเอกสาร : <%=detail.get(0).getDocName()%> </h2>
-                                <h4><%=detail.get(0).getCompanyname()%></h4> 
-                            </div>
-                            <div class="col-2">
-                                <div style="text-align:center">                               
-                                    <button class="btn btn-outline-secondary" onclick="updateBarcode(<%=detail.get(0).getDocID()%>)">
+            <%
+            List<OUTransactionCustomerDetail> detail = (List<OUTransactionCustomerDetail>) request.getAttribute("detaildoc");
+            List<OUSummaryOrderByCustomer> summary = (List<OUSummaryOrderByCustomer>) request.getAttribute("listSummaryByCustomer");
+            List<OUSummaryOrderCustomerByMaterialAndSize> summaryQuantity = (List<OUSummaryOrderCustomerByMaterialAndSize>) request.getAttribute("listSummaryQuantity");
+            HashMap<String, Integer> totalSummaryByMaterailID = (HashMap<String, Integer>) request.getAttribute("totalByMaterialid");
+            %> 
+            
+            <br>
+            <div class="shadow-none p-3 mb-5 bg-light rounded">
+                <div class="shadow-lg p-3 mb-2 bg-body rounded">
+                    <div class="row">
+                        <div class="col-10">
+                            <h1><u>ประเภทเอกสาร</u> : รูปแบบพนักงาน</h1>
+                            <h2>เลขเอกสาร : <%=detail.get(0).getDocID()%> , ชื่อเอกสาร : <%=detail.get(0).getDocName()%> </h2>
+                            <h4><%=detail.get(0).getCompanyname()%></h4> 
+                        </div>
+                        <div class="col-2">
+                            <div style="text-align:center">                               
+                                <button class="btn btn-outline-secondary w-100" onclick="updateBarcode(<%=detail.get(0).getDocID()%>)">
                                     <img src="css/bootstrap-icons-1.5.0/cloud-download.svg"
                                          alt="Bootstrap"
                                          width="20"
                                          height="20">
-                                        รีโหลดบาร์โค๊ด
-                                    </button>
-                                </div>
+                                    รีโหลดบาร์โค๊ด
+                                </button>
+                                <button class="btn  btn-outline-success mt-3 w-100"  id="btn-excel">Excel</button>
                             </div>
                         </div>
-                        
                     </div>
-                    <hr>    
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                      <li class="nav-item" role="presentation">
-                          <button 
+                    
+                </div>
+                <hr>    
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button 
                             class="nav-link active" 
                             id="detail-tab" 
                             data-bs-toggle="tab" 
@@ -62,11 +63,11 @@
                             type="button" role="tab" 
                             aria-controls="detail" 
                             aria-selected="true">
-                                รายละเอียดของเอกสาร
-                          </button>
-                      </li>
-                      <li class="nav-item" role="presentation">
-                          <button 
+                            รายละเอียดของเอกสาร
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button 
                             class="nav-link" 
                             id="summary-tab" 
                             data-bs-toggle="tab" 
@@ -75,11 +76,11 @@
                             role="tab" 
                             aria-controls="summary" 
                             aria-selected="false">
-                                สรุปยอดเรียงตามรายชื่อ
-                          </button>
-                      </li>
-                      <li class="nav-item" role="presentation">
-                          <button
+                            สรุปยอดเรียงตามรายชื่อ
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button
                             class="nav-link"
                             id="summary-size"
                             data-bs-toggle="tab"
@@ -88,137 +89,146 @@
                             role="tab"
                             aria-controls="sizesummary"
                             aria-selected="false">
-                                สรุปยอดเรียงตามไซส์
-                          </button>
-                      </li>
-                    </ul>
-                    <div class="tab-content" id="myTabContent">
-                      <!-- document detail -->
-                      <div class="tab-pane fade show active" id="detail" role="tabpanel" aria-labelledby="detail-tab">
-                          <br>
-                            <table id="documentDetail">
-                                <thead >
-                                    <tr >
-                                        <th> ลำดับ </th>  
-                                        <th> ชื่อ-นามสกุล </th>
-                                        <th> ชื่อสินค้า</th>
-                                        <th> รหัสสินค้า </th>
-                                        <th> สี </th>
-                                        <th> ไซส์ </th>
-                                        <th> รหัสสินค้า 18 หลัก </th>
-                                        <th> Barcode </th>
-                                        <th> จำนวน </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                     <% for(int i = 0 ; i <= detail.size()-1 ; i++) {%>
-                                        <tr>
-                                            <td><%= i+1 %></td>
-                                            <td>
+                            สรุปยอดเรียงตามไซส์
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <!-- document detail -->
+                    <div class="tab-pane fade show active" id="detail" role="tabpanel" aria-labelledby="detail-tab">
+                        <br>
+                        
+                        
+                        <br>
+                        <table id="documentDetail">
+                            <thead >
+                                <tr >
+                                    <th> ลำดับ </th>  
+                                    <th> ชื่อ-นามสกุล </th>
+                                    <th> ชื่อสินค้า</th>
+                                    <th> รหัสสินค้า </th>
+                                    <th> สี </th>
+                                    <th> ไซส์ </th>
+                                    <th> รหัสสินค้า 18 หลัก </th>
+                                    <th> Barcode </th>
+                                    <th> จำนวน </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for (int i = 0; i <= detail.size() - 1; i++) {%>
+                                <tr>
+                                    <td><%= i + 1%></td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-12">
                                                 <b>รหัสพนักงาน  : </b><%=detail.get(i).getCustomerCode()%> 
                                                 <br>
                                                 <b>ชื่อ : </b> <%=detail.get(i).getPrename()%> <%=detail.get(i).getFname()%>
                                                 <br> 
                                                 <b>แผนก : </b> <%=detail.get(i).getDepartmentname()%>
-                                            </td>
-                                            <td><%=detail.get(i).getDesc()%></td>
-                                            <td><%=detail.get(i).getMaterialname()%></td>
-                                            <td><%=detail.get(i).getColor()%></td>
-                                            <td><%=detail.get(i).getSize()%></td>
-                                            <td style="color:green"><%=detail.get(i).getMatfullname()%></td>
+                                            </div>
                                             
-                                              <% if(detail.get(i).getBarcode()==null ||detail.get(i).getBarcode()== ""){ %>
-                                                <td style="color:red">ยังไม่มี Barcode</td>
-                                              <% } else { %>
-                                                <td><%=detail.get(i).getBarcode()%></td>
-                                              <% } %>
-                                                  
-                                            <td><%=detail.get(i).getQuantity()%> ตัว </td>
-                                        </tr>
-                                    <%}%>
-                                </tbody>
-                            </table>
-                      </div>
-                      <!-- document detail -->
-                      <div class="tab-pane fade" id="summary" role="tabpanel" aria-labelledby="profile-tab">
-                          <br>
-                          <div>
-                              <table class="table table-striped table-bordered">
-                                  <thead>
+                                        </div>
+                                        
+                                    </td>
+                                    <td><%=detail.get(i).getDesc()%></td>
+                                    <td><%=detail.get(i).getMaterialname()%></td>
+                                    <td><%=detail.get(i).getColor()%></td>
+                                    <td><%=detail.get(i).getSize()%></td>
+                                    <td style="color:green"><%=detail.get(i).getMatfullname()%></td>
+                                    
+                                    <% if (detail.get(i).getBarcode() == null || detail.get(i).getBarcode() == "") {%>
+                                    <td style="color:red">ยังไม่มี Barcode</td>
+                                    <% } else {%>
+                                    <td><%=detail.get(i).getBarcode()%></td>
+                                    <% }%>
+                                    
+                                    <td><%=detail.get(i).getQuantity()%> ตัว </td>
+                                </tr>
+                                <%}%>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- document detail -->
+                    <div class="tab-pane fade" id="summary" role="tabpanel" aria-labelledby="profile-tab">
+                        <br>
+                        <div>
+                            <table class="table table-striped table-bordered">
+                                <thead>
                                     <tr>
-                                      <th scope="col">ลำดับ</th>
-                                      <th scope="col">รหัสพนักงาน</th>
-                                      <th scope="col">ชื่อ - นามสกุล</th>
-                                      <th scope="col">จำนวน</th>
+                                        <th scope="col">ลำดับ</th>
+                                        <th scope="col">รหัสพนักงาน</th>
+                                        <th scope="col">ชื่อ - นามสกุล</th>
+                                        <th scope="col">จำนวน</th>
                                     </tr>
-                                  </thead>
-                                  <tbody>
-                                     <% int totalsummary = 0 ;
-                                        for(int j = 0 ; j <= summary.size()-1 ; j++) {
-                                            totalsummary += Integer.parseInt(summary.get(j).getQuantity()); %>
-                                        <tr>
-                                            <td><%=j+1%></td>
-                                            <td><%=summary.get(j).getCustomerno()%></td>
-                                            <td><%=summary.get(j).getCustomerprename()%> <%=summary.get(j).getCustomername()%></td>
-                                            <td><%=summary.get(j).getQuantity()%> ตัว </td>
-                                        </tr>
-                                     <% }%>
-                                  </tbody>
-                                  <tfooter>
-                                      <tr>
-                                          <td colspan="3" style="text-align:end"><b>รวมทั้งหมด</b></td>
-                                          <td ><%=totalsummary%> ตัว</td>
-                                      </tr>
-                                  </tfooter>
-                                </table>
-                          </div>
-                      </div>
-                      <!-- document sizesummary -->
-                      <div class="tab-pane fade" id="sizesummary" role="tabpanel" aria-labelledby="profile-tab">
-                          <br>
-                          <div>
-                              <table class="table  table-bordered" >
+                                </thead>
+                                <tbody>
+                                    <% int totalsummary = 0;
+            for (int j = 0; j <= summary.size() - 1; j++) {
+                totalsummary += Integer.parseInt(summary.get(j).getQuantity());%>
+                                    <tr>
+                                        <td><%=j + 1%></td>
+                                        <td><%=summary.get(j).getCustomerno()%></td>
+                                        <td><%=summary.get(j).getCustomerprename()%> <%=summary.get(j).getCustomername()%></td>
+                                        <td><%=summary.get(j).getQuantity()%> ตัว </td>
+                                    </tr>
+                                    <% }%>
+                                </tbody>
+                                <tfooter>
+                                    <tr>
+                                        <td colspan="3" style="text-align:end"><b>รวมทั้งหมด</b></td>
+                                        <td ><%=totalsummary%> ตัว</td>
+                                    </tr>
+                                </tfooter>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- document sizesummary -->
+                    <div class="tab-pane fade" id="sizesummary" role="tabpanel" aria-labelledby="profile-tab">
+                        <br>
+                        <div>
+                            <table class="table  table-bordered" >
                                 <%  String tempmaterial = "";
-                                     for(int k = 0 ; k <= summaryQuantity.size()-1 ; k++) {
-                                       if(!summaryQuantity.get(k).getMaterialid().equals(tempmaterial)){
-                                            tempmaterial =  summaryQuantity.get(k).getMaterialid();
+            for (int k = 0; k <= summaryQuantity.size() - 1; k++) {
+                if (!summaryQuantity.get(k).getMaterialid().equals(tempmaterial)) {
+                    tempmaterial = summaryQuantity.get(k).getMaterialid();
                                 %>
-                                    <thead>
-                                        <tr>
-                                            <th colspan="2"  style="background-color:#ddd">
-                                                รหัส : <%=summaryQuantity.get(k).getMaterialname()%> 
+                                <thead>
+                                    <tr>
+                                        <th colspan="2"  style="background-color:#ddd">
+                                            รหัส : <%=summaryQuantity.get(k).getMaterialname()%> 
                                             <br>
-                                                ชื่อ : <%=summaryQuantity.get(k).getMaterialdesc()%>
+                                            ชื่อ : <%=summaryQuantity.get(k).getMaterialdesc()%>
                                             <br> 
-                                                <u>ยอดรวมทั้งหมด <%=totalSummaryByMaterailID.get(summaryQuantity.get(k).getMaterialid())%> ตัว</u>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <th>ไซส์</th>
-                                            <th>จำนวน</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                          <td><%=summaryQuantity.get(k).getMaterialsize()%> </td>
-                                          <td><%=summaryQuantity.get(k).getQuantitySummary()%> ตัว </td>
-                                      </tr>
-                                    </tbody>
-                                       <% } else { %>    
-                                    <tbody>
-                                        <tr>
-                                          <td><%=summaryQuantity.get(k).getMaterialsize()%></td>
-                                          <td><%=summaryQuantity.get(k).getQuantitySummary()%> ตัว </td>
-                                       </tr>
-                                    </tbody>
-                                       <% }%>
-                                    <% } %>
-                              </table>
-                          </div>
-                      </div>
+                                            <u>ยอดรวมทั้งหมด <%=totalSummaryByMaterailID.get(summaryQuantity.get(k).getMaterialid())%> ตัว</u>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>ไซส์</th>
+                                        <th>จำนวน</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><%=summaryQuantity.get(k).getMaterialsize()%> </td>
+                                        <td><%=summaryQuantity.get(k).getQuantitySummary()%> ตัว </td>
+                                    </tr>
+                                </tbody>
+                                <% } else {%>    
+                                <tbody>
+                                    <tr>
+                                        <td><%=summaryQuantity.get(k).getMaterialsize()%></td>
+                                        <td><%=summaryQuantity.get(k).getQuantitySummary()%> ตัว </td>
+                                    </tr>
+                                </tbody>
+                                <% }%>
+                                <% }%>
+                            </table>
+                        </div>
                     </div>
                 </div>
-       </div>
+            </div>
+        </div>
     </body>
     
     <footer>
@@ -226,10 +236,13 @@
     </footer>
     
     <script language=javascript>
+        
+        JsBarcode(".barcode").init();
         $(document).ready(function(){
             var groupColumn = 1;
             $('#documentDetail').DataTable({
                 //scrollY: '45vh',
+               
                 scrollCollapse: true,
                 "columnDefs":[
                     { "visible" : false, "targets": groupColumn }
@@ -244,17 +257,44 @@
                     api.column(groupColumn, {page:'current'}).data().each( function (group, i) {
                         if( last !== group ){
                             $(rows).eq(i).before(
-                                '<tr class="group" style="background-color:#ddd"><td colspan="8">'+group+'</td></tr>'
-                            );
+                            '<tr class="group" style="background-color:#ddd"><td colspan="8">'+group+'</td></tr>'
+                        );
                             last = group;
                         }
                     });
                 }
             });
+            
+
+            $("#btn-excel").click(function(){ 
+                $.ajax({
+                    type:"post",
+                    url:"TransactionCustomer",
+                    data:{
+                        type:"generateXLSFileSummarizeCustomer",
+                        doc_id:"100"
+                    },
+                    success:function(msg){
+                        console.log(msg);
+                    }
+                })
+                
+            });
+
+
+
+
+
+
+
+
+
+
+
         });
         
         function updateBarcode(docid){
-           // location.reload();
+            // location.reload();
             $.post("Barcode",{
                 documentID : docid
             },
