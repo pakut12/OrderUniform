@@ -110,12 +110,7 @@ public class CompanyList extends HttpServlet {
 
             response.setContentType("application/json;charset=UTF-8");
 
-            JSONObject jobj = new JSONObject();
-            jobj.put("status", status);
-
-            out.print(jobj);
-
-
+            out.print(status);
             out.close();
 
         } else if (type.equals("DeleteCompany")) {
@@ -126,13 +121,8 @@ public class CompanyList extends HttpServlet {
             String status = CompanyService.DeleteCompany(comp_code);
 
             response.setContentType("application/json;charset=UTF-8");
-
-            JSONObject jobj = new JSONObject();
-            jobj.put("status", status);
-
-            out.print(jobj);
-
-
+           
+            out.print(status);
             out.close();
 
         }

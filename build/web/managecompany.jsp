@@ -195,24 +195,51 @@
         $( document ).ready(function() {
             
             $("#bt-save").click(function(){
-                $(".myform1").addClass("was-validated") ;       
-                var comp_code = $("#IDText").val();
-                var comp_name = $("#CompanyText").val();
-                var content_type =$("#content_type").val(); 
+                Swal.fire({
+                    title: 'คุณต้องการบันทึกหรือไม่',
+                    text: "คุณต้องการบันทึกหรือไม่",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then(function(result){
+                    if (result.isConfirmed) {
+                        $(".myform1").addClass("was-validated") ;       
+                        var comp_code = $("#IDText").val();
+                        var comp_name = $("#CompanyText").val();
+                        var content_type = $("#content_type").val(); 
                 
-                $.ajax({
-                    type:"post",
-                    url:"CompanyList",
-                    data:{
-                        type:"EditCompany",
-                        comp_code:comp_code,
-                        comp_name:comp_name,
-                        content_type:content_type
-                    },
-                    success:function(msg){
-                        getDetailCompany();
+                        $.ajax({
+                            type:"post",
+                            url:"CompanyList",
+                            data:{
+                                type:"EditCompany",
+                                comp_code:comp_code,
+                                comp_name:comp_name,
+                                content_type:content_type
+                            },
+                            success:function(msg){
+                                if(msg.toString() == 'true'){
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'บันทึกสำเร็จ',
+                                        text: 'บันทึกสำเร็จ'
+                                    }) 
+                                }else if(msg.toString() == "false"){
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'บันทึกไม่สำเร็จ',
+                                        text: 'บันทึกไม่สำเร็จ'
+                                    })  
+                                }
+                                getDetailCompany();
+                            }
+                        });
+                        
                     }
                 });
+                
                  
                
             });
@@ -294,20 +321,49 @@
             
             $('#table_company tbody').on( 'click', '.del_btn', function () {  
                 var row = table.row($(this).parents('tr')).data();
-                
-                $.ajax({
-                    type:"post",
-                    url:"CompanyList",
-                    data:{
-                        type:"DeleteCompany",
-                        comp_code:row[0]  
-                    },
-                    success:function(msg){
+               
+                Swal.fire({
+                    title: 'คุณต้องการลบหรือไม่',
+                    text: "คุณต้องการลบหรือไม่",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then(function(result){
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type:"post",
+                            url:"CompanyList",
+                            data:{
+                                type:"DeleteCompany",
+                                comp_code:row[0]  
+                            },
+                            success:function(msg){ 
+                               
+                                if(msg.toString() == 'true'){
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'บันทึกสำเร็จ',
+                                        text: 'บันทึกสำเร็จ'
+                                    }) 
+                                }else if(msg.toString() == "false"){
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'บันทึกไม่สำเร็จ',
+                                        text: 'บันทึกไม่สำเร็จ'
+                                    })  
+                                }
+                                getDetailCompany();
+                                 
+                            }
+                        });
                         
-                        getDetailCompany();
                     }
                 });
-                
+                  
+
+
             } );
     
            

@@ -12,7 +12,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <!--<link rel="icon" href="image/PG.gif" type="image/gif" sizes="16x16">-->
-    <script type="text/javascript" src="js/jquery-1.7.1.js"></script>
+     <script type="text/javascript" src="js/jquery-1.7.1.js"></script>
+  
+    
     <script type="text/javascript" src="js/bootstrap-5.0.1-dist/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/DataTables/datatables.min.js"></script>
     
@@ -20,8 +22,8 @@
     <link rel="stylesheet" type="text/css" href="css/DataTables/datatables.min.css"/>
     <link href="css/mystyle.css" rel="stylesheet"> 
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
-  
-     
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <title>ระบบ สรุปรายการสั่งซื้อชุดเครื่องแบบพนักงาน</title>
     <div id="header-style">
         <img src="image/LOGO_CUS-.png" >
