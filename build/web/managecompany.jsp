@@ -59,29 +59,28 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
-                                        <div class="col-10 mx-auto">
-                                            <div class="row align-items-center mb-3 ">
-                                                <label for="IDText" class="col-md-3 col-form-label text-end">รหัสบริษัท</label>
-                                                <div class="col-sm-12 col-md-9  "><input class="form-control form-control-sm text-center" id="IDText" readonly></input></div>
-                                            </div>
-                                            <div class="row align-items-center mb-3">
-                                                <label for="IDText" class="col-md-3 col-form-label text-end">ชื่อบริษัท</label>
-                                                <div class="col-sm-12 col-md-9"><input class="form-control form-control-sm text-center" id="CompanyText" ></input></div>
-                                            </div>
-                                            <div class="row align-items-center mb-3">
-                                                <label for="IDText" class="col-md-3 col-form-label text-end ">ประเภท</label>
-                                                <div class="col-sm-12 col-md-9">
-                                                    <select class="form-select form-select-sm text-center" id="content_type">
-                                                        <option value="customer">เเบบพนักงาน</option>
-                                                        <option value="department">เเบบเเผนก</option>
-                                                    </select>
+                                        <form class="myform1">
+                                            <div class="col-10 mx-auto">
+                                                <div class="row align-items-center mb-3 ">
+                                                    <label for="IDText" class="col-md-3 col-form-label text-end">รหัสบริษัท</label>
+                                                    <div class="col-sm-12 col-md-9  "><input class="form-control form-control-sm text-center" id="IDText" value="" readonly></input></div>
                                                 </div>
+                                                <div class="row align-items-center mb-3">
+                                                    <label for="IDText" class="col-md-3 col-form-label text-end">ชื่อบริษัท</label>
+                                                    <div class="col-sm-12 col-md-9"><input class="form-control form-control-sm text-center" id="CompanyText" value="" ></input></div>
+                                                </div>
+                                                <div class="row align-items-center mb-3">
+                                                    <label for="IDText" class="col-md-3 col-form-label text-end ">ประเภท</label>
+                                                    <div class="col-sm-12 col-md-9">
+                                                        <select class="form-select form-select-sm text-center" id="content_type">
+                                                            <option value="customer">เเบบรายชื่อ</option>
+                                                            <option value="department">เเบบเเผนก</option>
+                                                        </select>
+                                                    </div>
+                                                </div>   
                                             </div>
-                                            
-                                            
-                                        </div>
+                                        </form>
                                     </div>
-                                    
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -98,7 +97,7 @@
                     <!-- Modal -->
                     <div class="modal fade" id="addCompanyModal" tabindex="-1" aria-labelledby="addCompanyModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
-                            <form action="CompanyList" method="post" novalidate>
+                            <form action="CompanyList" method="post" id="myform" class="needs-validation" novalidate>
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="addCompanyModalLabel">เพิ่มข้อมูลบริษัท</h5>
@@ -167,11 +166,36 @@
     <footer>
         <%@ include file = "share/footer.jsp" %>
     </footer>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+    
     <script language=javascript>
         
         
         $( document ).ready(function() {
+            
             $("#bt-save").click(function(){
+                $(".myform1").addClass("was-validated") ;       
                 var comp_code = $("#IDText").val();
                 var comp_name = $("#CompanyText").val();
                 var content_type =$("#content_type").val(); 
