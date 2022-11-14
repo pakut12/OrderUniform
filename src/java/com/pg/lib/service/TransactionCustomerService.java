@@ -91,76 +91,7 @@ public class TransactionCustomerService {
             }
         return false;
     }
-    
-    public List<OUTransactionCustomerDetail> getDetailTransactionBycustomerID(String cus_no){
-        List<OUTransactionCustomerDetail> listdetailtransaction = new ArrayList<OUTransactionCustomerDetail>();
-        String sqlquery = "SELECT " +
-                "a.h_id as docID, " +
-                "b.tran_cus_id as transactionID, " +
-                "c.cus_id as customerID, " +
-                "e.comp_id as companyID, " +
-                "d.hmat_id as materialID, " +
-                "a.h_name as docName, " +
-                "c.cus_prename as prename, " +
-                "c.cus_fname as fullname, " +
-                "c.cus_no as customerCode, " +
-                "c.cus_department as departmentname, " +
-                "d.hmat_code as materialname, " +
-                "d.hmat_color as materialcolor, " + 
-                "d.hmat_desc as materialdesc, " +
-                "b.tran_cus_size as materialsize, " +
-                "b.tran_cus_quatity as materialquantity, " +
-                "e.comp_name as companyname, " +
-                "b.tran_cus_matcode as matfullname, " +
-                "b.tran_cus_barcode as barcode " +
-                "FROM ou_header_transaction_customer a " +
-                "LEFT JOIN ou_transaction_customer b ON a.h_id = b.header_id " +
-                "LEFT JOIN ou_upload_customer c ON b.cus_id = c.cus_id " +
-                "LEFT JOIN ou_header_material d ON b.hmat_id = d.hmat_id " +
-                "LEFT JOIN ou_company e ON b.compa_id = e.comp_id " +
-                "WHERE " +
-                "c.cus_no = ? " +
-                "ORDER BY b.tran_cus_id asc ";
-                try {
-                    conn = ConnectDB.getConnection();
-                    ps = conn.prepareStatement(sqlquery);
-                    ps.setString(1, cus_no);
-                    rs = ps.executeQuery();
-                        while(rs.next()){
-                            OUTransactionCustomerDetail obj = new OUTransactionCustomerDetail();
-                                obj.setDocID(rs.getInt("docID"));
-                                obj.setTransactionID(rs.getInt("transactionID"));
-                                obj.setCustomerID(rs.getInt("customerID"));
-                                obj.setCompanyID(rs.getInt("companyID"));
-                                obj.setMaterialID(rs.getInt("materialID"));
-                                obj.setDocName(rs.getString("docName"));
-                                obj.setPrename(rs.getString("prename"));
-                                obj.setCustomerCode(rs.getString("customerCode"));
-                                obj.setFname(rs.getString("fullname"));
-                                obj.setDepartmentname(rs.getString("departmentname"));
-                                obj.setMaterialname(rs.getString("materialname"));
-                                obj.setColor(rs.getString("materialcolor"));
-                                obj.setDesc(rs.getString("materialdesc"));
-                                obj.setSize(rs.getString("materialsize"));
-                                obj.setQuantity(rs.getString("materialquantity"));
-                                obj.setCompanyname(rs.getString("companyname"));
-                                obj.setMatfullname(rs.getString("matfullname"));
-                                obj.setBarcode(rs.getString("barcode"));
-                            listdetailtransaction.add(obj);
-                        }
-                } catch (Exception e){
-                    e.printStackTrace();
-                } finally {
-                    try {
-                      rs.close();
-                      ps.close();
-                      ConnectDB.closeConnection(conn);
-                    } catch (SQLException e) {
-                      e.printStackTrace();  
-                    } 
-                }
-        return listdetailtransaction;
-    }
+   
     
     public List<OUTransactionCustomerDetail> getDetailTransactionByDocumentId(String doc_id){
         List<OUTransactionCustomerDetail> listdetailtransaction = new ArrayList<OUTransactionCustomerDetail>();
@@ -232,11 +163,83 @@ public class TransactionCustomerService {
         return listdetailtransaction;
     }
     
+    public List<OUTransactionCustomerDetail> getDetailFromBarcode(String doc_id,String cus_no){
+        List<OUTransactionCustomerDetail> listdetailtransaction = new ArrayList<OUTransactionCustomerDetail>();
+        String sqlquery = "SELECT " +
+                "a.h_id as docID, " +
+                "b.tran_cus_id as transactionID, " +
+                "c.cus_id as customerID, " +
+                "e.comp_id as companyID, " +
+                "d.hmat_id as materialID, " +
+                "a.h_name as docName, " +
+                "c.cus_prename as prename, " +
+                "c.cus_fname as fullname, " +
+                "c.cus_no as customerCode, " +
+                "c.cus_department as departmentname, " +
+                "d.hmat_code as materialname, " +
+                "d.hmat_color as materialcolor, " + 
+                "d.hmat_desc as materialdesc, " +
+                "b.tran_cus_size as materialsize, " +
+                "b.tran_cus_quatity as materialquantity, " +
+                "e.comp_name as companyname, " +
+                "b.tran_cus_matcode as matfullname, " +
+                "b.tran_cus_barcode as barcode " +
+                "FROM ou_header_transaction_customer a " +
+                "LEFT JOIN ou_transaction_customer b ON a.h_id = b.header_id " +
+                "LEFT JOIN ou_upload_customer c ON b.cus_id = c.cus_id " +
+                "LEFT JOIN ou_header_material d ON b.hmat_id = d.hmat_id " +
+                "LEFT JOIN ou_company e ON b.compa_id = e.comp_id " +
+                "WHERE " +
+                "a.h_id = ? and c.cus_no = ?" +
+                "ORDER BY b.tran_cus_id asc ";
+                try {
+                    conn = ConnectDB.getConnection();
+                    ps = conn.prepareStatement(sqlquery);
+                    ps.setString(1, doc_id);
+                    ps.setString(2, cus_no);
+                    rs = ps.executeQuery();
+                        while(rs.next()){
+                            OUTransactionCustomerDetail obj = new OUTransactionCustomerDetail();
+                                obj.setDocID(rs.getInt("docID"));
+                                obj.setTransactionID(rs.getInt("transactionID"));
+                                obj.setCustomerID(rs.getInt("customerID"));
+                                obj.setCompanyID(rs.getInt("companyID"));
+                                obj.setMaterialID(rs.getInt("materialID"));
+                                obj.setDocName(rs.getString("docName"));
+                                obj.setPrename(rs.getString("prename"));
+                                obj.setCustomerCode(rs.getString("customerCode"));
+                                obj.setFname(rs.getString("fullname"));
+                                obj.setDepartmentname(rs.getString("departmentname"));
+                                obj.setMaterialname(rs.getString("materialname"));
+                                obj.setColor(rs.getString("materialcolor"));
+                                obj.setDesc(rs.getString("materialdesc"));
+                                obj.setSize(rs.getString("materialsize"));
+                                obj.setQuantity(rs.getString("materialquantity"));
+                                obj.setCompanyname(rs.getString("companyname"));
+                                obj.setMatfullname(rs.getString("matfullname"));
+                                obj.setBarcode(rs.getString("barcode"));
+                            listdetailtransaction.add(obj);
+                        }
+                } catch (Exception e){
+                    e.printStackTrace();
+                } finally {
+                    try {
+                      rs.close();
+                      ps.close();
+                      ConnectDB.closeConnection(conn);
+                    } catch (SQLException e) {
+                      e.printStackTrace();  
+                    } 
+                }
+        return listdetailtransaction;
+    }
+    
     public List<OUSummaryOrderByCustomer> summaryOrderByCustomer(String doc_id){
         List<OUSummaryOrderByCustomer> listResult = new ArrayList<OUSummaryOrderByCustomer>();
         String plainSQL = "SELECT " +
                           "b.cus_id as customerid, " +
                           "c.cus_no as customercode, " +
+                          "c.cus_department as departmentname, " +
                           "c.cus_prename as prename, " +
                           "c.cus_fname as customername, " +
                           "sum(b.tran_cus_quatity) as quantity " +
@@ -244,7 +247,7 @@ public class TransactionCustomerService {
                           "LEFT JOIN ou_upload_customer c ON b.cus_id = c.cus_id " +
                           "LEFT JOIN ou_header_material d ON b.hmat_id = d.hmat_id " +
                           "WHERE b.header_id = ? " +
-                          "GROUP BY b.cus_id, c.cus_no, c.cus_prename, c.cus_fname " +
+                          "GROUP BY b.cus_id, c.cus_no, c.cus_prename, c.cus_fname ,c.cus_department " +
                           "ORDER BY b.cus_id ";
             try {
                 conn = ConnectDB.getConnection();
@@ -257,7 +260,10 @@ public class TransactionCustomerService {
                             obj.setCustomerno(rs.getString("customercode"));
                             obj.setCustomerprename(rs.getString("prename"));
                             obj.setCustomername(rs.getString("customername"));
+                            obj.setDepartmentname(rs.getString("departmentname"));
                             obj.setQuantity(rs.getString("quantity"));
+                            
+                            
                         listResult.add(obj);
                     }
             } catch (Exception e){

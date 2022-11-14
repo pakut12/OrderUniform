@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-4 text-end">รหัสพนักงาน : </div>
+                                        <div class="col-4 text-end">รหัสบาร์โค้ด : </div>
                                         <div class="col-4">
                                             <input class="form-control form-control-sm" type="text" id="cus_no"></input>
                                         </div>
@@ -55,35 +55,26 @@
                                     <div class="">เเสดงข้อมูล</div>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table " id="mytable">
-                                        <thead>
-                                            <tr>
-                                                <th> ลำดับ </th>  
-                                                <th> ชื่อ-นามสกุล </th>
-                                                <th> ชื่อสินค้า</th>
-                                                <th> รหัสสินค้า </th>
-                                                <th> สี </th>
-                                                <th> ไซส์ </th>
-                                                <th> รหัสสินค้า 18 หลัก </th>
-                                                <th> Barcode </th>
-                                                <th> จำนวน </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>asdasd</td>
-                                                <td>asdasd</td>
-                                                <td>asdasd</td>
-                                                <td>asdasd</td>
-                                                <td>asdasd</td>
-                                                <td>asdasd</td>
-                                                <td>asdasd</td>
-                                                <td>asdasd</td>
-                                                <td>asdasd</td>
-                                            </tr>
-                                        </tbody>
-                                        
-                                    </table>
+                                    <div class="row mb-3">
+                                        <div class="col-4 text-end">รหัสพนักงาน : </div>
+                                        <div class="col-4">
+                                            <input class="form-control form-control-sm" type="text" id="cus_no" readonly></input>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-4 text-end">ชื่อ : </div>
+                                        <div class="col-4">
+                                            <input class="form-control form-control-sm" type="text" id="cus_no" readonly></input>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-4 text-end">เเผนก : </div>
+                                        <div class="col-4">
+                                            <input class="form-control form-control-sm" type="text" id="cus_no" readonly></input>
+                                        </div>
+                                    </div>
+                                    <div class="viewtable">
+                                    </div>
                                     
                                 </div>
                             </div>
@@ -101,17 +92,20 @@
         $(document).ready(function(){
             $("#mytable").DataTable();
             $("#btn-getdata").click(function(){
-                var data = $("#cus_no").val();
+                var data = $("#cus_no").val().split("/", 2);
+                
                 $.ajax({
                     type:"post",
                     url:"GetDataStock",
                     data:{
-                        cus_no:data
+                        doc_id:data[0],
+                        cus_no:data[1]
                     },
                     success:function(msg){
-                        console.log(msg);
+                        $(".viewtable").html(msg);
                     }
                 });
+                 
             });
             
         })

@@ -27,45 +27,58 @@ public class Customer extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String returnResult = "";
 
-        CustomerService cs = new CustomerService();
-        List<OUCustomerDetail> cusobj = cs.getDataALL();
 
-        if (cusobj != null) {
-            returnResult += "<table id=\"customerdetail\" >";
-            returnResult += "<thead>";
-            returnResult += "<tr>";
-            returnResult += "<th>ลำดับ</th>";
-            returnResult += "<th>รหัสพนักงาน</th>";
-            returnResult += "<th>คำนำหน้าชื่อ</th>";
-            returnResult += "<th>ชื่อ-นามสกุล</th>";
-            returnResult += "<th>แผนก</th>";
-            returnResult += "<th>บริษัท</th>";
-            returnResult += "<th>เเก้ไข</th>";
-            returnResult += "<th>ลบ</th>";
-            returnResult += "</tr>";
-            returnResult += "</thead>";
-            returnResult += "<tbody>";
-            for (int i = 0; i <= cusobj.size() - 1; i++) {
+        String type = request.getParameter("type");
+
+        if (type.equalsIgnoreCase("getdetailcustomer")) {
+            PrintWriter out = response.getWriter();
+            String returnResult = "";
+            CustomerService cs = new CustomerService();
+            List<OUCustomerDetail> cusobj = cs.getDataALL();
+
+            if (cusobj != null) {
+                returnResult += "<table id=\"customerdetail\" >";
+                returnResult += "<thead>";
                 returnResult += "<tr>";
-                returnResult += "<td>" + cusobj.get(i).getCusSeq() + "</td>";
-                returnResult += "<td>" + cusobj.get(i).getCusNo() + "</td>";
-                returnResult += "<td>" + cusobj.get(i).getCusPreName() + "</td>";
-                returnResult += "<td>" + cusobj.get(i).getCusFName() + "</td>";
-                returnResult += "<td>" + cusobj.get(i).getCusDepartmet() + "</td>";
-                returnResult += "<td>" + cusobj.get(i).getCusCompany() + "</td>";
-                returnResult += "<td><button type='button' class='btn btn-warning btn-sm edit_btn'>เเก้ไข</button></td>";
-                returnResult += "<td><button type='button' class='btn btn-danger btn-sm del_btn'>ลบ</button></td></td>";
+                returnResult += "<th>ลำดับ</th>";
+                returnResult += "<th>รหัสพนักงาน</th>";
+                returnResult += "<th>คำนำหน้าชื่อ</th>";
+                returnResult += "<th>ชื่อ-นามสกุล</th>";
+                returnResult += "<th>แผนก</th>";
+                returnResult += "<th>บริษัท</th>";
+                returnResult += "<th>เเก้ไข</th>";
+                returnResult += "<th>ลบ</th>";
                 returnResult += "</tr>";
+                returnResult += "</thead>";
+                returnResult += "<tbody>";
+                for (int i = 0; i <= cusobj.size() - 1; i++) {
+                    returnResult += "<tr>";
+                    returnResult += "<td>" + cusobj.get(i).getCusSeq() + "</td>";
+                    returnResult += "<td>" + cusobj.get(i).getCusNo() + "</td>";
+                    returnResult += "<td>" + cusobj.get(i).getCusPreName() + "</td>";
+                    returnResult += "<td>" + cusobj.get(i).getCusFName() + "</td>";
+                    returnResult += "<td>" + cusobj.get(i).getCusDepartmet() + "</td>";
+                    returnResult += "<td>" + cusobj.get(i).getCusCompany() + "</td>";
+                    returnResult += "<td><button type='button' class='btn btn-warning btn-sm edit_btn'>เเก้ไข</button></td>";
+                    returnResult += "<td><button type='button' class='btn btn-danger btn-sm del_btn'>ลบ</button></td></td>";
+                    returnResult += "</tr>";
+                }
+                returnResult += "</tbody>";
+                returnResult += "</table>";
             }
-            returnResult += "</tbody>";
-            returnResult += "</table>";
+
+            out.print(returnResult);
+            out.close();
+        }else if(type.equalsIgnoreCase("adddetailcustomer")){
+            PrintWriter out = response.getWriter();
+            CustomerService cm = new CustomerService();
+            
+            
+            out.close();
+            
         }
 
-        out.print(returnResult);
-        out.close();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

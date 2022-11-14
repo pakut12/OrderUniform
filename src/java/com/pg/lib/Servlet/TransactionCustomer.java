@@ -16,7 +16,10 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
+import org.apache.poi.hssf.util.HSSFRegionUtil;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Header;
 import org.apache.poi.ss.usermodel.Row;
 
 public class TransactionCustomer extends HttpServlet {
@@ -42,23 +45,23 @@ public class TransactionCustomer extends HttpServlet {
 
             try {
 
-
-
                 String concatpath = "C:/Users/pakutsing/Desktop/Github/OU/web/attachfile/Test.xls";
                 HSSFWorkbook wb = new HSSFWorkbook();
                 HSSFSheet s = wb.createSheet();
 
                 String CustomerCodeNew = "";
                 String NameNew = "";
+                Header oddH = s.getHeader();
 
+                oddH.setRight("Page " + s.getHeader().page() + " of " + s.getHeader().numPages());
 
                 HSSFFont font = wb.createFont();
                 font.setFontName("3 of 9 Barcode");
-                font.setFontHeightInPoints((short) 24);
+                font.setFontHeightInPoints((short) 16);
 
                 HSSFFont font1 = wb.createFont();
                 font1.setFontName("Arial");
-                font1.setFontHeightInPoints((short) 24);
+                font1.setFontHeightInPoints((short) 16);
 
                 HSSFCellStyle stylebarcode = wb.createCellStyle();
                 stylebarcode.setFont(font);
@@ -86,53 +89,100 @@ public class TransactionCustomer extends HttpServlet {
                 details.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
                 details.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
-                //หัวข้อ
-                Row rowindex = s.createRow(0);
+                CellStyle Company = wb.createCellStyle();
+                Company.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+                Company.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+                Company.setBorderRight(HSSFCellStyle.BORDER_THIN);
+                Company.setBorderTop(HSSFCellStyle.BORDER_THIN);
+                Company.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+                Company.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+                Company.setFont(font1);
 
-                Cell index1 = rowindex.createCell(0);
+
+                Row rowtopic = s.createRow(0);
+
+                CellRangeAddress cellRangeAddress = new CellRangeAddress(0, 0, 0, 5);
+                s.addMergedRegion(cellRangeAddress);
+                HSSFRegionUtil.setBorderTop(CellStyle.BORDER_THIN, cellRangeAddress, s, wb);
+                HSSFRegionUtil.setBorderLeft(CellStyle.BORDER_THIN, cellRangeAddress, s, wb);
+                HSSFRegionUtil.setBorderRight(CellStyle.BORDER_THIN, cellRangeAddress, s, wb);
+                HSSFRegionUtil.setBorderBottom(CellStyle.BORDER_THIN, cellRangeAddress, s, wb);
+
+
+                Cell index0 = rowtopic.createCell(0);
+                index0.setCellValue(listdetail.get(0).getCompanyname());
+                index0.setCellStyle(Company);
+
+
+                //หัวข้อ
+                Row rowindex = s.createRow(1);
+
+                Cell index6 = rowindex.createCell(0);
+                index6.setCellValue("ลำดับ");
+                index6.setCellStyle(topic);
+
+                Cell index1 = rowindex.createCell(2);
                 index1.setCellValue("รหัสพนักงาน");
                 index1.setCellStyle(topic);
 
-                Cell index2 = rowindex.createCell(1);
+                Cell index2 = rowindex.createCell(3);
                 index2.setCellValue("ชื่อ");
                 index2.setCellStyle(topic);
 
-                Cell index3 = rowindex.createCell(2);
+                Cell index3 = rowindex.createCell(4);
                 index3.setCellValue("แผนก");
                 index3.setCellStyle(topic);
 
+                Cell index4 = rowindex.createCell(1);
+                index4.setCellValue("Barcode");
+                index4.setCellStyle(topic);
 
-                int x = 1;
-                for (int n = 0; n < listdetail.size(); n++) {
+                Cell index5 = rowindex.createCell(5);
+                index5.setCellValue("จำนวน");
+                index5.setCellStyle(topic);
 
-                    if (!CustomerCodeNew.equals(listdetail.get(n).getCustomerCode()) && !NameNew.equals(listdetail.get(n).getPrename() + listdetail.get(n).getFname())) {
-                        Row row = s.createRow(x);
-
-                        s.autoSizeColumn(0);
-                        s.autoSizeColumn(1);
-                        s.autoSizeColumn(2);
+                int x = 2;
+                for (int n = 0; n < listSummaryByCustomer.size(); n++) {
 
 
-                        Cell CustomerCode = row.createCell(0);
-                        CustomerCode.setCellValue(listdetail.get(n).getCustomerCode());
+                    Row row = s.createRow(x);
 
-                        Cell Name = row.createCell(1);
-                        Name.setCellValue(listdetail.get(n).getPrename() + listdetail.get(n).getFname());
+                    s.setColumnWidth(0, 2000);
+                    s.setColumnWidth(1, 7000);
+                    s.setColumnWidth(2, 3000);
+                    s.setColumnWidth(3, 5500);
+                    s.setColumnWidth(4, 3000);
+                    s.setColumnWidth(5, 2500);
 
-                        Cell Barcode = row.createCell(2);
-                        Barcode.setCellValue("*" + listdetail.get(n).getCustomerCode() + "*");
-                        
-                        
-                        row.getCell(0).setCellStyle(details);
-                        row.getCell(1).setCellStyle(details);
-                        row.getCell(2).setCellStyle(stylebarcode);
-                        x++;
-                    }
-                    CustomerCodeNew = listdetail.get(n).getCustomerCode();
-                    NameNew = listdetail.get(n).getPrename() + listdetail.get(n).getFname();
+
+                    Cell Num = row.createCell(0);
+                    Num.setCellValue(n + 1);
+
+                    Cell CustomerCode = row.createCell(2);
+                    CustomerCode.setCellValue(listSummaryByCustomer.get(n).getCustomerno());
+
+                    Cell Name = row.createCell(3);
+                    Name.setCellValue(listSummaryByCustomer.get(n).getCustomerprename() + listSummaryByCustomer.get(n).getCustomername());
+
+                    Cell Depart = row.createCell(4);
+                    Depart.setCellValue(listSummaryByCustomer.get(n).getDepartmentname());
+
+                    Cell Quantity = row.createCell(5);
+                    Quantity.setCellValue(listSummaryByCustomer.get(n).getQuantity());
+
+                    Cell Barcode = row.createCell(1);
+                    Barcode.setCellValue("*" + doc_id +"/"+listSummaryByCustomer.get(n).getCustomerno() + "*");
+
+                    row.getCell(2).setCellStyle(details);
+                    row.getCell(3).setCellStyle(details);
+                    row.getCell(4).setCellStyle(details);
+                    row.getCell(5).setCellStyle(details);
+                    row.getCell(0).setCellStyle(details);
+                    row.getCell(1).setCellStyle(stylebarcode);
+                    x++;
+
+
                 }
-
-
 
                 FileOutputStream outputStream = new FileOutputStream(concatpath);
                 wb.write(outputStream);
@@ -140,12 +190,6 @@ public class TransactionCustomer extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
-
-            out.print("asd");
-
-
 
         } else if (type.equals("getheadertransaction")) {
             String HTMLtag = "";

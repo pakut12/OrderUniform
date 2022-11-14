@@ -1,23 +1,33 @@
 package com.pg.lib.model;
 
-
 public class OUSummaryOrderByCustomer {
-    private String customerid ;
-    private String customerno ;
+
+    private String customerid;
+    private String customerno;
     private String customerprename;
-    private String customername; 
+    private String customername;
     private String quantity;
-    
-    public OUSummaryOrderByCustomer(){
+    private String departmentname;
+
+    public OUSummaryOrderByCustomer() {
         super();
     }
 
-    public OUSummaryOrderByCustomer(String customerid, String customerno, String customerprename, String customername, String quantity) {
+    public OUSummaryOrderByCustomer(String customerid, String customerno, String customerprename, String customername, String quantity,String departmentname) {
         this.customerid = customerid;
         this.customerno = customerno;
         this.customerprename = customerprename;
         this.customername = customername;
         this.quantity = quantity;
+        this.departmentname = departmentname;
+    }
+
+    public String getDepartmentname() {
+        return departmentname;
+    }
+
+    public void setDepartmentname(String departmentname) {
+        this.departmentname = departmentname;
     }
 
     public String getCustomerid() {
@@ -59,6 +69,4 @@ public class OUSummaryOrderByCustomer {
     public void setCustomerprename(String customerprename) {
         this.customerprename = customerprename;
     }
-    
-    
 }

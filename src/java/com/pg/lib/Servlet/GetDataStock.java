@@ -4,6 +4,7 @@
  */
 package com.pg.lib.Servlet;
 
+import com.pg.lib.model.OUSummaryOrderByCustomer;
 import com.pg.lib.model.OUTransactionCustomerDetail;
 import com.pg.lib.service.TransactionCustomerService;
 import java.io.*;
@@ -30,15 +31,48 @@ public class GetDataStock extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
 
+            String doc_id = request.getParameter("doc_id");
             String cus_no = request.getParameter("cus_no");
 
-            TransactionCustomerService s_trancustomer = new TransactionCustomerService();
-            List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailTransactionBycustomerID(cus_no);
 
-            for (int n = 0; n < listdetail.size(); n++) {
-                out.print(listdetail.get(n).getFname());
-                out.print(listdetail.get(n).getQuantity());
+
+            TransactionCustomerService s_trancustomer = new TransactionCustomerService();
+            List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcode(doc_id, cus_no);
+
+            String HTMLtag = "";
+
+            HTMLtag += "<table id=\"list-transaction\" class=\"table\" >";
+            HTMLtag += "<thead>";
+            HTMLtag += "<tr>";
+            HTMLtag += "<th>ลำดับ</th>";
+            HTMLtag += "<th>ชื่อ-นามสกุล</th>";
+            HTMLtag += "<th>ชื่อสินค้า</th>";
+            HTMLtag += "<th>รหัสสินค้า</th>";
+            HTMLtag += "<th>สี</th>";
+            HTMLtag += "<th>ไซส์</th>";
+            HTMLtag += "<th>รหัสสินค้า 18 หลัก</th>";
+            HTMLtag += "<th>Barcode</th>";
+            HTMLtag += "<th>จำนวน</th>";
+            HTMLtag += "</tr>";
+            HTMLtag += "</thead>";
+            HTMLtag += "<tbody>";
+            for (int i = 0; i <= listdetail.size() - 1; i++) {
+                HTMLtag += "<tr>";
+                HTMLtag += "<td>" + (i + 1) + "</td>";
+                HTMLtag += "<td>" + listdetail.get(i).getPrename() + " " + listdetail.get(i).getFname() + "</td>";
+                HTMLtag += "<td>" + listdetail.get(i).getDesc() + "</td>";
+                HTMLtag += "<td>" + listdetail.get(i).getMaterialname() + "</td>";
+                HTMLtag += "<td>" + listdetail.get(i).getColor() + "</td>";
+                HTMLtag += "<td>" + listdetail.get(i).getSize() + "</td>";
+                HTMLtag += "<td>" + listdetail.get(i).getMaterialdesc() + "</td>";
+                HTMLtag += "<td>" + listdetail.get(i).getBarcode() + "</td>";
+                HTMLtag += "<td>" + listdetail.get(i).getQuantity() + "</td>";
+
+                HTMLtag += "</tr>";
             }
+            HTMLtag += "</tbody>";
+            HTMLtag += "</table>";
+            out.print(HTMLtag);
         } finally {
             out.close();
         }
