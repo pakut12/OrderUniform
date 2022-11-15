@@ -30,7 +30,7 @@
                 <div class="shadow p-3 mb-5 bg-body rounded" id="card-department"> 
                     <div class="card text-start" >
                         <div class="card-header">
-                            <div class="">ระบบจัดการสต็อก</div>
+                            <div class="">ระบบจัดการสต็อก (เเบบกล่อง)</div>
                         </div>
                         <div class="card-body">
                             <div class="card">
@@ -41,11 +41,11 @@
                                     <div class="row">
                                         <div class="col-4 text-end">รหัสบาร์โค้ด : </div>
                                         <div class="col-4">
-                                            <input class="form-control form-control-sm" type="text" id="cus_no"></input>
+                                            <input class="form-control form-control-sm " type="text" id="cus_no"></input>
                                         </div>
                                         <div class="col-4">
                                             <button class="btn btn-sm btn-success" id="btn-getdata">ค้นหา</button>
-                                            <button class="btn btn-sm btn-secondary">พิมพ์สติ๊กเกอร์</button>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -55,25 +55,8 @@
                                     <div class="">เเสดงข้อมูล</div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row mb-3">
-                                        <div class="col-4 text-end">รหัสพนักงาน : </div>
-                                        <div class="col-4">
-                                            <input class="form-control form-control-sm" type="text" id="cus_no" readonly></input>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-4 text-end">ชื่อ : </div>
-                                        <div class="col-4">
-                                            <input class="form-control form-control-sm" type="text" id="cus_no" readonly></input>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-4 text-end">เเผนก : </div>
-                                        <div class="col-4">
-                                            <input class="form-control form-control-sm" type="text" id="cus_no" readonly></input>
-                                        </div>
-                                    </div>
-                                    <div class="viewtable">
+                                    
+                                    <div class="viewdata">
                                     </div>
                                     
                                 </div>
@@ -90,7 +73,7 @@
     
     <script language="javascript">
         $(document).ready(function(){
-            $("#mytable").DataTable();
+      
             $("#btn-getdata").click(function(){
                 var data = $("#cus_no").val().split("/", 2);
                 
@@ -98,11 +81,13 @@
                     type:"post",
                     url:"GetDataStock",
                     data:{
+                        type:"getdataformbarcode",
                         doc_id:data[0],
                         cus_no:data[1]
                     },
                     success:function(msg){
-                        $(".viewtable").html(msg);
+                        $(".viewdata").html(msg);
+                       // $("#listdata").DataTable();
                     }
                 });
                  

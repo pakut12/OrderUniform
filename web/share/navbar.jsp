@@ -191,14 +191,72 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link "
-                           href="stock.jsp"
-                           id="navbarDropdown">
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="attachfile/download/form/Department.xls">
+                                    <span>
+                                        <img src="css/bootstrap-icons-1.5.0/info-square.svg" 
+                                             alt="Bootstrap" 
+                                             width="20" 
+                                             height="20">&nbsp;
+                                        แบบแผนก
+                                    </span>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="attachfile/download/form/OrderUniform_Customer.xls">
+                                    <span>
+                                        <img src="css/bootstrap-icons-1.5.0/info-square-fill.svg" 
+                                             alt="Bootstrap" 
+                                             width="20" 
+                                             height="20">&nbsp;
+                                        แบบรายชื่อพนักงาน
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="navbarDropdown"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
                             <span class="font-menu-style">
-                                
-                                   ระบบสต็อก
+                                <img src="css/bootstrap-icons-1.5.0/basket.svg"
+                                     alt="Bootstrap"
+                                     width="20"
+                                     height="20">
+                                ระบบสต็อก
                             </span>
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="stockbag.jsp">
+                                    <span>
+                                        <img src="css/bootstrap-icons-1.5.0/printer.svg" 
+                                             alt="Bootstrap" 
+                                             width="20" 
+                                             height="20">&nbsp;
+                                        พิมพ์สติ๊กเกอร์ (ถุง)
+                                    </span>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="stockbox.jsp">
+                                    <span>
+                                        <img src="css/bootstrap-icons-1.5.0/printer-fill.svg" 
+                                             alt="Bootstrap" 
+                                             width="20" 
+                                             height="20">&nbsp;
+                                        พิมพ์สติ๊กเกอร์ (กล่อง)
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
                 <a class="btn btn-secondary" href="manageorder.jsp">

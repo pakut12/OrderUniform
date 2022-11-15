@@ -30,49 +30,91 @@ public class GetDataStock extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            String type = request.getParameter("type");
 
-            String doc_id = request.getParameter("doc_id");
-            String cus_no = request.getParameter("cus_no");
+            if (type.equalsIgnoreCase("getdataformbarcode")) {
+                String doc_id = request.getParameter("doc_id");
+                String cus_no = request.getParameter("cus_no");
+
+                TransactionCustomerService s_trancustomer = new TransactionCustomerService();
+                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcode(doc_id, cus_no);
+
+                String HTMLtag = "";
+
+                HTMLtag += "<div class=\"row mb-3\">";
+                HTMLtag += "<div class=\"col-4 text-end\">เลขที่เอกสาร : </div>";
+                HTMLtag += "<div class=\"col-4\">";
+                HTMLtag += "<input class=\"form-control form-control-sm text-center\" type=\"text\" id=\"cus_no\" value=\"" + listdetail.get(0).getDocID() + "\" readonly></input>";
+                HTMLtag += "</div>";
+                HTMLtag += "</div>";
+                HTMLtag += "<div class=\"row mb-3\">";
+                HTMLtag += "<div class=\"col-4 text-end\">รหัสพนักงาน : </div>";
+                HTMLtag += "<div class=\"col-4\">";
+                HTMLtag += "<input class=\"form-control form-control-sm text-center\" type=\"text\" id=\"cus_no\" value=\"" + listdetail.get(0).getCustomerCode() + "\" readonly></input>";
+                HTMLtag += "</div>";
+                HTMLtag += "</div>";
+                HTMLtag += "<div class=\"row mb-3\">";
+                HTMLtag += "<div class=\"col-4 text-end\">ชื่อ : </div>";
+                HTMLtag += "<div class=\"col-4\">";
+                HTMLtag += "<input class=\"form-control form-control-sm text-center\" type=\"text\" id=\"cus_no\" value=\"" + listdetail.get(0).getPrename() + " " + listdetail.get(0).getFname() + "\" readonly></input>";
+                HTMLtag += "</div>";
+                HTMLtag += "</div>";
+                HTMLtag += "<div class=\"row mb-3\">";
+                HTMLtag += "<div class=\"col-4 text-end\">เเผนก : </div>";
+                HTMLtag += "<div class=\"col-4\">";
+                HTMLtag += "<input class=\"form-control form-control-sm text-center\" type=\"text\" id=\"cus_no\" value=\"" + listdetail.get(0).getDepartmentname() + "\" readonly></input>";
+                HTMLtag += "</div>";
+                HTMLtag += "</div>";
 
 
 
-            TransactionCustomerService s_trancustomer = new TransactionCustomerService();
-            List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcode(doc_id, cus_no);
-
-            String HTMLtag = "";
-
-            HTMLtag += "<table id=\"list-transaction\" class=\"table\" >";
-            HTMLtag += "<thead>";
-            HTMLtag += "<tr>";
-            HTMLtag += "<th>ลำดับ</th>";
-            HTMLtag += "<th>ชื่อ-นามสกุล</th>";
-            HTMLtag += "<th>ชื่อสินค้า</th>";
-            HTMLtag += "<th>รหัสสินค้า</th>";
-            HTMLtag += "<th>สี</th>";
-            HTMLtag += "<th>ไซส์</th>";
-            HTMLtag += "<th>รหัสสินค้า 18 หลัก</th>";
-            HTMLtag += "<th>Barcode</th>";
-            HTMLtag += "<th>จำนวน</th>";
-            HTMLtag += "</tr>";
-            HTMLtag += "</thead>";
-            HTMLtag += "<tbody>";
-            for (int i = 0; i <= listdetail.size() - 1; i++) {
+                HTMLtag += "<table id=\"listdata\" class=\"table w-100 table-bordered text-center\" >";
+                HTMLtag += "<thead>";
                 HTMLtag += "<tr>";
-                HTMLtag += "<td>" + (i + 1) + "</td>";
-                HTMLtag += "<td>" + listdetail.get(i).getPrename() + " " + listdetail.get(i).getFname() + "</td>";
-                HTMLtag += "<td>" + listdetail.get(i).getDesc() + "</td>";
-                HTMLtag += "<td>" + listdetail.get(i).getMaterialname() + "</td>";
-                HTMLtag += "<td>" + listdetail.get(i).getColor() + "</td>";
-                HTMLtag += "<td>" + listdetail.get(i).getSize() + "</td>";
-                HTMLtag += "<td>" + listdetail.get(i).getMaterialdesc() + "</td>";
-                HTMLtag += "<td>" + listdetail.get(i).getBarcode() + "</td>";
-                HTMLtag += "<td>" + listdetail.get(i).getQuantity() + "</td>";
-
+                HTMLtag += "<th>ลำดับ</th>";
+                HTMLtag += "<th>ชื่อสินค้า</th>";
+                HTMLtag += "<th>รหัสสินค้า</th>";
+                HTMLtag += "<th>สี</th>";
+                HTMLtag += "<th>ไซส์</th>";
+                HTMLtag += "<th>รหัสสินค้า 18 หลัก</th>";
+                HTMLtag += "<th>Barcode</th>";
+                HTMLtag += "<th>จำนวน</th>";
                 HTMLtag += "</tr>";
+                HTMLtag += "</thead>";
+                HTMLtag += "<tbody>";
+
+                int sum = 0;
+                for (int i = 0; i <= listdetail.size() - 1; i++) {
+                    HTMLtag += "<tr>";
+                    HTMLtag += "<td>" + (i + 1) + "</td>";
+
+                    HTMLtag += "<td>" + listdetail.get(i).getDesc() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getMaterialname() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getColor() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getSize() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getMatfullname() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getBarcode() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getQuantity() + "</td>";
+
+                    HTMLtag += "</tr>";
+
+                    sum += Integer.parseInt(listdetail.get(i).getQuantity());
+                }
+                HTMLtag += "<tfoot>";
+                HTMLtag += "<tr>";
+                HTMLtag += "<th colspan=\"7\" class=\"text-end\">รวมทั้งหมด</th>";
+                HTMLtag += "<th>" + sum + "</th>";
+                HTMLtag += "</tr>";
+                HTMLtag += "</tfoot>";
+                HTMLtag += "</table>";
+                HTMLtag += "<div class=\"mt-3 text-end\">";
+                HTMLtag += "<a href=\"report/ReportBag.jsp?doc_id=" + doc_id + "&cus_no=" + cus_no + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์</button></a>";
+                HTMLtag += "&nbsp";
+                HTMLtag += "<a href=\"report/ReportBagAll.jsp?doc_id=" + doc_id + "&cus_no=" + cus_no + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
+                HTMLtag += "</div>";
+                out.print(HTMLtag);
             }
-            HTMLtag += "</tbody>";
-            HTMLtag += "</table>";
-            out.print(HTMLtag);
+
         } finally {
             out.close();
         }

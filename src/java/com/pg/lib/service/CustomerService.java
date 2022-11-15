@@ -1,6 +1,7 @@
 package com.pg.lib.service;
 
 import com.pg.lib.model.OUCustomerDetail;
+import com.pg.lib.model.OUTransactionCustomerDetail;
 import com.pg.lib.model.OUUploadCustomer;
 import com.pg.lib.utility.ConnectDB;
 import java.sql.Connection;
@@ -16,6 +17,21 @@ public class CustomerService {
     private static Connection conn;
     private static PreparedStatement ps;
     private static ResultSet rs;
+
+    public ArrayList<String> GroupCustomerCode(String doc_id) {
+        TransactionCustomerService s_trancustomer = new TransactionCustomerService();
+        List<OUTransactionCustomerDetail> listcus_no = s_trancustomer.getDetailTransactionByDocumentId(doc_id);
+        ArrayList<String> arr = new ArrayList<String>();
+        String no = "";
+        for (int n = 0; n < listcus_no.size(); n++) {
+            if (!no.equals(listcus_no.get(n).getCustomerCode())) {
+                arr.add(listcus_no.get(n).getCustomerCode());
+
+            }
+            no = listcus_no.get(n).getCustomerCode();
+        }
+        return arr;
+    }
 
     public boolean addCustomer(List<OUUploadCustomer> arr) {
         boolean insertResult = false;
@@ -193,7 +209,7 @@ public class CustomerService {
     }
 
     private String InsertDataOneRow() {
-        
+
         return "";
     }
 }
