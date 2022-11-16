@@ -81,13 +81,14 @@
                     type:"post",
                     url:"GetDataStock",
                     data:{
-                        type:"getdataformbarcode",
+                        type:"getdataformbarcodebox",
                         doc_id:data[0],
                         cus_no:data[1]
                     },
                     success:function(msg){
-                        $(".viewdata").html(msg);
+                       // $(".viewdata").html(msg);
                        // $("#listdata").DataTable();
+                       console.log(msg);
                     }
                 });
                  

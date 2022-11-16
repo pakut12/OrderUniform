@@ -18,15 +18,33 @@ public class CustomerService {
     private static PreparedStatement ps;
     private static ResultSet rs;
 
-    public ArrayList<String> GroupCustomerCode(String doc_id) {
+    public ArrayList<OUTransactionCustomerDetail> GroupCustomerDepart(String doc_id) {
+        TransactionCustomerService s_trancustomer = new TransactionCustomerService();
+        List<OUTransactionCustomerDetail> listdepart = s_trancustomer.getDetailTransactionByDocumentId(doc_id);
+        ArrayList<OUTransactionCustomerDetail> arr = new ArrayList<OUTransactionCustomerDetail>();
+        String no = "";
+        for (int n = 0; n < listdepart.size(); n++) {
+            if (!no.equals(listdepart.get(n).getDepartmentname())) {
+                OUTransactionCustomerDetail list = new OUTransactionCustomerDetail();    
+                list.setDepartmentname(listdepart.get(n).getDepartmentname());
+                arr.add(list);
+            }
+            no = listdepart.get(n).getDepartmentname();
+        }
+        return arr;
+    }
+
+    public ArrayList<OUTransactionCustomerDetail> GroupCustomerCode(String doc_id) {
         TransactionCustomerService s_trancustomer = new TransactionCustomerService();
         List<OUTransactionCustomerDetail> listcus_no = s_trancustomer.getDetailTransactionByDocumentId(doc_id);
-        ArrayList<String> arr = new ArrayList<String>();
+        ArrayList<OUTransactionCustomerDetail> arr = new ArrayList<OUTransactionCustomerDetail>();
         String no = "";
         for (int n = 0; n < listcus_no.size(); n++) {
             if (!no.equals(listcus_no.get(n).getCustomerCode())) {
-                arr.add(listcus_no.get(n).getCustomerCode());
-
+                OUTransactionCustomerDetail list = new OUTransactionCustomerDetail();
+                list.setCustomerCode(listcus_no.get(n).getCustomerCode());
+                list.setDepartmentname(listcus_no.get(n).getDepartmentname());
+                arr.add(list);
             }
             no = listcus_no.get(n).getCustomerCode();
         }

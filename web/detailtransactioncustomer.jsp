@@ -46,7 +46,7 @@
                                          height="20">
                                     รีโหลดบาร์โค๊ด
                                 </button>
-                                <button class="btn  btn-outline-success mt-3 w-100"  id="btn-excel">Excel</button>
+                                <button class="btn  btn-outline-success mt-3 w-100" value="<%=detail.get(0).getDocID()%>" id="btn-excel">Excel</button>
                             </div>
                         </div>
                     </div>
@@ -272,7 +272,7 @@
                     url:"TransactionCustomer",
                     data:{
                         type:"generateXLSFileSummarizeCustomer",
-                        doc_id:"100"
+                        doc_id:$(this).val()
                     },
                     success:function(msg){
                         console.log(msg);
@@ -280,15 +280,6 @@
                 })
                 
             });
-
-
-
-
-
-
-
-
-
 
 
         });

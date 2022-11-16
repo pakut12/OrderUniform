@@ -233,19 +233,32 @@
                             </span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li class="dropdown-header">เเบบถุง</li>
                             <li>
-                                <a class="dropdown-item" href="stockbag.jsp">
+                                <a class="dropdown-item" href="stocklistbag.jsp">
                                     <span>
                                         <img src="css/bootstrap-icons-1.5.0/printer.svg" 
                                              alt="Bootstrap" 
                                              width="20" 
                                              height="20">&nbsp;
-                                        พิมพ์สติ๊กเกอร์ (ถุง)
+                                        พิมพ์สติ๊กเกอร์ (รายชื่อ)
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="stockdepartmentbag.jsp">
+                                    <span>
+                                        <img src="css/bootstrap-icons-1.5.0/printer.svg" 
+                                             alt="Bootstrap" 
+                                             width="20" 
+                                             height="20">&nbsp;
+                                        พิมพ์สติ๊กเกอร์ (เเผนก)
                                     </span>
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
+                                <li class="dropdown-header">เเบบกล่อง</li>
                                 <a class="dropdown-item" href="stockbox.jsp">
                                     <span>
                                         <img src="css/bootstrap-icons-1.5.0/printer-fill.svg" 

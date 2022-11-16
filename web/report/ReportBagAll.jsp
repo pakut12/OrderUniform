@@ -42,11 +42,14 @@
             String cus_no = request.getParameter("cus_no");
 
             CustomerService getcode = new CustomerService();
-            ArrayList<String> customercode = getcode.GroupCustomerCode(doc_id);
+            ArrayList<OUTransactionCustomerDetail> customercode = getcode.GroupCustomerCode(doc_id);
 
-            for (String x : customercode) {
+            for (OUTransactionCustomerDetail x : customercode) {
                 TransactionCustomerService s_trancustomer = new TransactionCustomerService();
-                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcode(doc_id, x);
+                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcode(doc_id, x.getCustomerCode());
+                
+               
+                
         %>
         
         <table class="table table-bordered border-dark text-center w-100 page-break">
@@ -71,7 +74,6 @@
                     <th>สี</th>
                     <th>ไซส์</th>
                     <th>รหัสสินค้า 18 หลัก</th> 
-                    
                     <th>จำนวน</th>
                 </tr>
             </thead>
