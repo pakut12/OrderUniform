@@ -48,8 +48,6 @@
                 TransactionCustomerService s_trancustomer = new TransactionCustomerService();
                 List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcode(doc_id, x.getCustomerCode());
                 
-               
-                
         %>
         
         <table class="table table-bordered border-dark text-center w-100 page-break">

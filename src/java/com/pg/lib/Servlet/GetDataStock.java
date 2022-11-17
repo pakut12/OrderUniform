@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import net.sourceforge.barbecue.linear.twoOfFive.Int2of5Barcode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -243,8 +244,62 @@ public class GetDataStock extends HttpServlet {
                 HTMLtag += "</table>";
 
                 out.print(HTMLtag);
-            }
+            } else if (type.equalsIgnoreCase("getdataformbarcodebox")) {
+                try {
+                    String doc_id = request.getParameter("doc_id");
+                    String num = request.getParameter("num");
 
+                    CustomerService cms = new CustomerService();
+                    ArrayList<OUTransactionCustomerDetail> list = cms.GroupCustomerCode(doc_id);
+                    int box = list.size() / Integer.parseInt(num);
+
+                    String HTMLtag = "";
+                    HTMLtag += "<div class=\"mb-3 text-end\">";
+                    HTMLtag += "<a href=\"report/ReportBagAll.jsp?doc_id=" + doc_id + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
+                    HTMLtag += "";
+                    HTMLtag += "</div>";
+                    HTMLtag += "<table id=\"listdata\" class=\"table w-100 \" >";
+                    HTMLtag += "<thead>";
+                    HTMLtag += "<tr>";
+                    HTMLtag += "<th>ลำดับ</th>";
+                    HTMLtag += "<th>ลำดับ</th>";
+                    HTMLtag += "<th>ชื่อ</th>";
+                    HTMLtag += "<th>เเผนก</th>";
+                    HTMLtag += "</tr>";
+                    HTMLtag += "</thead>";
+                    HTMLtag += "<tbody>";
+                    int x = 1;
+                    int z = 0;
+                    for (int i = 0; i <= list.size() - 1; i++) {
+                        String Name = list.get(i).getFname();
+                        String DepartmentName = list.get(i).getDepartmentname();
+                        if (x == Integer.parseInt(num)) {
+                            HTMLtag += "<tr>";
+                            HTMLtag += "<td>KFC " + (z + 1) + "/" + (box) + "</td>";
+                            HTMLtag += "<td>" + (i + 1) + "</td>";
+                            HTMLtag += "<td>" + Name + "</td>";
+                            HTMLtag += "<td>" + DepartmentName + "</td>";
+                            HTMLtag += "</tr>";
+                            x = 1;
+                            z++;
+                        } else {
+                            HTMLtag += "<tr>";
+                            HTMLtag += "<td>KFC " + (z + 1) + "/" + (box) + "</td>";
+                            HTMLtag += "<td>" + (i + 1) + "</td>";
+                            HTMLtag += "<td>" + Name + "</td>";
+                            HTMLtag += "<td>" + DepartmentName + "</td>";
+                            HTMLtag += "</tr>";
+                            x++;
+                        }
+                    }
+                    HTMLtag += "</table>";
+
+                    out.print(HTMLtag);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
         } finally {
             out.close();
         }

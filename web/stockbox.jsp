@@ -38,16 +38,23 @@
                                     <div class="">ค้นหา</div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
+                                    <div class="row mb-3">
                                         <div class="col-4 text-end">รหัสบาร์โค้ด : </div>
                                         <div class="col-4">
                                             <input class="form-control form-control-sm " type="text" id="cus_no"></input>
-                                        </div>
+                                        </div> 
+                                        
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-4 text-end">จำนวนคนต่อ 1 กล่อง : </div>
                                         <div class="col-4">
-                                            <button class="btn btn-sm btn-success" id="btn-getdata">ค้นหา</button>
-                                            
+                                            <input class="form-control form-control-sm " type="number" id="num"></input>
+                                        </div> 
+                                        <div class="col-4">
+                                            <button class="btn btn-success btn-sm" id="btn-getdata">ค้นหา</button>
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                             <div class="card mt-3">
@@ -57,6 +64,7 @@
                                 <div class="card-body">
                                     
                                     <div class="viewdata">
+                                        
                                     </div>
                                     
                                 </div>
@@ -73,7 +81,8 @@
     
     <script language="javascript">
         $(document).ready(function(){
-      
+            
+           
             $("#btn-getdata").click(function(){
                 var data = $("#cus_no").val().split("/", 2);
                 
@@ -83,12 +92,50 @@
                     data:{
                         type:"getdataformbarcodebox",
                         doc_id:data[0],
-                        cus_no:data[1]
+                        num:$("#num").val()
                     },
                     success:function(msg){
-                       // $(".viewdata").html(msg);
-                       // $("#listdata").DataTable();
-                       console.log(msg);
+                        $(".viewdata").html(msg);
+                        
+                        
+                        var groupColumn = 0;
+                        var table = $('#listdata').DataTable({
+                            columnDefs: [
+                                { 
+                                    visible: false, 
+                                    targets: groupColumn
+                                }
+                   
+                            ],
+                            order: [[groupColumn, 'asc']],
+                            displayLength: 100,
+                            drawCallback: function (settings) {
+                                var api = this.api();
+                                var rows = api.rows({ page: 'current' }).nodes();
+                                var last = null;
+ 
+                                api
+                                .column(groupColumn, { page: 'current' })
+                                .data()
+                                .each(function (group, i) {
+                                    if (last !== group) {
+                                        $(rows)
+                                        .eq(i)
+                                        .before('<tr class="group"><td colspan="3" style="background-color: #ddd;" >' + group + '</td></tr>');
+                                        last = group;
+                                    }
+                                });
+                            }
+                        });
+                        $('#listdata tbody').on('click', 'tr.group', function () {
+                            var currentOrder = table.order()[0];
+                            if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+                                table.order([groupColumn, 'desc']).draw();
+                            } else {
+                                table.order([groupColumn, 'asc']).draw();
+                            }
+                        });
+        
                     }
                 });
                  

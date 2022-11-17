@@ -44,6 +44,7 @@ public class CustomerService {
                 OUTransactionCustomerDetail list = new OUTransactionCustomerDetail();
                 list.setCustomerCode(listcus_no.get(n).getCustomerCode());
                 list.setDepartmentname(listcus_no.get(n).getDepartmentname());
+                list.setFname(listcus_no.get(n).getFname());
                 arr.add(list);
             }
             no = listcus_no.get(n).getCustomerCode();
