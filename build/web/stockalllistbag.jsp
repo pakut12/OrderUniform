@@ -104,7 +104,7 @@
                                 }
                             ],
                             order: [[groupColumn, 'asc']],
-                            displayLength: 100,
+                          
                             drawCallback: function (settings) {
                                 var api = this.api();
                                 var rows = api.rows({ page: 'current' }).nodes();

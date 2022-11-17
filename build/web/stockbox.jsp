@@ -96,8 +96,7 @@
                     },
                     success:function(msg){
                         $(".viewdata").html(msg);
-                        
-                        
+                       
                         var groupColumn = 0;
                         var table = $('#listdata').DataTable({
                             columnDefs: [
@@ -105,10 +104,9 @@
                                     visible: false, 
                                     targets: groupColumn
                                 }
-                   
                             ],
                             order: [[groupColumn, 'asc']],
-                            displayLength: 100,
+                           
                             drawCallback: function (settings) {
                                 var api = this.api();
                                 var rows = api.rows({ page: 'current' }).nodes();

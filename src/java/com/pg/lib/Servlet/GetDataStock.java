@@ -251,7 +251,7 @@ public class GetDataStock extends HttpServlet {
 
                     CustomerService cms = new CustomerService();
                     ArrayList<OUTransactionCustomerDetail> list = cms.GroupCustomerCode(doc_id);
-                    int box = list.size() / Integer.parseInt(num);
+                    int box = (int) Math.ceil((double) list.size() / Integer.parseInt(num));
 
                     String HTMLtag = "";
                     HTMLtag += "<div class=\"mb-3 text-end\">";
