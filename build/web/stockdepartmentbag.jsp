@@ -154,7 +154,6 @@
                                         $(rows)
                                         .eq(i)
                                         .before('<tr class="group"><td colspan="8" style="background-color: #ddd;" >' + group + '</td></tr>');
- 
                                         last = group;
                                     }
                                 });
@@ -168,12 +167,6 @@
                                 table.order([groupColumn, 'asc']).draw();
                             }
                         });
-        
-        
-        
-        
-        
-        
         
                     }
                 });

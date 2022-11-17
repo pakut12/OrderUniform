@@ -87,13 +87,13 @@
                     },
                     success:function(msg){
                         $(".viewdata").html(msg);
-                       // $("#listdata").DataTable();
+                        $("#listdata").DataTable();
                     }
                 });
                  
             });
             
-        })
+            })
 
     </script>  
 </html>

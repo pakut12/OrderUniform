@@ -74,8 +74,14 @@ public class GetDataStock extends HttpServlet {
                 HTMLtag += "</div>";
 
 
+                HTMLtag += "</table>";
+                HTMLtag += "<div class=\"mb-3 text-end\">";
+                HTMLtag += "<a href=\"report/ReportBag.jsp?doc_id=" + doc_id + "&cus_no=" + cus_no + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์</button></a>";
 
-                HTMLtag += "<table id=\"listdata\" class=\"table w-100 table-bordered text-center\" >";
+                HTMLtag += "";
+                HTMLtag += "</div>";
+
+                HTMLtag += "<table id=\"listdata\" class=\"table w-100 text-center\" >";
                 HTMLtag += "<thead>";
                 HTMLtag += "<tr>";
                 HTMLtag += "<th>ลำดับ</th>";
@@ -112,13 +118,7 @@ public class GetDataStock extends HttpServlet {
                 HTMLtag += "<th>" + sum + "</th>";
                 HTMLtag += "</tr>";
                 HTMLtag += "</tfoot>";
-                HTMLtag += "</table>";
-                HTMLtag += "<div class=\"mt-3 text-end\">";
-                HTMLtag += "<a href=\"report/ReportBag.jsp?doc_id=" + doc_id + "&cus_no=" + cus_no + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์</button></a>";
-                HTMLtag += "&nbsp";
-                HTMLtag += "<a href=\"report/ReportBagAll.jsp?doc_id=" + doc_id + "&cus_no=" + cus_no + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
-                HTMLtag += "";
-                HTMLtag += "</div>";
+
                 out.print(HTMLtag);
             } else if (type.equalsIgnoreCase("getdatadepart")) {
                 String doc_id = request.getParameter("doc_id");
@@ -142,7 +142,10 @@ public class GetDataStock extends HttpServlet {
 
 
                 String HTMLtag = "";
-
+                HTMLtag += "<div class=\"mb-3 text-end\">";
+                HTMLtag += "<a href=\"report/ReportBagDepart.jsp?doc_id=" + doc_id + "&cus_department=" + depart + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
+                HTMLtag += "";
+                HTMLtag += "</div>";
                 HTMLtag += "<table id=\"listdata\" class=\"table w-100 \" >";
                 HTMLtag += "<thead>";
                 HTMLtag += "<tr>";
@@ -182,12 +185,63 @@ public class GetDataStock extends HttpServlet {
                 HTMLtag += "</tr>";
                 HTMLtag += "</tfoot>";
                 HTMLtag += "</table>";
-                HTMLtag += "<div class=\"mt-3 text-end\">";
-                HTMLtag += "<a href=\"report/ReportBag.jsp?doc_id=" + doc_id + "&cus_no=" + depart + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์</button></a>";
-                HTMLtag += "&nbsp";
-                HTMLtag += "<a href=\"report/ReportBagAll.jsp?doc_id=" + doc_id + "&cus_no=" + depart + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
+
+                out.print(HTMLtag);
+            } else if (type.equalsIgnoreCase("getdataformbarcodelistall")) {
+                String doc_id = request.getParameter("doc_id");
+
+
+                TransactionCustomerService s_trancustomer = new TransactionCustomerService();
+                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailTransactionByDocumentId(doc_id);
+
+
+                String HTMLtag = "";
+                HTMLtag += "<div class=\"mb-3 text-end\">";
+                HTMLtag += "<a href=\"report/ReportBagAll.jsp?doc_id=" + doc_id + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
                 HTMLtag += "";
                 HTMLtag += "</div>";
+                HTMLtag += "<table id=\"listdata\" class=\"table w-100 \" >";
+                HTMLtag += "<thead>";
+                HTMLtag += "<tr>";
+                HTMLtag += "<th>ลำดับ</th>";
+                HTMLtag += "<th>ชื่อ</th>";
+                HTMLtag += "<th>ชื่อสินค้า</th>";
+                HTMLtag += "<th>รหัสสินค้า</th>";
+                HTMLtag += "<th>สี</th>";
+                HTMLtag += "<th>ไซส์</th>";
+                HTMLtag += "<th>รหัสสินค้า 18 หลัก</th>";
+                HTMLtag += "<th>Barcode</th>";
+                HTMLtag += "<th>จำนวน</th>";
+                HTMLtag += "</tr>";
+                HTMLtag += "</thead>";
+                HTMLtag += "<tbody>";
+
+                int sum = 0;
+                for (int i = 0; i <= listdetail.size() - 1; i++) {
+                    HTMLtag += "<tr>";
+                    HTMLtag += "<td>" + (i + 1) + "</td>";
+                    HTMLtag += "<td><b>ชื่อ : </b>" + listdetail.get(i).getPrename() + " " + listdetail.get(i).getFname() + "<br>" +
+                            "<b>เเผนก : </b>" + listdetail.get(i).getDepartmentname() + "</td>";
+
+                    HTMLtag += "<td>" + listdetail.get(i).getDesc() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getMaterialname() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getColor() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getSize() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getMatfullname() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getBarcode() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getQuantity() + "</td>";
+                    HTMLtag += "</tr>";
+
+                    sum += Integer.parseInt(listdetail.get(i).getQuantity());
+                }
+                HTMLtag += "<tfoot>";
+                HTMLtag += "<tr>";
+                HTMLtag += "<th colspan=\"8\" class=\"text-end\">รวมทั้งหมด</th>";
+                HTMLtag += "<th>" + sum + "</th>";
+                HTMLtag += "</tr>";
+                HTMLtag += "</tfoot>";
+                HTMLtag += "</table>";
+
                 out.print(HTMLtag);
             }
 

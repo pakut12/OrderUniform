@@ -30,7 +30,7 @@
                 <div class="shadow p-3 mb-5 bg-body rounded" id="card-department"> 
                     <div class="card text-start" >
                         <div class="card-header">
-                            <div class="">พิมพ์สติ๊กเกอร์ (เเผนก)</div>
+                            <div class="">พิมพ์สติ๊กเกอร์ (ทั้งหมด)</div>
                         </div>
                         <div class="card-body">
                             <div class="card">
@@ -44,22 +44,11 @@
                                             <input class="form-control form-control-sm " type="text" id="cus_no" ></input>
                                         </div>
                                         <div class="col-4">
-                                            <button class="btn btn-sm btn-success" id="btn-select">เลือก</button>
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-4 text-end">เเผนก : </div>
-                                        <div class="col-4">
-                                            <select class="form-select form-select-sm " id="depart" > 
-                                                
-                                            </select>
-                                        </div>
-                                        <div class="col-4">
                                             <button class="btn btn-sm btn-success" id="btn-getdata">ค้นหา</button>
                                             
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                             <div class="card mt-3">
@@ -85,46 +74,21 @@
     
     <script language="javascript">
         $(document).ready(function(){
-            $("#depart").attr("disabled",true);
-            $("#btn-getdata").attr("disabled",true);
-            $("#btn-select").click(function(){
-                $("#btn-getdata").attr("disabled",false);
-                $("#depart").attr("disabled",false);
+       
+            $("#btn-getdata").click(function(){
+                
                 var data = $("#cus_no").val().split("/", 2);
                 
                 $.ajax({
                     type:"post",
                     url:"GetDataStock",
                     data:{
-                        type:"getdatadepart",
-                        doc_id:data[0],
-                        cus_no:data[1]
-                    },
-                    success:function(msg){
-                        $("#depart").empty();                        
-                        var data = JSON.parse(msg);
-                        $.each(data.depart,function(k,v){
-                            $("#depart").append('<option value="'+v+'">'+v+'</option>');
-                         
-                        });
+                        type:"getdataformbarcodelistall",
+                        doc_id:data[0]
                         
-                    }
-                });
-                 
-            });
-            
-            $("#btn-getdata").click(function(){
-                var data = $("#cus_no").val().split("/", 2);
-                var depart = $("#depart").val();
-                $.ajax({
-                    type:"post",
-                    url:"GetDataStock",
-                    data:{
-                        type:"getdataformbarcodedepart",
-                        doc_id:data[0],
-                        cus_department:depart
                     },
                     success:function(msg){
+                                           
                         $(".viewdata").html(msg);
                         
                         var groupColumn = 1;
@@ -167,10 +131,13 @@
                                 table.order([groupColumn, 'asc']).draw();
                             }
                         });
-        
+                        
                     }
                 });
+                 
             });
+            
+            
             
         })
 
