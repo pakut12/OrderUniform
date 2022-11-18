@@ -270,13 +270,22 @@
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <li class="dropdown-header">เเบบกล่อง</li>
-                                <a class="dropdown-item" href="stockbox.jsp">
+                                <a class="dropdown-item" href="stockboxall.jsp">
                                     <span>
                                         <img src="css/bootstrap-icons-1.5.0/printer-fill.svg" 
                                              alt="Bootstrap" 
                                              width="20" 
                                              height="20">&nbsp;
                                         พิมพ์สติ๊กเกอร์ (ทั้งหมด)
+                                    </span>
+                                </a>
+                                <a class="dropdown-item" href="stockdepartmentbox.jsp">
+                                    <span>
+                                        <img src="css/bootstrap-icons-1.5.0/printer-fill.svg" 
+                                             alt="Bootstrap" 
+                                             width="20" 
+                                             height="20">&nbsp;
+                                        พิมพ์สติ๊กเกอร์ (เเผนก)
                                     </span>
                                 </a>
                             </li>

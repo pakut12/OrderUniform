@@ -25,7 +25,7 @@ public class CustomerService {
         String no = "";
         for (int n = 0; n < listdepart.size(); n++) {
             if (!no.equals(listdepart.get(n).getDepartmentname())) {
-                OUTransactionCustomerDetail list = new OUTransactionCustomerDetail();    
+                OUTransactionCustomerDetail list = new OUTransactionCustomerDetail();
                 list.setDepartmentname(listdepart.get(n).getDepartmentname());
                 arr.add(list);
             }
@@ -45,6 +45,7 @@ public class CustomerService {
                 list.setCustomerCode(listcus_no.get(n).getCustomerCode());
                 list.setDepartmentname(listcus_no.get(n).getDepartmentname());
                 list.setFname(listcus_no.get(n).getFname());
+                list.setDocName(listcus_no.get(n).getDocName());
                 arr.add(list);
             }
             no = listcus_no.get(n).getCustomerCode();
