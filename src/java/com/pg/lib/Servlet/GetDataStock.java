@@ -368,7 +368,7 @@ public class GetDataStock extends HttpServlet {
 
                     String HTMLtag = "";
                     HTMLtag += "<div class=\"mb-3 text-end\">";
-                    HTMLtag += "<a href=\"report/ReportBoxAll.jsp?doc_id=" + doc_id + "&num=" + num + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
+                    HTMLtag += "<a href=\"report/ReportBoxDepart.jsp?doc_id=" + doc_id + "&num=" + num + "&depart=" + depart + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
                     HTMLtag += "";
                     HTMLtag += "</div>";
                     HTMLtag += "<table id=\"listdata\" class=\"table w-100 \" >";
