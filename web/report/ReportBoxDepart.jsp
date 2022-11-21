@@ -42,14 +42,27 @@
             String doc_id = request.getParameter("doc_id");
             String num = request.getParameter("num");
             String depart = request.getParameter("depart");
-
-            CustomerService cms = new CustomerService();
-            ArrayList<OUTransactionCustomerDetail> list = cms.GroupCustomerCode(doc_id);
-            int box = (int) Math.ceil((double) list.size() / Integer.parseInt(num));
-
-            String HTMLtag = "";
             int a = 0;
             int n = 0;
+            int de = 0;
+
+            TransactionCustomerService tms = new TransactionCustomerService();
+            List<OUTransactionCustomerDetail> list = tms.getDetailTransactionByDocumentId(doc_id);
+            ArrayList<Integer> arr = new ArrayList<Integer>();
+            String rename = "";
+            String redepart = "";
+            for (OUTransactionCustomerDetail row : list) {
+                if (!row.getDepartmentname().equals(redepart) && !row.getFname().equals(rename)) {
+                    arr.add(de);
+                    de++;
+                }
+                redepart = row.getDepartmentname();
+                rename = row.getFname();
+
+            }
+            int box = (int) Math.ceil((double) de / Integer.parseInt(num));
+
+            String HTMLtag = "";
             for (int i = 0; i < box; i++) {
 
                 HTMLtag += "<table id=\"listdata\" class=\"table table-bordered border-dark text-center w-100 page-break \" >";
@@ -64,18 +77,18 @@
                 HTMLtag += "</tr>";
                 HTMLtag += "</thead>";
                 HTMLtag += "<tbody>";
-                
+
                 for (int x = 0; x < Integer.parseInt(num); x++) {
-                    if (a != list.size()) {
-                        String Name = list.get(a).getFname();
-                        String DepartmentName = list.get(a).getDepartmentname();
-                        HTMLtag += "<tr>";
-                        HTMLtag += "<td>" + (x + 1) + "</td>";
-                        HTMLtag += "<td>" + Name + "</td>";
-                        HTMLtag += "<td>" + DepartmentName + "</td>";
-                        HTMLtag += "</tr>";
-                        a++;
-                    }
+
+                    String Name = list.get(x).getFname();
+                    String DepartmentName = list.get(x).getDepartmentname();
+
+                    HTMLtag += "<tr>";
+                    HTMLtag += "<td>" + (x + 1) + "</td>";
+                    HTMLtag += "<td>" + Name + "</td>";
+                    HTMLtag += "<td>" + DepartmentName + "</td>";
+                    HTMLtag += "</tr>";
+
                 }
                 HTMLtag += "</tbody>";
                 HTMLtag += "</table>";

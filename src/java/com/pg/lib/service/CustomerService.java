@@ -17,6 +17,7 @@ public class CustomerService {
     private static Connection conn;
     private static PreparedStatement ps;
     private static ResultSet rs;
+    
 
     public ArrayList<OUTransactionCustomerDetail> GroupCustomerDepart(String doc_id) {
         TransactionCustomerService s_trancustomer = new TransactionCustomerService();
