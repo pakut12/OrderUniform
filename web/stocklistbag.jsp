@@ -38,10 +38,12 @@
                                     <div class="">ค้นหา</div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
+                                    <div class="row ">
                                         <div class="col-4 text-end">รหัสบาร์โค้ด : </div>
                                         <div class="col-4">
-                                            <input class="form-control form-control-sm " type="text" id="cus_no"></input>
+                                            <form class="" id="myform">
+                                                <input class="form-control form-control-sm " type="text" id="cus_no" value="" required></input>
+                                            </form>
                                         </div>
                                         <div class="col-4">
                                             <button class="btn btn-sm btn-success" id="btn-getdata">ค้นหา</button>
@@ -76,24 +78,26 @@
       
             $("#btn-getdata").click(function(){
                 var data = $("#cus_no").val().split("/", 2);
+                $("#myform").addClass("was-validated");
                 
-                $.ajax({
-                    type:"post",
-                    url:"GetDataStock",
-                    data:{
-                        type:"getdataformbarcodebag",
-                        doc_id:data[0],
-                        cus_no:data[1]
-                    },
-                    success:function(msg){
-                        $(".viewdata").html(msg);
-                        $("#listdata").DataTable();
-                    }
-                });
-                 
+                if(data != ""){
+                    $.ajax({
+                        type:"post",
+                        url:"GetDataStock",
+                        data:{
+                            type:"getdataformbarcodebag",
+                            doc_id:data[0],
+                            cus_no:data[1]
+                        },
+                        success:function(msg){
+                            $(".viewdata").html(msg);
+                            $("#listdata").DataTable();
+                        }
+                    });
+                }
             });
             
-            })
+        })
 
     </script>  
 </html>

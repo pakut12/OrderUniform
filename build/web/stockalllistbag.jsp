@@ -38,10 +38,10 @@
                                     <div class="">ค้นหา</div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row mb-3">
+                                    <div class="row mb-3" id="barcode_pass">
                                         <div class="col-4 text-end">รหัสบาร์โค้ด : </div>
                                         <div class="col-4">
-                                            <input class="form-control form-control-sm " type="text" id="cus_no" ></input>
+                                            <input class="form-control form-control-sm " type="text" id="cus_no" required></input>
                                         </div>
                                         <div class="col-4">
                                             <button class="btn btn-sm btn-success" id="btn-getdata">ค้นหา</button>
@@ -74,66 +74,70 @@
     
     <script language="javascript">
         $(document).ready(function(){
-       
+           
             $("#btn-getdata").click(function(){
-                
+                $("#barcode_pass").addClass("was-validated");
                 var data = $("#cus_no").val().split("/", 2);
-                
-                $.ajax({
-                    type:"post",
-                    url:"GetDataStock",
-                    data:{
-                        type:"getdataformbarcodelistall",
-                        doc_id:data[0]
+                if(data != ""){
+
+                    $.ajax({
+                        type:"post",
+                        url:"GetDataStock",
+                        data:{
+                            type:"getdataformbarcodelistall",
+                            doc_id:data[0]
                         
-                    },
-                    success:function(msg){
+                        },
+                        success:function(msg){
                                            
-                        $(".viewdata").html(msg);
+                            $(".viewdata").html(msg);
                         
-                        var groupColumn = 1;
-                        var table = $('#listdata').DataTable({
-                            columnDefs: [
-                                { 
-                                    visible: false, 
-                                    targets: groupColumn
-                                },
-                                { 
-                                    visible: false, 
-                                    targets: 0
-                                }
-                            ],
-                            order: [[groupColumn, 'asc']],
-                          
-                            drawCallback: function (settings) {
-                                var api = this.api();
-                                var rows = api.rows({ page: 'current' }).nodes();
-                                var last = null;
- 
-                                api
-                                .column(groupColumn, { page: 'current' })
-                                .data()
-                                .each(function (group, i) {
-                                    if (last !== group) {
-                                        $(rows)
-                                        .eq(i)
-                                        .before('<tr class="group"><td colspan="8" style="background-color: #ddd;" >' + group + '</td></tr>');
-                                        last = group;
+                            var groupColumn = 1;
+                            var table = $('#listdata').DataTable({
+                                columnDefs: [
+                                    { 
+                                        visible: false, 
+                                        targets: groupColumn
+                                    },
+                                    { 
+                                        visible: false, 
+                                        targets: 0
                                     }
-                                });
-                            }
-                        });
-                        $('#listdata tbody').on('click', 'tr.group', function () {
-                            var currentOrder = table.order()[0];
-                            if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
-                                table.order([groupColumn, 'desc']).draw();
-                            } else {
-                                table.order([groupColumn, 'asc']).draw();
-                            }
-                        });
+                                ],
+                                order: [[groupColumn, 'asc']],
+                          
+                                drawCallback: function (settings) {
+                                    var api = this.api();
+                                    var rows = api.rows({ page: 'current' }).nodes();
+                                    var last = null;
+ 
+                                    api
+                                    .column(groupColumn, { page: 'current' })
+                                    .data()
+                                    .each(function (group, i) {
+                                        if (last !== group) {
+                                            $(rows)
+                                            .eq(i)
+                                            .before('<tr class="group"><td colspan="8" style="background-color: #ddd;" >' + group + '</td></tr>');
+                                            last = group;
+                                        }
+                                    });
+                                }
+                            });
+                            $('#listdata tbody').on('click', 'tr.group', function () {
+                                var currentOrder = table.order()[0];
+                                if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+                                    table.order([groupColumn, 'desc']).draw();
+                                } else {
+                                    table.order([groupColumn, 'asc']).draw();
+                                }
+                            });
                         
-                    }
-                });
+                        }
+                    });
+            
+                }
+                
                  
             });
             

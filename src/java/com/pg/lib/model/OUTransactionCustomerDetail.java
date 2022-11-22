@@ -48,6 +48,10 @@ public class OUTransactionCustomerDetail {
         this.barcode = barcode;
     }
 
+    public Object get(int n) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
     
     
     public String getBarcode() {

@@ -139,7 +139,7 @@ public class GetDataStock extends HttpServlet {
                 String depart = request.getParameter("cus_department");
 
                 TransactionCustomerService s_trancustomer = new TransactionCustomerService();
-                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcodeDepart(doc_id, depart);
+                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcodeDepartTable(doc_id, depart);
 
 
                 String HTMLtag = "";
@@ -362,8 +362,8 @@ public class GetDataStock extends HttpServlet {
                     String num = request.getParameter("num");
                     String depart = request.getParameter("depart");
 
-                    CustomerService cms = new CustomerService();
-                    ArrayList<OUTransactionCustomerDetail> list = cms.GroupCustomerCode(doc_id);
+                    TransactionCustomerService tms = new TransactionCustomerService();
+                    List<OUTransactionCustomerDetail> list = tms.getDetailFromBarcodeDepart(doc_id,depart);
                     int box = (int) Math.ceil((double) list.size() / Integer.parseInt(num));
 
                     String HTMLtag = "";

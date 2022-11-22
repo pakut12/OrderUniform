@@ -17,14 +17,13 @@ public class CustomerService {
     private static Connection conn;
     private static PreparedStatement ps;
     private static ResultSet rs;
-    
 
     public ArrayList<OUTransactionCustomerDetail> GroupCustomerDepart(String doc_id) {
         TransactionCustomerService s_trancustomer = new TransactionCustomerService();
         List<OUTransactionCustomerDetail> listdepart = s_trancustomer.getDetailTransactionByDocumentId(doc_id);
         ArrayList<OUTransactionCustomerDetail> arr = new ArrayList<OUTransactionCustomerDetail>();
         String no = "";
-        for (int n = 0; n < listdepart.size(); n++) {
+        for (int n = 0; n < listdepart.size() - 1; n++) {
             if (!no.equals(listdepart.get(n).getDepartmentname())) {
                 OUTransactionCustomerDetail list = new OUTransactionCustomerDetail();
                 list.setDepartmentname(listdepart.get(n).getDepartmentname());
@@ -40,7 +39,7 @@ public class CustomerService {
         List<OUTransactionCustomerDetail> listcus_no = s_trancustomer.getDetailTransactionByDocumentId(doc_id);
         ArrayList<OUTransactionCustomerDetail> arr = new ArrayList<OUTransactionCustomerDetail>();
         String no = "";
-        for (int n = 0; n < listcus_no.size(); n++) {
+        for (int n = 0; n < listcus_no.size() - 1; n++) {
             if (!no.equals(listcus_no.get(n).getCustomerCode())) {
                 OUTransactionCustomerDetail list = new OUTransactionCustomerDetail();
                 list.setCustomerCode(listcus_no.get(n).getCustomerCode());
@@ -126,7 +125,9 @@ public class CustomerService {
 
         List<OUCustomerDetail> listcus = new ArrayList<OUCustomerDetail>();
         try {
-            String sqlText = "SELECT cus_no, " +
+            String sqlText = "SELECT " +
+                    "cus_id," +
+                    "cus_no, " +
                     "cus_seq, " +
                     "cus_prename, " +
                     "cus_fname, " +
@@ -134,11 +135,14 @@ public class CustomerService {
                     "b.comp_name as compname " +
                     "FROM ou_upload_customer a INNER JOIN ou_company b ON a.company_id = b.comp_id " +
                     "WHERE a.cus_status = 'new' ";
+            //System.out.println(sqlText);
             conn = ConnectDB.getConnection();
             ps = conn.prepareStatement(sqlText);
             rs = ps.executeQuery();
             while (rs.next()) {
+                //System.out.println(rs.getString("cus_id"));
                 OUCustomerDetail obj = new OUCustomerDetail();
+                obj.setCusId(rs.getString("cus_id"));
                 obj.setCusNo(rs.getString("cus_no"));
                 obj.setCusSeq(rs.getString("cus_seq"));
                 obj.setCusPreName(rs.getString("cus_prename"));
@@ -174,7 +178,11 @@ public class CustomerService {
             temp += " INTO ou_upload_customer VALUES ";
             latestPrimaryKey = latestPrimaryKey + 1;
             seq = i + 1;
-            temp += "('" + latestPrimaryKey + "','" + arr.get(i).getCustomerID() + "','" + seq + "','" + arr.get(i).getPrename() + "','" + arr.get(i).getFullname() + "','" + arr.get(i).getDepartment() + "'," + arr.get(i).getCompany() + "," + "'new'," + "TO_DATE('" + date + "','yyyy-mm-dd')," + "'') ";
+            String[] Fname = arr.get(i).getFullname().split(" ");
+
+
+
+            temp += "('" + latestPrimaryKey + "','" + arr.get(i).getCustomerID() + "','" + seq + "','" + Fname[0]/*arr.get(i).getPrename()*/ + "','" + Fname[1] +" "+ Fname[2] + "','" + arr.get(i).getDepartment() + "'," + arr.get(i).getCompany() + "," + "'new'," + "TO_DATE('" + date + "','yyyy-mm-dd')," + "'') ";
         }
         temp += "select * from dual";
 
@@ -229,8 +237,67 @@ public class CustomerService {
         return seq;
     }
 
-    private String InsertDataOneRow() {
+    public static Boolean DeleteDataOneRow(OUCustomerDetail data) {
 
-        return "";
+        boolean status = false;
+
+        try {
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement("delete from ou_upload_customer where cus_id = ?");
+            ps.setString(1, data.getCusId());
+
+            if (ps.executeUpdate() > 0) {
+                status = true;
+            } else {
+                status = false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return status;
+    }
+
+    public static Boolean InsertDataOneRow(OUCustomerDetail data) {
+
+        boolean status = false;
+
+        try {
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement("update ou_upload_customer set cus_no=?,cus_prename=?,cus_fname=?,cus_department=? where cus_id=?");
+            ps.setString(1, data.getCusNo());
+            ps.setString(2, data.getCusPreName());
+            ps.setString(3, data.getCusFName());
+            ps.setString(4, data.getCusDepartmet());
+            ps.setString(5, data.getCusId());
+
+            if (ps.executeUpdate() > 0) {
+                status = true;
+            } else {
+                status = false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return status;
     }
 }

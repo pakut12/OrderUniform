@@ -27,7 +27,7 @@ public class Customer extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        request.setCharacterEncoding("utf8");
 
         String type = request.getParameter("type");
 
@@ -42,6 +42,7 @@ public class Customer extends HttpServlet {
                 returnResult += "<thead>";
                 returnResult += "<tr>";
                 returnResult += "<th>ลำดับ</th>";
+                returnResult += "<th>เลขที่</th>";
                 returnResult += "<th>รหัสพนักงาน</th>";
                 returnResult += "<th>คำนำหน้าชื่อ</th>";
                 returnResult += "<th>ชื่อ-นามสกุล</th>";
@@ -55,6 +56,7 @@ public class Customer extends HttpServlet {
                 for (int i = 0; i <= cusobj.size() - 1; i++) {
                     returnResult += "<tr>";
                     returnResult += "<td>" + cusobj.get(i).getCusSeq() + "</td>";
+                    returnResult += "<td>" + cusobj.get(i).getCusId() + "</td>";
                     returnResult += "<td>" + cusobj.get(i).getCusNo() + "</td>";
                     returnResult += "<td>" + cusobj.get(i).getCusPreName() + "</td>";
                     returnResult += "<td>" + cusobj.get(i).getCusFName() + "</td>";
@@ -70,13 +72,40 @@ public class Customer extends HttpServlet {
 
             out.print(returnResult);
             out.close();
-        }else if(type.equalsIgnoreCase("adddetailcustomer")){
+        } else if (type.equalsIgnoreCase("editdetailcustomer")) {
             PrintWriter out = response.getWriter();
-            CustomerService cm = new CustomerService();
-            
-            
+            String cms_id = request.getParameter("cms_id");
+            String cms_no = request.getParameter("cms_no");
+            String cms_pname = request.getParameter("cms_pname");
+            String cms_fname = request.getParameter("cms_fname");
+            String cms_depart = request.getParameter("cms_depart");
+
+            OUCustomerDetail data = new OUCustomerDetail();
+            data.setCusId(cms_id);
+            data.setCusNo(cms_no);
+            data.setCusPreName(cms_pname);
+            data.setCusFName(cms_fname);
+            data.setCusDepartment(cms_depart);
+
+            CustomerService cs = new CustomerService();
+            out.print(cs.InsertDataOneRow(data));
+
             out.close();
-            
+
+        } else if (type.equalsIgnoreCase("deldetailcustomer")) {
+            PrintWriter out = response.getWriter();
+            String cms_id = request.getParameter("cms_id");
+          
+
+            OUCustomerDetail data = new OUCustomerDetail();
+            data.setCusId(cms_id);
+           
+
+            CustomerService cs = new CustomerService();
+            out.print(cs.DeleteDataOneRow(data));
+
+            out.close();
+
         }
 
     }

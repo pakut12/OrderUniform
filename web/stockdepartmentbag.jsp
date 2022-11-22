@@ -37,18 +37,18 @@
                                 <div class="card-header">
                                     <div class="">ค้นหา</div>
                                 </div>
-                                <div class="card-body">
-                                    <div class="row mb-3">
+                                <div class="card-body" id="barcode_pass">
+                                    <div class="row mb-3" >
                                         <div class="col-4 text-end">รหัสบาร์โค้ด : </div>
-                                        <div class="col-4">
-                                            <input class="form-control form-control-sm " type="text" id="cus_no" ></input>
+                                        <div class="col-4" >
+                                            <input class="form-control form-control-sm " type="text" id="cus_no" required></input>
                                         </div>
                                         <div class="col-4">
                                             <button class="btn btn-sm btn-success" id="btn-select">เลือก</button>
                                             
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
+                                    <div class="row mb-3" id="search">
                                         <div class="col-4 text-end">เเผนก : </div>
                                         <div class="col-4">
                                             <select class="form-select form-select-sm " id="depart" > 
@@ -87,30 +87,33 @@
         $(document).ready(function(){
             $("#depart").attr("disabled",true);
             $("#btn-getdata").attr("disabled",true);
+            
             $("#btn-select").click(function(){
-                $("#btn-getdata").attr("disabled",false);
-                $("#depart").attr("disabled",false);
-                var data = $("#cus_no").val().split("/", 2);
+                $("#barcode_pass").addClass("was-validated");
+                if($("#cus_no").val() != ""){
+                    $("#btn-getdata").attr("disabled",false);
+                    $("#depart").attr("disabled",false); 
+                    var data = $("#cus_no").val().split("/", 2);
                 
-                $.ajax({
-                    type:"post",
-                    url:"GetDataStock",
-                    data:{
-                        type:"getdatadepart",
-                        doc_id:data[0],
-                        cus_no:data[1]
-                    },
-                    success:function(msg){
-                        $("#depart").empty();                        
-                        var data = JSON.parse(msg);
-                        $.each(data.depart,function(k,v){
-                            $("#depart").append('<option value="'+v+'">'+v+'</option>');
+                    $.ajax({
+                        type:"post",
+                        url:"GetDataStock",
+                        data:{
+                            type:"getdatadepart",
+                            doc_id:data[0],
+                            cus_no:data[1]
+                        },
+                        success:function(msg){
+                            $("#depart").empty();                        
+                            var data = JSON.parse(msg);
+                            $.each(data.depart,function(k,v){
+                                $("#depart").append('<option value="'+v+'">'+v+'</option>');
                          
-                        });
+                            });
                         
-                    }
-                });
-                 
+                        }
+                    });
+                }
             });
             
             $("#btn-getdata").click(function(){

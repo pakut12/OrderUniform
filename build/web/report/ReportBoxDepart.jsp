@@ -42,29 +42,16 @@
             String doc_id = request.getParameter("doc_id");
             String num = request.getParameter("num");
             String depart = request.getParameter("depart");
-            int a = 0;
-            int n = 0;
-            int de = 0;
 
-            TransactionCustomerService tms = new TransactionCustomerService();
-            List<OUTransactionCustomerDetail> list = tms.getDetailTransactionByDocumentId(doc_id);
-            ArrayList<Integer> arr = new ArrayList<Integer>();
-            String rename = "";
-            String redepart = "";
-            for (OUTransactionCustomerDetail row : list) {
-                if (!row.getDepartmentname().equals(redepart) && !row.getFname().equals(rename)) {
-                    arr.add(de);
-                    de++;
-                }
-                redepart = row.getDepartmentname();
-                rename = row.getFname();
-
-            }
-            int box = (int) Math.ceil((double) de / Integer.parseInt(num));
+            TransactionCustomerService ts = new TransactionCustomerService();
+            List<OUTransactionCustomerDetail> list = ts.getDetailFromBarcodeDepart(doc_id, depart);
+            int box = (int) Math.ceil((double) list.size() / Integer.parseInt(num));
 
             String HTMLtag = "";
+            int a = 0;
+            int b = 0;
+            int n = 0;
             for (int i = 0; i < box; i++) {
-
                 HTMLtag += "<table id=\"listdata\" class=\"table table-bordered border-dark text-center w-100 page-break \" >";
                 HTMLtag += "<thead>";
                 HTMLtag += "<tr>";
@@ -79,20 +66,25 @@
                 HTMLtag += "<tbody>";
 
                 for (int x = 0; x < Integer.parseInt(num); x++) {
+                    if (a != list.size()) {
+                        String Name = list.get(a).getFname();
+                        String DepartmentName = list.get(a).getDepartmentname();
 
-                    String Name = list.get(x).getFname();
-                    String DepartmentName = list.get(x).getDepartmentname();
-
-                    HTMLtag += "<tr>";
-                    HTMLtag += "<td>" + (x + 1) + "</td>";
-                    HTMLtag += "<td>" + Name + "</td>";
-                    HTMLtag += "<td>" + DepartmentName + "</td>";
-                    HTMLtag += "</tr>";
-
+                        HTMLtag += "<tr>";
+                        HTMLtag += "<td>" + (x + 1) + "</td>";
+                        HTMLtag += "<td>" + Name + "</td>";
+                        HTMLtag += "<td>" + DepartmentName + "</td>";
+                        HTMLtag += "</tr>";
+                        a++;
+                    }
                 }
+
                 HTMLtag += "</tbody>";
                 HTMLtag += "</table>";
+
             }
+
+
             out.print(HTMLtag);
 
         %>

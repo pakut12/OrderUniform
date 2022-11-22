@@ -37,18 +37,18 @@
                                 <div class="card-header">
                                     <div class="">ค้นหา</div>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body" id="barcode_pass">
                                     <div class="row mb-3">
                                         <div class="col-4 text-end">รหัสบาร์โค้ด : </div>
                                         <div class="col-4">
-                                            <input class="form-control form-control-sm " type="text" id="cus_no"></input>
+                                            <input class="form-control form-control-sm " type="text" id="cus_no" required></input>
                                         </div> 
                                         
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-4 text-end">จำนวนคนต่อ 1 กล่อง : </div>
                                         <div class="col-4">
-                                            <input class="form-control form-control-sm " type="number" id="num"></input>
+                                            <input class="form-control form-control-sm " type="number" id="num" required></input>
                                         </div> 
                                         <div class="col-4">
                                             <button class="btn btn-success btn-sm" id="btn-getdata">ค้นหา</button>
@@ -84,6 +84,7 @@
             
            
             $("#btn-getdata").click(function(){
+                $("#barcode_pass").addClass("was-validated");
                 var data = $("#cus_no").val().split("/", 2);
                 
                 $.ajax({

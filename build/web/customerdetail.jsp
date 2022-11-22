@@ -69,23 +69,23 @@
                         <div class="modal-body">
                             <div class="row mb-3">
                                 <label for="no" class="text-center">ลำดับ</label>
-                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="no" name="no" value="" readonly></input>
+                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="cms_id" name="cms_id" readonly></input>
                             </div>
                             <div class="row mb-3">
                                 <label for="no" class="text-center">รหัสพนักงาน</label>
-                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="no" name="no"></input>
+                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="cms_no" name="cms_no"></input>
                             </div>
                             <div class="row mb-3">
                                 <label for="no" class="text-center">คำนำหน้าชื่อ</label>
-                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="no" name="no"></input>
+                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="cms_pname" name="cms_pname"></input>
                             </div>
                             <div class="row mb-3">
                                 <label for="no" class="text-center">ชื่อ-นามสกุล</label>
-                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="no" name="no"></input>
+                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="cms_fname" name="cms_fname"></input>
                             </div>
                             <div class="row mb-3">
                                 <label for="no" class="text-center">เเผนก</label>
-                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="no" name="no"></input>
+                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="cms_depart" name="cms_depart"></input>
                             </div>
                             
                         </div>
@@ -140,13 +140,11 @@
                         type:"adddetailcustomer"
                     },
                     success:function(msg){
-                       console.log(msg);
+                        console.log(msg);
                     }
                 });
             })
-            $("#EditSave").click(function(){
-                alert("asd");
-            })
+          
           
         });
         
@@ -162,7 +160,7 @@
         };
             
         function setupDatatable(){
-            var groupColumn = 5;
+            var groupColumn = 6;
             var table =  $('#customerdetail').DataTable({
                 scrollY: '45vh',
                 scrollCollapse: true,
@@ -179,7 +177,7 @@
                     api.column(groupColumn, {page:'current'}).data().each( function (group, i) {
                         if( last !== group ){
                             $(rows).eq(i).before(
-                            '<tr class="group" style="background-color:#ddd"><td colspan="7">'+group+'</td></tr>'
+                            '<tr class="group" style="background-color:#ddd"><td colspan="8">'+group+'</td></tr>'
                         );
                             last = group;
                         }
@@ -195,13 +193,120 @@
                     table.order( [ groupColumn, 'asc' ] ).draw();
                 }
             });
-            
+           
+              
+            $("#EditSave").click(function(){
+                
+                Swal.fire({
+                    title: 'คุณต้องการบันทึกหรือไม่',
+                    text: "คุณต้องการบันทึกหรือไม่",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then(function(result){
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type:"post",
+                            url:"Customer",
+                            data:{
+                                type:"editdetailcustomer",
+                                cms_id:$("#cms_id").val(),
+                                cms_no:$("#cms_no").val(),
+                                cms_pname:$("#cms_pname").val(),
+                                cms_fname:$("#cms_fname").val(),
+                                cms_depart:$("#cms_depart").val()
+                            },
+                            success:function(msg){
+                                loadData();
+                                if(msg == "true"){
+                                    Swal.fire(
+                                    'บันทึกสำเร็จ',
+                                    'บันทึกสำเร็จ',
+                                    'success'
+                                )
+                                  
+                                }else if(msg == "false"){
+                                    Swal.fire(
+                                    'บันทึกไม่สำเร็จ',
+                                    'บันทึกไม่สำเร็จ',
+                                    'error'
+                                )
+                                }
+                                $('#EditModal').modal('hide');
+                            }
+                        });
+                        
+                    }
+                });
+                
+                
+                 
+            })
             $('#customerdetail tbody').on( 'click', '.edit_btn', function () {  
                 $('#EditModal').modal('show');
+                var row = table.row($(this).parents('tr')).data();
+                $("#cms_id").val(row[1]);
+                $("#cms_no").val(row[2]);
+                $("#cms_pname").val(row[3]);
+                $("#cms_fname").val(row[4]);
+                $("#cms_depart").val(row[5]);
+                
             } );
             
+    
             $('#customerdetail tbody').on( 'click', '.del_btn', function () {  
-                alert("asdasdasd"); 
+                var row = table.row($(this).parents('tr')).data();
+                Swal.fire({
+                    title: 'คุณต้องการลบหรือไม่',
+                    text: "คุณต้องการลบหรือไม่",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then(function(result){
+                    if (result.isConfirmed) {
+                        
+              
+                        $.ajax({
+                            type:"post",
+                            url:"Customer",
+                            data:{
+                                type:"deldetailcustomer",
+                                cms_id:row[1]
+                            },
+                            success:function(msg){
+                                
+                                if(msg == "true"){
+                                    Swal.fire(
+                                    'บันทึกสำเร็จ',
+                                    'บันทึกสำเร็จ',
+                                    'success'
+                                )
+                                  
+                                }else if(msg == "false"){
+                                    Swal.fire(
+                                    'บันทึกไม่สำเร็จ',
+                                    'บันทึกไม่สำเร็จ',
+                                    'error'
+                                )
+                                }
+                                loadData();
+                            }
+                        });
+                        
+                        
+                    }
+                });
+        
+        
+        
+                
+                
+        
+        
             } );
         }
     </script>

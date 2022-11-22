@@ -49,7 +49,7 @@
             <thead>
                 <tr>
                     <th colspan="7" class="text-center ">
-                        รายชื่อพนักงาน : <%=listdetail.get(0).getCompanyname()%>
+                        รายชื่อพนักงาน : <%=listdetail.get(0).getDocName()%>
                     </th> 
                 </tr>
                 <tr>

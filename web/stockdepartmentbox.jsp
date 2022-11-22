@@ -37,11 +37,11 @@
                                 <div class="card-header">
                                     <div class="">ค้นหา</div>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body " id="barcode_pass" >
                                     <div class="row mb-3">
                                         <div class="col-4 text-end">รหัสบาร์โค้ด : </div>
                                         <div class="col-4">
-                                            <input class="form-control form-control-sm " type="text" id="cus_no"></input>
+                                            <input class="form-control form-control-sm " type="text" id="cus_no" required></input>
                                         </div> 
                                         <div class="col-4">
                                             <button class="btn btn-success btn-sm" id="btn-selectdepart">เลือก</button>
@@ -50,7 +50,7 @@
                                     <div class="row mb-3">
                                         <div class="col-4 text-end">เเผนก : </div>
                                         <div class="col-4">
-                                            <select class="form-select form-select-sm" id="depart">
+                                            <select class="form-select form-select-sm " id="depart" disabled required>
                                                 <option value=""></option>
                                             </select>
                                         </div> 
@@ -58,7 +58,7 @@
                                     <div class="row mb-3">
                                         <div class="col-4 text-end">จำนวนคนต่อ 1 กล่อง : </div>
                                         <div class="col-4">
-                                            <input class="form-control form-control-sm " type="number" id="num"></input>
+                                            <input class="form-control form-control-sm " type="number" id="num" disabled required></input>
                                         </div>
                                         <div class="col-4">
                                             <button class="btn btn-success btn-sm" id="btn-getdata">ค้นหา</button>
@@ -91,7 +91,11 @@
     
     <script language="javascript">
         $(document).ready(function(){
+            
+        
             $("#btn-getdata").click(function(){
+                
+                
                 var data = $("#cus_no").val().split("/", 2);
                 
                 $.ajax({
@@ -149,7 +153,7 @@
            
             $("#btn-selectdepart").click(function(){
                 var data = $("#cus_no").val().split("/", 2);
-                
+                $("#barcode_pass").addClass("was-validated");
                 $.ajax({
                     type:"post",
                     url:"GetDataStock",
@@ -159,6 +163,9 @@
                         num:$("#num").val()
                     },
                     success:function(msg){
+                        
+                        $("#depart").attr("disabled",false);
+                        $("#num").attr("disabled",false);
                         var data = JSON.parse(msg);
                     
                         $("#depart").empty();

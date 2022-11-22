@@ -72,15 +72,15 @@ public class ReadExcelService {
                                     ouploadcus.setCustomerID(cell.getStringCellValue());
                                     mp.put(indexOfHash, ouploadcus);
                                     break;
+//                                case 1:
+//                                    ouploadcus.setPrename(cell.getStringCellValue());
+//                                    mp.put(indexOfHash, ouploadcus);
+//                                    break;
                                 case 1:
-                                    ouploadcus.setPrename(cell.getStringCellValue());
-                                    mp.put(indexOfHash, ouploadcus);
-                                    break;
-                                case 2:
                                     ouploadcus.setFullname(cell.getStringCellValue());
                                     mp.put(indexOfHash, ouploadcus);
                                     break;
-                                case 3:
+                                case 2:
                                     ouploadcus.setDepartment(cell.getStringCellValue());
                                     mp.put(indexOfHash, ouploadcus);
                                     break;
