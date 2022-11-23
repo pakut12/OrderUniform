@@ -123,14 +123,14 @@ public class GetDataStock extends HttpServlet {
                 out.print(HTMLtag);
             } else if (type.equalsIgnoreCase("getdatadepart")) {
                 String doc_id = request.getParameter("doc_id");
+                TransactionCustomerService cms = new TransactionCustomerService();
+                List<OUTransactionCustomerDetail> list = cms.GroupDepart(doc_id);
 
-
-                CustomerService cms = new CustomerService();
-                ArrayList<OUTransactionCustomerDetail> listcms = cms.GroupCustomerDepart(doc_id);
                 JSONArray jsarr = new JSONArray();
                 JSONObject obj = new JSONObject();
-                for (OUTransactionCustomerDetail op : listcms) {
-                    jsarr.put(op.getDepartmentname());
+                for (OUTransactionCustomerDetail arrlist : list) {
+                   
+                    jsarr.put(arrlist.getDepartmentname());
                 }
                 obj.put("depart", jsarr);
                 out.print(obj);
@@ -363,7 +363,7 @@ public class GetDataStock extends HttpServlet {
                     String depart = request.getParameter("depart");
 
                     TransactionCustomerService tms = new TransactionCustomerService();
-                    List<OUTransactionCustomerDetail> list = tms.getDetailFromBarcodeDepart(doc_id,depart);
+                    List<OUTransactionCustomerDetail> list = tms.getDetailFromBarcodeDepart(doc_id, depart);
                     int box = (int) Math.ceil((double) list.size() / Integer.parseInt(num));
 
                     String HTMLtag = "";

@@ -106,7 +106,7 @@
                                     targets: groupColumn
                                 }
                             ],
-                            order: [[groupColumn, 'asc']],
+                            order: [[1, 'asc']],
                            
                             drawCallback: function (settings) {
                                 var api = this.api();

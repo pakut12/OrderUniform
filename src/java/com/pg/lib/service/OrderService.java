@@ -112,7 +112,7 @@ public class OrderService {
     
     public List<OUCustomerDetailWithID> getCustomerOfComapany(List<String> companydetail){
         List<OUCustomerDetailWithID> listcustomer = new ArrayList<OUCustomerDetailWithID>();
-        String sqlText = "SELECT * FROM ou_upload_customer WHERE company_id = "+companydetail.get(0)+" and cus_status = 'new' ";
+        String sqlText = "SELECT * FROM ou_upload_customer WHERE company_id = "+companydetail.get(0)+" and cus_status = 'new' order by cus_id";
             try {
                 conn = ConnectDB.getConnection();
                 ps = conn.prepareStatement(sqlText);

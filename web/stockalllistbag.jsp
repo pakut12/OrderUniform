@@ -104,7 +104,7 @@
                                         targets: 0
                                     }
                                 ],
-                                order: [[groupColumn, 'asc']],
+                                order: [[0, 'asc']],
                           
                                 drawCallback: function (settings) {
                                     var api = this.api();

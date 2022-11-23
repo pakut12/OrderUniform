@@ -80,9 +80,6 @@
                 HTMLtag += "</table>";
             }
 
-
-
-
             out.print(HTMLtag);
 
         %>

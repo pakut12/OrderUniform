@@ -120,7 +120,7 @@ public class TransactionCustomerService {
                 "LEFT JOIN ou_company e ON b.compa_id = e.comp_id " +
                 "WHERE " +
                 "a.h_id = ? " +
-                "ORDER BY b.tran_cus_id asc ";
+                "ORDER BY c.cus_department ,c.cus_fname  asc ";
         try {
             conn = ConnectDB.getConnection();
             ps = conn.prepareStatement(sqlquery);
@@ -146,6 +146,43 @@ public class TransactionCustomerService {
                 obj.setCompanyname(rs.getString("companyname"));
                 obj.setMatfullname(rs.getString("matfullname"));
                 obj.setBarcode(rs.getString("barcode"));
+                listdetailtransaction.add(obj);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return listdetailtransaction;
+    }
+
+    public List<OUTransactionCustomerDetail> GroupDepart(String doc_id) {
+        List<OUTransactionCustomerDetail> listdetailtransaction = new ArrayList<OUTransactionCustomerDetail>();
+        String sqlquery = "SELECT "+	 
+		"c.cus_department as departmentname " +
+                "FROM ou_header_transaction_customer a "+
+              	"INNER JOIN ou_transaction_customer b ON a.h_id = b.header_id " +
+                "INNER JOIN ou_upload_customer c ON b.cus_id = c.cus_id " +
+                "INNER JOIN ou_header_material d ON b.hmat_id = d.hmat_id " +
+                "INNER JOIN ou_company e ON b.compa_id = e.comp_id " +
+                "WHERE " +
+                "a.h_id = ? " +
+		" GROUP BY c.cus_department";
+        try {
+
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement(sqlquery);
+            ps.setString(1, doc_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                OUTransactionCustomerDetail obj = new OUTransactionCustomerDetail();
+                obj.setDepartmentname(rs.getString("departmentname"));
                 listdetailtransaction.add(obj);
             }
         } catch (Exception e) {
