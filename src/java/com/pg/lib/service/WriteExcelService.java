@@ -24,8 +24,6 @@ public class WriteExcelService {
     private final String pathFileGenerate_Server = "/web/webapps/OrderUniform/attachfile/download/";
     private final String defaultDownloadPath = "/OrderUniform/attachfile/download/";
 
-   
-
 //    public String generateXLSFileSummarizeCustomer() {
 //        String path = "";
 //        String XLSname = GenerateXLSName(company);
@@ -43,7 +41,6 @@ public class WriteExcelService {
 //
 //        return path;
 //    }
-
     public String generateXLSFileCustomer(List<String> company, List<OUMaterialDetailWithID> item, List<OUCustomerDetailWithID> customer) {
         String path = "";
         String XLSname = GenerateXLSName(company);
@@ -181,9 +178,10 @@ public class WriteExcelService {
 
     private HSSFWorkbook GenerateDetailXLSCustomer(List<OUMaterialDetailWithID> item, List<OUCustomerDetailWithID> customer) {
         int coulumnItem = 4;
+        int coulumnItemDes = 4;
         int coulumnItemDetail = 4;
         int coulumnItemID = 4;
-        int coulumnOfCustomer = 3;
+        int coulumnOfCustomer = 4;
 
         //สร้าง Excel ไฟล์
         HSSFWorkbook workbook = new HSSFWorkbook();
@@ -205,7 +203,7 @@ public class WriteExcelService {
         //กำหนดค่าลงช่อง Row 0 , Column 0;
         topicCustomer.setCellValue("ข้อมูลพนักงาน");
         //Merge Column ตำแหน่งที่ (start Row,End Row,start Column,End Column);
-        sheet.addMergedRegion(new CellRangeAddress(0, 2, 0, 3));
+        sheet.addMergedRegion(new CellRangeAddress(0, 3, 0, 3));
         //เซ็ตสไตล์ให้ Column และ Row ที่ merge
         topicCustomer.setCellStyle(cellStyle);
 
@@ -233,12 +231,13 @@ public class WriteExcelService {
             cellItemID.setCellStyle(cellStyle);
             //กำหนดตำแหน่ง cell ถัดไปให้เริ่มห่างจาก cell เก่าไป 2 ตำแหน่ง
             coulumnItemID = coulumnItemID + 2;
-        }
 
+
+        }
 
         //***** สร้าง column รายละเอียดย่อย ไว้สำหรับกรอกข้อมูล *****//    
         // กำหนดให้เริ่มที่ row ตำแหน่งที่ 2 หรือก็คือ row 3
-        Row rowItemdetail = sheet.createRow(2);
+        Row rowItemdetail = sheet.createRow(3);
         for (int j = 0; j <= item.size() - 1; j++) {
             //สร้าง cell โดยเริ่มจากตำแหน่งที่ 3 หรือ column 4
             Cell cellItemsize = rowItemdetail.createCell(coulumnItemDetail);
@@ -258,6 +257,22 @@ public class WriteExcelService {
             coulumnItemDetail = coulumnItemDetail + 2;
         }
 
+        Row rowdes = sheet.createRow(2);
+        for (int j = 0; j <= item.size() - 1; j++) {
+            //สร้าง cell โดยเริ่มจากตำแหน่งที่ 3 หรือ column 4
+            Cell cellItemsize = rowdes.createCell(coulumnItemDes);
+            //ใส่ค่า
+            cellItemsize.setCellValue(item.get(j).getHmat_desc());
+            //ใส่สไตล์
+            cellItemsize.setCellStyle(cellStyle);
+            
+            sheet.addMergedRegion(new CellRangeAddress(2, 2, coulumnItemDes, coulumnItemDes + 1));
+
+            //กำหนดค่าให้ข้อมูลชุดถนัดเริ่มตำแหน่ง cell ที่ + ไปอีก 2;
+            coulumnItemDes = coulumnItemDes + 2;
+        }
+
+
         //loop อ่านค่าจาก obj customer
         for (int k = 0; k <= customer.size() - 1; k++) {
             //ชี้ตำแหน่ง Row ที่จะทำการสร้าง coulumnOfCustomer = 2
@@ -272,7 +287,7 @@ public class WriteExcelService {
                 } else if (l == 1) {
                     Cellofcustomer.setCellValue(customer.get(k).getCus_no());
                 } else if (l == 2) {
-                    Cellofcustomer.setCellValue(customer.get(k).getCus_fname());
+                    Cellofcustomer.setCellValue(customer.get(k).getCus_prename() + " " + customer.get(k).getCus_fname());
                 } else if (l == 3) {
                     Cellofcustomer.setCellValue(customer.get(k).getCompany_id());
                 }
