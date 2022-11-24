@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row ">
-                                        <div class="col-4 text-end">รหัสบาร์โค้ด : </div>
+                                        <div class="col-4 text-end">รหัสบาร์โค้ด (รายชื่อ) : </div>
                                         <div class="col-4">
                                             <form class="" id="myform">
                                                 <input class="form-control form-control-sm " type="text" id="cus_no" value="" required></input>

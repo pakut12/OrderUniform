@@ -5,6 +5,7 @@
 package com.pg.lib.Servlet;
 
 import com.pg.lib.model.OUCustomerDetail;
+import com.pg.lib.model.OUUploadCustomer;
 import com.pg.lib.service.CustomerService;
 import java.io.*;
 import java.net.*;
@@ -95,14 +96,40 @@ public class Customer extends HttpServlet {
         } else if (type.equalsIgnoreCase("deldetailcustomer")) {
             PrintWriter out = response.getWriter();
             String cms_id = request.getParameter("cms_id");
-          
+
 
             OUCustomerDetail data = new OUCustomerDetail();
             data.setCusId(cms_id);
-           
+
 
             CustomerService cs = new CustomerService();
             out.print(cs.DeleteDataOneRow(data));
+
+            out.close();
+
+        } else if (type.equalsIgnoreCase("adddetailcustomer")) {
+            PrintWriter out = response.getWriter();
+            String addcmsno = request.getParameter("addcmsno");
+            String addpname = request.getParameter("addpname");
+            String addfname = request.getParameter("addfname");
+            String adddepart = request.getParameter("adddepart");
+            String addcompany = request.getParameter("addcompany");
+
+            OUUploadCustomer upc = new OUUploadCustomer();
+            upc.setCustomerID(addcmsno);
+            upc.setCompany(addcompany);
+            upc.setDepartment(adddepart);
+            upc.setFullname(addfname);
+            upc.setPrename(addpname);
+           
+            CustomerService cms = new CustomerService();
+            boolean status = cms.addCustomerOneRow(upc);
+
+            if (status) {
+                out.print("true");
+            } else {
+                out.print("false");
+            }
 
             out.close();
 

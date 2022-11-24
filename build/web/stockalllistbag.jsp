@@ -39,12 +39,12 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row mb-3" id="barcode_pass">
-                                        <div class="col-4 text-end">รหัสบาร์โค้ด : </div>
+                                        <div class="col-4 text-end">รหัสบาร์โค้ด (เลขที่เอกสาร) : </div>
                                         <div class="col-4">
                                             <input class="form-control form-control-sm " type="text" id="cus_no" required></input>
                                         </div>
                                         <div class="col-4">
-                                            <button class="btn btn-sm btn-success" id="btn-getdata">ค้นหา</button>
+                                            <button class="btn btn-sm btn-success" id="btn-getdata" >ค้นหา</button>
                                             
                                         </div>
                                     </div>
@@ -74,8 +74,10 @@
     
     <script language="javascript">
         $(document).ready(function(){
-           
+            
+          
             $("#btn-getdata").click(function(){
+               
                 $("#barcode_pass").addClass("was-validated");
                 var data = $("#cus_no").val().split("/", 2);
                 if(data != ""){
@@ -88,10 +90,14 @@
                             doc_id:data[0]
                         
                         },
+                        beforeSend: function() {
+                            $("#btn-getdata").attr("disabled", true);
+                            $("#btn-getdata").text("กำลังค้นหา");
+                        },
                         success:function(msg){
-                                           
+                            $("#btn-getdata").attr("disabled", false); 
+                            $("#btn-getdata").text("ค้นหา");
                             $(".viewdata").html(msg);
-                        
                             var groupColumn = 1;
                             var table = $('#listdata').DataTable({
                                 columnDefs: [

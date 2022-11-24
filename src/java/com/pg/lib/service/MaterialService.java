@@ -17,6 +17,31 @@ public class MaterialService {
     private static ResultSet rs;
     private static PreparedStatement ps;
 
+     public boolean deleteMaterial(String hmat_id) {
+        boolean result = false;
+        String SQLText = "delete from ou_header_material where hmat_id = ?";
+        try {
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement(SQLText);
+            ps.setString(1, hmat_id);
+            int i = ps.executeUpdate();
+            if (i > 0) {
+                result = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+
+    }
+     
     public boolean createNewMaterial(String code, String spec, String desc, String company) {
         boolean result = false;
         String SQLText = generateSQLText(code, spec, desc, company);
@@ -43,7 +68,7 @@ public class MaterialService {
 
     public List<OUMaterialDetail> getDataMaterial() {
         List<OUMaterialDetail> arrlist = new ArrayList<OUMaterialDetail>();
-        String sqlText = "SELECT hmat_code, hmat_gender, hmat_category, hmat_type, hmat_pattern, hmat_rno, hmat_color,hmat_desc , b.comp_code, b.comp_name, c.group_name " +
+        String sqlText = "SELECT hmat_id,hmat_code,hmat_teamorder, hmat_gender, hmat_category, hmat_type, hmat_pattern, hmat_rno, hmat_color,hmat_desc , b.comp_code, b.comp_name, c.group_name " +
                 "FROM ou_header_material a " +
                 "LEFT JOIN ou_company b ON a.company_id = b.comp_id " +
                 "LEFT JOIN ou_material_group c ON a.group_id = c.group_id " +
@@ -54,7 +79,9 @@ public class MaterialService {
             rs = ps.executeQuery();
             while (rs.next()) {
                 OUMaterialDetail obj = new OUMaterialDetail();
+                    obj.setHmat_id(rs.getString("hmat_id"));
                     obj.setHmat_code(rs.getString("hmat_code"));
+                    obj.setHmat_team(rs.getString("hmat_teamorder"));
                     obj.setHmat_desc(rs.getString("hmat_desc"));
                     obj.setHmat_gender(rs.getString("hmat_gender"));
                     obj.setHmat_category(rs.getString("hmat_category"));

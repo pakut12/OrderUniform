@@ -2,6 +2,8 @@ package com.pg.lib.model;
 
 public class OUMaterialDetail {
 
+    private String hmat_id;
+    private String hmat_team;
     private String hmat_code;
     private String hmat_gender;
     private String hmat_category;
@@ -13,12 +15,14 @@ public class OUMaterialDetail {
     private String com_name;
     private String group_name;
     private String hmat_desc;
-    
-    public OUMaterialDetail(){
+
+    public OUMaterialDetail() {
         super();
     }
 
-    public OUMaterialDetail(String hmat_code, String hmat_gender, String hmat_category, String hmat_type, String hmat_pattern, String hmat_rno, String hmat_color, String com_code, String com_name, String group_name, String hmat_desc) {
+    public OUMaterialDetail(String hmat_id,String hmat_code, String hmat_team, String hmat_gender, String hmat_category, String hmat_type, String hmat_pattern, String hmat_rno, String hmat_color, String com_code, String com_name, String group_name, String hmat_desc) {
+        this.hmat_id = hmat_id;
+        this.hmat_team = hmat_team;
         this.hmat_code = hmat_code;
         this.hmat_gender = hmat_gender;
         this.hmat_category = hmat_category;
@@ -30,6 +34,20 @@ public class OUMaterialDetail {
         this.com_name = com_name;
         this.group_name = group_name;
         this.hmat_desc = hmat_desc;
+    }
+    public String getHmat_id() {
+        return hmat_id;
+    }
+
+    public void setHmat_id(String hmat_id) {
+        this.hmat_id = hmat_id;
+    }
+    public String getHmat_team() {
+        return hmat_team;
+    }
+
+    public void setHmat_team(String hmat_team) {
+        this.hmat_team = hmat_team;
     }
 
     public String getCom_code() {
@@ -119,8 +137,4 @@ public class OUMaterialDetail {
     public void setHmat_type(String hmat_type) {
         this.hmat_type = hmat_type;
     }
-
-    
-    
-    
 }

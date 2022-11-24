@@ -44,6 +44,7 @@ public class CustomerService {
                 OUTransactionCustomerDetail list = new OUTransactionCustomerDetail();
                 list.setCustomerCode(listcus_no.get(n).getCustomerCode());
                 list.setDepartmentname(listcus_no.get(n).getDepartmentname());
+                list.setPrename(listcus_no.get(n).getPrename());
                 list.setFname(listcus_no.get(n).getFname());
                 list.setDocName(listcus_no.get(n).getDocName());
                 arr.add(list);
@@ -51,6 +52,45 @@ public class CustomerService {
             no = listcus_no.get(n).getCustomerCode();
         }
         return arr;
+    }
+
+    public boolean addCustomerOneRow(OUUploadCustomer cms) {
+        boolean insertResult = false;
+        int latestSeq = (getLatestSeqWithDepart(cms.getCompany())+1);
+        int latestPrimaryKey = (getLatestPrimarykey()+1);
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
+
+        try {
+            String sqlText = "INSERT INTO ou_upload_customer VALUES (?,?,?,?,?,?,?,?,?,?)";
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement(sqlText);
+            ps.setString(1, String.valueOf(latestPrimaryKey));
+            ps.setString(2, cms.getCustomerID());
+            ps.setString(3, String.valueOf(latestSeq));
+            ps.setString(4, cms.getPrename());
+            ps.setString(5, cms.getFullname());
+            ps.setString(6, cms.getDepartment());
+            ps.setString(7, cms.getCompany());
+            ps.setString(8, "new");
+            ps.setDate(9, date);
+            ps.setString(10, "");
+            int i = ps.executeUpdate();
+            if (i > 0) {
+                insertResult = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return insertResult;
     }
 
     public boolean addCustomer(List<OUUploadCustomer> arr) {
@@ -182,7 +222,7 @@ public class CustomerService {
 
 
 
-            temp += "('" + latestPrimaryKey + "','" + arr.get(i).getCustomerID() + "','" + seq + "','" + Fname[0]/*arr.get(i).getPrename()*/ + "','" + Fname[1] +" "+ Fname[2] + "','" + arr.get(i).getDepartment() + "'," + arr.get(i).getCompany() + "," + "'new'," + "TO_DATE('" + date + "','yyyy-mm-dd')," + "'') ";
+            temp += "('" + latestPrimaryKey + "','" + arr.get(i).getCustomerID() + "','" + seq + "','" + Fname[0]/*arr.get(i).getPrename()*/ + "','" + Fname[1] + " " + Fname[2] + "','" + arr.get(i).getDepartment() + "'," + arr.get(i).getCompany() + "," + "'new'," + "TO_DATE('" + date + "','yyyy-mm-dd')," + "'') ";
         }
         temp += "select * from dual";
 
@@ -212,11 +252,37 @@ public class CustomerService {
         return pk;
     }
 
+    private int getLatestSeqWithDepart(String depert) {
+        int seq = 0;
+        try {
+            conn = ConnectDB.getConnection();
+
+            ps = conn.prepareStatement("SELECT count(cus_seq) as lastestseq FROM ou_upload_customer where company_id = ?");
+            ps.setString(1, depert);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                seq = (rs.getInt("lastestseq"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return seq;
+    }
+
     private int getLatestSeq() {
         int seq = 0;
         int latestPrimaryKey = getLatestPrimarykey();
         try {
             conn = ConnectDB.getConnection();
+
             ps = conn.prepareStatement("SELECT cus_seq as lastestseq FROM ou_upload_customer where cus_id = ?");
             ps.setInt(1, latestPrimaryKey);
             rs = ps.executeQuery();

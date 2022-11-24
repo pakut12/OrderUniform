@@ -25,7 +25,7 @@
         <%@ include file = "share/navbar.jsp" %>
         <!-- end nav -->
         <div id="default-layout">
-            <div class="modal fade" id="AddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade " id="AddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -35,22 +35,27 @@
                         <div class="modal-body">
                             
                             <div class="row mb-3">
-                                <label for="no" class="text-center">รหัสพนักงาน</label>
-                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="no" name="no"></input>
+                                <label for="addcmsno" class="text-center">รหัสพนักงาน</label>
+                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="addcmsno" name="addcmsno" required ></input>
                             </div>
                             <div class="row mb-3">
-                                <label for="no" class="text-center">คำนำหน้าชื่อ</label>
-                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="no" name="no"></input>
+                                <label for="addpname" class="text-center">คำนำหน้าชื่อ</label>
+                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="addpname" name="addpname" required></input>
                             </div>
                             <div class="row mb-3">
-                                <label for="no" class="text-center">ชื่อ-นามสกุล</label>
-                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="no" name="no"></input>
+                                <label for="addfname" class="text-center">ชื่อ-นามสกุล</label>
+                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="addfname" name="addfname" required></input>
                             </div>
                             <div class="row mb-3">
-                                <label for="no" class="text-center">เเผนก</label>
-                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="no" name="no"></input>
+                                <label for="adddepart" class="text-center">เเผนก</label>
+                                <input class="form-control form-control-sm  w-75 mx-auto text-center" id="adddepart" name="adddepart" required></input>
                             </div>
-                            
+                            <div class="row mb-3">
+                                <label for="addcompany" class="text-center">บริษัท</label>
+                                <select class="form-select form-select-sm w-75 mx-auto text-center" id="addcompany" name="addcompany" required>
+                                    
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -127,25 +132,57 @@
     <script language="javascript">
         $(document).ready(function(){
             loadData();
-            
+            getCompanyName();
             $("#AddDataCustomer").click(function(){
                 $('#AddModal').modal('show');
             });
             
             $("#AddSave").click(function(){
-                $.ajax({
-                    type:"post",
-                    url:"Customer",
-                    data:{
-                        type:"adddetailcustomer"
-                    },
-                    success:function(msg){
-                        console.log(msg);
-                    }
-                });
-            })
-          
-          
+                $('#AddModal').addClass('was-validated');
+                var i1 = $("#addcmsno").val();
+                var i2 = $("#addpname").val();
+                var i3 = $("#addfname").val();
+                var i4 = $("#adddepart").val();
+                var i5 = $("#addcompany").val();
+                
+                if(i1.trim() === "" || i2.trim() === "" || i3.trim() === "" || i4.trim() === "" || i5.trim() === ""  ){
+                    Swal.fire(
+                    'กรุณากรอกข้อมูลให้ครบถ้วน',
+                    'กรุณากรอกข้อมูลให้ครบถ้วน',
+                    'error'
+                )
+                }else{
+                    $.ajax({
+                        type:"post",
+                        url:"Customer",
+                        data:{
+                            type:"adddetailcustomer",
+                            addcmsno:$("#addcmsno").val(),
+                            addpname:$("#addpname").val(),
+                            addfname:$("#addfname").val(),
+                            adddepart:$("#adddepart").val(),
+                            addcompany:$("#addcompany").val()
+                        },
+                        success:function(msg){
+                            if(msg == "true"){
+                                Swal.fire(
+                                'บันทึกสำเร็จ',
+                                'บันทึกสำเร็จ',
+                                'success'
+                            )
+                            }else if(msg == "false"){
+                                Swal.fire(
+                                'บันทึกไม่สำเร็จ',
+                                'บันทึกไม่สำเร็จ',
+                                'error'
+                            )  
+                            }
+                            loadData();
+                        }
+                    });
+                }
+               
+            });
         });
         
         function loadData(){
@@ -158,7 +195,23 @@
                 console.log("cannot get data customer...")
             })     
         };
-            
+        function getCompanyName(){
+            $.get("CompanyList",{
+                type : "getCompanyName",
+                content : "customer"
+            },
+            function(result){
+                $.each(result,function(k,v){
+                    console.log(v.name);
+                    $("#addcompany").append('<option value="'+v.code.replace("C","")+'">'+v.name+'</option>');
+                });
+               
+            }).done(function (){
+                //do nothing...
+            }).fail(function (){
+                console.log("getCompanyName Failure!!!");
+            })
+        }
         function setupDatatable(){
             var groupColumn = 6;
             var table =  $('#customerdetail').DataTable({
@@ -207,37 +260,53 @@
                     confirmButtonText: 'OK'
                 }).then(function(result){
                     if (result.isConfirmed) {
-                        $.ajax({
-                            type:"post",
-                            url:"Customer",
-                            data:{
-                                type:"editdetailcustomer",
-                                cms_id:$("#cms_id").val(),
-                                cms_no:$("#cms_no").val(),
-                                cms_pname:$("#cms_pname").val(),
-                                cms_fname:$("#cms_fname").val(),
-                                cms_depart:$("#cms_depart").val()
-                            },
-                            success:function(msg){
-                                loadData();
-                                if(msg == "true"){
-                                    Swal.fire(
-                                    'บันทึกสำเร็จ',
-                                    'บันทึกสำเร็จ',
-                                    'success'
-                                )
-                                  
-                                }else if(msg == "false"){
-                                    Swal.fire(
-                                    'บันทึกไม่สำเร็จ',
-                                    'บันทึกไม่สำเร็จ',
-                                    'error'
-                                )
+                        $('#EditModal').addClass('was-validated');
+                        var i1 = $("#cms_id").val();
+                        var i2 = $("#cms_no").val();
+                        var i3 = $("#cms_pname").val();
+                        var i4 = $("#cms_fname").val();
+                        var i5 = $("#cms_depart").val();
+        
+        
+                        if(i1.trim() === "" || i2.trim() === "" || i3.trim() === "" || i4.trim() === "" || i5.trim() === ""  ){
+                            Swal.fire(
+                            'กรุณากรอกข้อมูลให้ครบถ้วน',
+                            'กรุณากรอกข้อมูลให้ครบถ้วน',
+                            'error'
+                        )
+                        }else{
+                            $.ajax({
+                                type:"post",
+                                url:"Customer",
+                                data:{
+                                    type:"editdetailcustomer",
+                                    cms_id:$("#cms_id").val(),
+                                    cms_no:$("#cms_no").val(),
+                                    cms_pname:$("#cms_pname").val(),
+                                    cms_fname:$("#cms_fname").val(),
+                                    cms_depart:$("#cms_depart").val()
+                                },
+                                success:function(msg){
+                                    loadData();
+                                    if(msg == "true"){
+                                        Swal.fire(
+                                        'บันทึกสำเร็จ',
+                                        'บันทึกสำเร็จ',
+                                        'success'
+                                    )
+                                        
+                                    }else if(msg == "false"){
+                                        Swal.fire(
+                                        'บันทึกไม่สำเร็จ',
+                                        'บันทึกไม่สำเร็จ',
+                                        'error'
+                                    )
+                                    }
+                                    $('#EditModal').removeClass('was-validated');
+                                    $('#EditModal').modal('hide');
                                 }
-                                $('#EditModal').modal('hide');
-                            }
-                        });
-                        
+                            });
+                        }
                     }
                 });
                 
@@ -281,15 +350,15 @@
                                 
                                 if(msg == "true"){
                                     Swal.fire(
-                                    'บันทึกสำเร็จ',
-                                    'บันทึกสำเร็จ',
+                                    'ลบสำเร็จ',
+                                    'ลบสำเร็จ',
                                     'success'
                                 )
                                   
                                 }else if(msg == "false"){
                                     Swal.fire(
-                                    'บันทึกไม่สำเร็จ',
-                                    'บันทึกไม่สำเร็จ',
+                                    'ลบไม่สำเร็จ',
+                                    'ลบไม่สำเร็จ',
                                     'error'
                                 )
                                 }
