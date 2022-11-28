@@ -54,8 +54,8 @@ public class Material extends HttpServlet {
             returnHTML += "<tr>";
             returnHTML += "<th>เลขที่</th>";
             returnHTML += "<th>รหัสสินค้า</th>";
-            returnHTML += "<th>TeamOrder</th>";
             returnHTML += "<th>คำอธิบายเพิ่มเติม</th>";
+            returnHTML += "<th>TeamOrder</th>"; 
             returnHTML += "<th>เพศ</th>";
             returnHTML += "<th>ชนิดสินค้า</th>";
             returnHTML += "<th>ประเภท</th>";
@@ -64,6 +64,7 @@ public class Material extends HttpServlet {
             returnHTML += "<th>สี</th>";
             returnHTML += "<th>กลุ่ม</th>";
             returnHTML += "<th>บริษัท</th>";
+            returnHTML += "<th>รหัสบริษัท</th>";
             returnHTML += "<th>เเก้ไข</th>";
             returnHTML += "<th>ลบ</th>";
             returnHTML += "</tr>";
@@ -87,6 +88,7 @@ public class Material extends HttpServlet {
                     returnHTML += "<td>" + listmat.get(i).getGroup_name() + "</td>";
                 }
                 returnHTML += "<td>" + listmat.get(i).getCom_name() + "</td>";
+                returnHTML += "<td>" + listmat.get(i).getCom_code() + "</td>";
                 returnHTML += "<td><button type='button' class='btn btn-warning btn-sm edit_btn'>เเก้ไข</button></td>";
                 returnHTML += "<td><button type='button' class='btn btn-danger btn-sm del_btn'>ลบ</button></td>";
                 returnHTML += "</tr>";
@@ -101,7 +103,27 @@ public class Material extends HttpServlet {
 
             if (ms.deleteMaterial(hmat_id)) {
                 out.print("true");
-            }else{
+            } else {
+                out.print("false");
+            }
+
+        } else if (type.equals("hmat_update")) {
+            MaterialService ms = new MaterialService();
+            String hmat_id = request.getParameter("id");
+            String hmat_code = request.getParameter("code");
+            String hmat_teamorder = request.getParameter("team");
+            String hmat_gender = request.getParameter("gender");
+            String hmat_category = request.getParameter("category");
+            String hmat_type = request.getParameter("type1");
+            String hmat_pattern = request.getParameter("pattern");
+            String hmat_rno = request.getParameter("rno");
+            String hmat_color = request.getParameter("color");
+            String hmat_desc = request.getParameter("desc");
+            String com_id = request.getParameter("com");
+
+            if (ms.updateMaterial(hmat_id, hmat_code, hmat_teamorder, hmat_gender, hmat_category, hmat_type, hmat_pattern, hmat_rno, hmat_color, hmat_desc,com_id)) {
+                out.print("true");
+            } else {
                 out.print("false");
             }
 

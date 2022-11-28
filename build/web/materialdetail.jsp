@@ -34,54 +34,66 @@
                                 <h1 class="modal-title fs-5" id="exampleModalLabel">เเก้ไขข้อมูล</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <div class="row mb-3">
-                                            <label for="addcmsno" class="text-center">รหัสสินค้า</label>
-                                            <input class="form-control form-control-sm  w-75 mx-auto text-center" id="Hmat_code" name="Hmat_code" readonly ></input>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label for="addcmsno" class="text-center">ธุรกิจ TeamOrder</label>
-                                            <input class="form-control form-control-sm  w-75 mx-auto text-center" id="Hmat_team" name="Hmat_team"  required></input>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label for="addpname" class="text-center">คำอธิบายเพิ่มเติม</label>
-                                            <input class="form-control form-control-sm  w-75 mx-auto text-center" id="Hmat_desc" name="Hmat_desc" required></input>
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="row mb-3">
-                                            <label for="addfname" class="text-center">เพศ</label>
-                                            <input class="form-control form-control-sm  w-75 mx-auto text-center" id="Hmat_gender" name="Hmat_gender" required></input>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label for="adddepart" class="text-center">ชนิดสินค้า</label>
-                                            <input class="form-control form-control-sm  w-75 mx-auto text-center" id="Hmat_category" name="Hmat_category" required></input>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label for="addcompany" class="text-center">ประเภท</label>
-                                            <input class="form-control form-control-sm  w-75 mx-auto text-center" id="Hmat_type" name="Hmat_type" required></input>
+                            <div class="modal-body ">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="row mb-3">
+                                                <label for="addcmsno" class="text-center">เลขที่</label>
+                                                <input class="form-control form-control-sm  mx-auto text-center" id="Hmat_id" name="Hmat_id"  readonly ></input>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="addcmsno" class="text-center">บริษัท</label>
+                                                <select class="form-select form-select-sm text-center" id="Com_id" name="Com_id">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="addpname" class="text-center">คำอธิบายเพิ่มเติม</label>
+                                                <input class="form-control form-control-sm   mx-auto text-center" id="Hmat_desc" name="Hmat_desc"  required></input>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-4">
-                                        <div class="row mb-3">
-                                            <label for="addcompany" class="text-center">ลายผ้า</label>
-                                            <input class="form-control form-control-sm  w-75 mx-auto text-center" id="Hmat_pattern" name="Hmat_pattern" required></input>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="row mb-3">
+                                                <label for="addcmsno" class="text-center">รหัสสินค้า</label>
+                                                <input class="form-control form-control-sm  mx-auto text-center w-75" id="Hmat_code" name="Hmat_code"  readonly ></input>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="addcmsno" class="text-center">ธุรกิจ TeamOrder</label>
+                                                <input class="form-control form-control-sm   mx-auto text-center w-75" id="Hmat_team" name="Hmat_team" onkeyup="KeyValue()"  required></input>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="addfname" class="text-center">เพศ</label>
+                                                <input class="form-control form-control-sm   mx-auto text-center w-75" id="Hmat_gender" name="Hmat_gender" onkeyup="KeyValue()" required></input>
+                                            </div>
+                                            
+                                            <div class="row mb-3">
+                                                <label for="adddepart" class="text-center">ชนิดสินค้า</label>
+                                                <input class="form-control form-control-sm  mx-auto text-center w-75" id="Hmat_category" name="Hmat_category" onkeyup="KeyValue()" required></input>
+                                            </div>
                                         </div>
-                                        <div class="row mb-3">
-                                            <label for="addcompany" class="text-center">Running No.</label>
-                                            <input class="form-control form-control-sm  w-75 mx-auto text-center" id="Hmat_rno" name="Hmat_rno" required></input>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label for="addcompany" class="text-center">สี</label>
-                                            <input class="form-control form-control-sm  w-75 mx-auto text-center" id="Hmat_color" name="Hmat_color" required></input>
+                                        <div class="col-6">
+                                            <div class="row mb-3">
+                                                <label for="addcompany" class="text-center">ประเภท</label>
+                                                <input class="form-control form-control-sm   mx-auto text-center w-75" id="Hmat_type" name="Hmat_type" onkeyup="KeyValue()" required></input>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="addcompany" class="text-center">ลายผ้า</label>
+                                                <input class="form-control form-control-sm   mx-auto text-center w-75" id="Hmat_pattern" name="Hmat_pattern" onkeyup="KeyValue()" required></input>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="addcompany" class="text-center">Running No.</label>
+                                                <input class="form-control form-control-sm   mx-auto text-center w-75" id="Hmat_rno" name="Hmat_rno" onkeyup="KeyValue()" required></input>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label for="addcompany" class="text-center">สี</label>
+                                                <input class="form-control form-control-sm  mx-auto text-center w-75" id="Hmat_color" name="Hmat_color" onkeyup="KeyValue()" required></input>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -298,12 +310,90 @@
     </footer>
     
     <script languge="javascript">
+        
+        function KeyValue(){
+            var team = $("#Hmat_team").val();
+            var gender = $("#Hmat_gender").val();
+            var category = $("#Hmat_category").val();
+            var type = $("#Hmat_type").val();
+            var pattern = $("#Hmat_pattern").val();
+            var rno = $("#Hmat_rno").val();
+            var color = $("#Hmat_color").val();
+            
+            var code = team+gender+category+type+pattern+rno+color;
+            $("#Hmat_code").val(code.toUpperCase());
+        }
+        
         var statusInputform = false;
         
         $(document).ready(function(){
             $("#input-group").hide();
             getCompanyName();
             loadMaterialDetail();
+            
+            $("#EditSave").click(function(){
+                Swal.fire({
+                    title: 'คุณต้องการบันทึกหรือไม่',
+                    text: "คุณต้องการบันทึกหรือไม่",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then(function(result){
+                    if (result.isConfirmed) {
+                        var id = $("#Hmat_id").val();
+                        var team = $("#Hmat_team").val();
+                        var gender = $("#Hmat_gender").val();
+                        var category = $("#Hmat_category").val();
+                        var type = $("#Hmat_type").val();
+                        var pattern = $("#Hmat_pattern").val();
+                        var rno = $("#Hmat_rno").val();
+                        var color = $("#Hmat_color").val();
+                        var code = $("#Hmat_code").val();
+                        var desc = $("#Hmat_desc").val();
+                        var com = $("#Com_id").val();
+                
+                        $.ajax({
+                            url:"Material",
+                            type:"post",
+                            data:{
+                                type:"hmat_update",
+                                id:id,
+                                team:team,
+                                gender:gender,
+                                category:category,
+                                pattern:pattern,
+                                type1:type,
+                                rno:rno,
+                                color:color,
+                                code:code,
+                                desc:desc,
+                                com:com
+                            },
+                            success:function(msg){
+                                if(msg.toString() == 'true'){
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'บันทึกสำเร็จ',
+                                        text: 'บันทึกสำเร็จ'
+                                    }) 
+                                }else if(msg.toString() == "false"){
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'บันทึกไม่สำเร็จ',
+                                        text: 'บันทึกไม่สำเร็จ'
+                                    })  
+                                }
+                                loadMaterialDetail()
+                            }
+                        });
+                        
+                    }
+                });
+                
+            });
+        
         });
         
         $("#show-input-form").click(function() {
@@ -316,22 +406,7 @@
             }
         });
         
-        function getCompanyName(){
-            $.get("CompanyList",{
-                type : "getCompanyName"
-            },
-            function(result){
-                var options = '';
-                for(var i = 0 ; i < result.length ;i++){
-                    options += '<option value="'+result[i].code+'">'+result[i].name+'</option>';
-                }
-                document.getElementById('companylist').innerHTML = options;
-            }).done(function (){
-                //do nothing...
-            }).fail(function (){
-                console.log("getCompanyName Failure!!!");
-            })
-        }
+        
         
         function clearInputAll(){
             document.getElementById("material_name").value = "";
@@ -372,7 +447,22 @@
                 }
             }
         }
-        
+        function getCompanyName(){
+            $.get("CompanyList",{
+                type : "getCompanyName"
+            },
+            function(result){
+                var options = '';
+                for(var i = 0 ; i < result.length ;i++){
+                    options += '<option value="'+result[i].code+'">'+result[i].name+'</option>';
+                }
+                document.getElementById('companylist').innerHTML = options;
+            }).done(function (){
+                //do nothing...
+            }).fail(function (){
+                console.log("getCompanyName Failure!!!");
+            })
+        }
         function loadMaterialDetail(){
             $.get("Material",{
                 type : "loaddata"
@@ -401,7 +491,7 @@
                     api.column(groupColumn, {page:'current'}).data().each( function (group, i) {
                         if( last !== group ){
                             $(rows).eq(i).before(
-                            '<tr class="group" style="background-color:#ddd"><td colspan="13">'+group+'</td></tr>'
+                            '<tr class="group" style="background-color:#ddd"><td colspan="14">'+group+'</td></tr>'
                         );
                             last = group;
                         }
@@ -420,16 +510,37 @@
             $('#material_detail tbody').on( 'click', '.edit_btn', function () {  
                 $('#EditModal').modal('show');
                 var row = table.row($(this).parents('tr')).data();
+                console.log(row);
+                $.get("CompanyList",{
+                    type : "getCompanyName"
+                },
+                function(result){
+                    var options = '';
+                    options += '<option value="'+row[12].replace("C", "")+'">'+row[11]+'</option>';
+                    for(var i = 0 ; i < result.length ;i++){
+                        options += '<option value="'+result[i].code.replace("C", "")+'">'+result[i].name+'</option>';
+                    }
+                    document.getElementById('Com_id').innerHTML = options;
+                }).done(function (){
+                    //do nothing...
+                }).fail(function (){
+                    console.log("getCompanyName Failure!!!");
+                })
+                
+                $("#Hmat_id").val(row[0]);
                 $("#Hmat_code").val(row[1]);
-                $("#Hmat_team").val(row[2]);
-                $("#Hmat_desc").val(row[3]);
+                $("#Hmat_desc").val(row[2]);
+                $("#Hmat_team").val(row[3]);
                 $("#Hmat_gender").val(row[4]);
                 $("#Hmat_category").val(row[5]);
                 $("#Hmat_type").val(row[6]);
                 $("#Hmat_pattern").val(row[7]);
                 $("#Hmat_rno").val(row[8]);
                 $("#Hmat_color").val(row[9]);
-               
+                
+                
+                
+
             } );
             
             $('#material_detail tbody').on( 'click', '.del_btn', function () {  
@@ -446,7 +557,6 @@
                     if (result.isConfirmed) {
                         console.log(row[0]);                
         
-                        
                         $.ajax({
                             type:"post",
                             url:"Material",

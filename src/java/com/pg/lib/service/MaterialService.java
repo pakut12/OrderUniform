@@ -17,7 +17,66 @@ public class MaterialService {
     private static ResultSet rs;
     private static PreparedStatement ps;
 
-     public boolean deleteMaterial(String hmat_id) {
+    public boolean updateMaterial(
+            String hmat_id,
+            String hmat_code,
+            String hmat_teamorder,
+            String hmat_gender,
+            String hmat_category,
+            String hmat_type,
+            String hmat_pattern,
+            String hmat_rno,
+            String hmat_color,
+            String hmat_desc,
+            String com_id
+            ) {
+        boolean result = false;
+        String SQLText = "update ou_header_material  set " +
+                "HMAT_CODE=?," +
+                "HMAT_TEAMORDER=?," +
+                "HMAT_GENDER=?," +
+                "HMAT_CATEGORY=?," +
+                "HMAT_TYPE=?," +
+                "HMAT_PATTERN=?," +
+                "HMAT_RNO=?," +
+                "HMAT_COLOR=?," +
+                "HMAT_DESC=?," +
+                "COMPANY_ID=?" +
+                "where hmat_id = ?";
+        try {
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement(SQLText);
+            ps.setString(1, hmat_code);
+            ps.setString(2, hmat_teamorder);
+            ps.setString(3, hmat_gender);
+            ps.setString(4, hmat_category);
+            ps.setString(5, hmat_type);
+            ps.setString(6, hmat_pattern);
+            ps.setString(7, hmat_rno);
+            ps.setString(8, hmat_color);
+            ps.setString(9, hmat_desc);
+            ps.setString(10, com_id);
+            ps.setString(11, hmat_id);
+
+            int i = ps.executeUpdate();
+            if (i > 0) {
+                result = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+
+    }
+
+    public boolean deleteMaterial(String hmat_id) {
         boolean result = false;
         String SQLText = "delete from ou_header_material where hmat_id = ?";
         try {
@@ -41,7 +100,7 @@ public class MaterialService {
         return result;
 
     }
-     
+
     public boolean createNewMaterial(String code, String spec, String desc, String company) {
         boolean result = false;
         String SQLText = generateSQLText(code, spec, desc, company);
@@ -79,19 +138,19 @@ public class MaterialService {
             rs = ps.executeQuery();
             while (rs.next()) {
                 OUMaterialDetail obj = new OUMaterialDetail();
-                    obj.setHmat_id(rs.getString("hmat_id"));
-                    obj.setHmat_code(rs.getString("hmat_code"));
-                    obj.setHmat_team(rs.getString("hmat_teamorder"));
-                    obj.setHmat_desc(rs.getString("hmat_desc"));
-                    obj.setHmat_gender(rs.getString("hmat_gender"));
-                    obj.setHmat_category(rs.getString("hmat_category"));
-                    obj.setHmat_type(rs.getString("hmat_type"));
-                    obj.setHmat_rno(rs.getString("hmat_rno"));
-                    obj.setHmat_pattern(rs.getString("hmat_pattern"));
-                    obj.setHmat_color(rs.getString("hmat_color"));
-                    obj.setCom_code(rs.getString("comp_code"));
-                    obj.setCom_name(rs.getString("comp_name"));
-                    obj.setGroup_name(rs.getString("group_name"));
+                obj.setHmat_id(rs.getString("hmat_id"));
+                obj.setHmat_code(rs.getString("hmat_code"));
+                obj.setHmat_team(rs.getString("hmat_teamorder"));
+                obj.setHmat_desc(rs.getString("hmat_desc"));
+                obj.setHmat_gender(rs.getString("hmat_gender"));
+                obj.setHmat_category(rs.getString("hmat_category"));
+                obj.setHmat_type(rs.getString("hmat_type"));
+                obj.setHmat_rno(rs.getString("hmat_rno"));
+                obj.setHmat_pattern(rs.getString("hmat_pattern"));
+                obj.setHmat_color(rs.getString("hmat_color"));
+                obj.setCom_code(rs.getString("comp_code"));
+                obj.setCom_name(rs.getString("comp_name"));
+                obj.setGroup_name(rs.getString("group_name"));
                 arrlist.add(obj);
             }
         } catch (Exception e) {
@@ -188,7 +247,7 @@ public class MaterialService {
                 "'new', " +
                 "to_timestamp('" + formatter.format(date) + "', 'DD.MM.YYYY HH24:MI:SSFF3'), " +
                 "'', '" +
-                desc+"') ";
+                desc + "') ";
         return text;
     }
 }
