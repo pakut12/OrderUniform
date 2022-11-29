@@ -45,11 +45,13 @@
             CustomerService cms = new CustomerService();
             ArrayList<OUTransactionCustomerDetail> list = cms.GroupCustomerCode(doc_id);
             int box = (int) Math.ceil((double) list.size() / Integer.parseInt(num));
-
+            String Name = "";
+            String DepartmentName = "";
             String HTMLtag = "";
             int a = 0;
             int n = 0;
             for (int i = 0; i < box; i++) {
+
                 HTMLtag += "<table id=\"listdata\" class=\"table table-bordered border-dark text-center w-100 page-break \" >";
                 HTMLtag += "<thead>";
                 HTMLtag += "<tr>";
@@ -64,16 +66,15 @@
                 HTMLtag += "<tbody>";
 
                 for (int x = 0; x < Integer.parseInt(num); x++) {
+
                     if (a != list.size()) {
-                        String Name = list.get(a).getPrename() + " " + list.get(a).getFname();
-                        String DepartmentName = list.get(a).getDepartmentname();
-                        
+                        Name = list.get(a).getPrename() + " " + list.get(a).getFname();
+                        DepartmentName = list.get(a).getDepartmentname();
                         HTMLtag += "<tr>";
                         HTMLtag += "<td>" + (x + 1) + "</td>";
                         HTMLtag += "<td>" + Name + "</td>";
                         HTMLtag += "<td>" + DepartmentName + "</td>";
                         HTMLtag += "</tr>";
-                        
                         a++;
                     }
                 }
@@ -82,7 +83,6 @@
             }
 
             out.print(HTMLtag);
-
         %>
         
         

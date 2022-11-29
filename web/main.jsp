@@ -76,6 +76,9 @@
                                     <span style="color:green"> [ <a href="listtransactioncustomer.jsp">รูปแบบพนักงาน</a> || <a href="listtransactiondepartment.jsp">รูปแบบแผนก</a>]</span>
                                     <span>โดยเลือกตามหัวข้อ</span>
                                 </div>
+                                  <div class="row">
+                                      <a href="report/Test.jsp">asdasd</a>
+                                </div>
                             </div>
                         </div>
                     </div>

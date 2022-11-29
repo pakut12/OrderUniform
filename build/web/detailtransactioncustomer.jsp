@@ -278,11 +278,26 @@
         });
         
         function updateBarcode(docid){
-            // location.reload();
+           
             $.post("Barcode",{
                 documentID : docid
             },
             function(result){
+                
+                if(result == "true"){
+                    Swal.fire(
+                    'ดึงสำเร็จ',
+                    'ดึงสำเร็จ',
+                    'success'
+                )
+                }else if(result == "false"){
+                    Swal.fire(
+                    'ดึงไม่สำเร็จ',
+                    'ดึงไม่สำเร็จ',
+                    'error'
+                )
+                    location.reload();
+                }
                 
             }).done(function(){
                 

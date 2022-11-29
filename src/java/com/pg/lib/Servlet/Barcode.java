@@ -6,6 +6,7 @@ package com.pg.lib.Servlet;
 
 import com.pg.lib.model.OUTransactionCustomerDetail;
 import com.pg.lib.service.BarcodeService;
+import com.pg.lib.service.CustomerService;
 import com.pg.lib.service.TransactionCustomerService;
 import java.io.*;
 import java.net.*;
@@ -31,17 +32,15 @@ public class Barcode extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String docid = request.getParameter("documentID") == null ? "" : request.getParameter("documentID");
-
+        CustomerService cms = new CustomerService();
         TransactionCustomerService s_cus = new TransactionCustomerService();
         BarcodeService s_barcode = new BarcodeService();
 
         List<OUTransactionCustomerDetail> detailDoc = s_cus.getDetailTransactionByDocumentId(docid);
         HashMap<String, String> item = s_barcode.getBarcodeFindByMaterialCode(detailDoc);
-     
+
         try {
-            for(OUTransactionCustomerDetail s : detailDoc ){
-                out.print(s.getCustomerID());
-            }
+            out.print(cms.UpdateBarcode(item, detailDoc));
 
         } finally {
             out.close();

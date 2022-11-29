@@ -38,16 +38,18 @@
     </style>
     <body>
         <%
-            String doc_id = request.getParameter("doc_id");
-            String cus_department = request.getParameter("cus_department");
+            try {
 
-            CustomerService getcode = new CustomerService();
-            ArrayList<OUTransactionCustomerDetail> customercode = getcode.GroupCustomerCode(doc_id);
+                String doc_id = request.getParameter("doc_id");
+                String cus_department = request.getParameter("cus_department");
 
-            for (OUTransactionCustomerDetail x : customercode) {
-                TransactionCustomerService s_trancustomer = new TransactionCustomerService();
-                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcodeDepartForPrint(doc_id, cus_department, x.getCustomerCode());
-                if (listdetail.size() > 0) {
+                CustomerService getcode = new CustomerService();
+                ArrayList<OUTransactionCustomerDetail> customercode = getcode.GroupCustomerCode(doc_id);
+
+                for (OUTransactionCustomerDetail x : customercode) {
+                    TransactionCustomerService s_trancustomer = new TransactionCustomerService();
+                    List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcodeDepartForPrint(doc_id, cus_department, x.getCustomerCode());
+                    if (listdetail.size() > 0) {
         %>
         
         <table class="table table-bordered border-dark text-center w-100 page-break">
@@ -108,9 +110,11 @@
         
         
         <%
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
         %>
         <script>
             window.print();

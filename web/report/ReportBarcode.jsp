@@ -46,7 +46,13 @@
         
         
     </head>
-    <style>
+    <style> 
+        body {
+            background: #eaeaed;
+            -webkit-print-color-adjust: exact;
+        }
+        
+        
         @media screen {
             div.divFooter {
                 display: none;
@@ -133,7 +139,7 @@
                     <td class="p-0 pt-1"><%= i + 1%></td>
                     <td class="p-0 pt-1">
                         <div class="row">
-                            <div class="col-6 text-start ">
+                            <div class="col-6 text-start  ">
                                 <b>รหัสพนักงาน  : </b><%=detail.get(i).getCustomerCode()%> 
                                 <br>
                                 <b>ชื่อ : </b> <%=detail.get(i).getPrename()%> <%=detail.get(i).getFname()%>
@@ -157,14 +163,14 @@
                     
                     <% if (detail.get(i).getBarcode() == null || detail.get(i).getBarcode() == "") {%>
                     <td style="color:red" class="p-0 pt-1"> 
-                        <img id="barcode" 
-                             width="100px"
-                             height="20px"
-                             jsbarcode-value="<%=detail.get(i).getMatfullname()%>"
-                             </img>
+                        ยังไม่มี Barcode
                     </td>
                     <% } else {%>
-                    <td><%=detail.get(i).getBarcode()%></td>
+                    <td> <img id="barcode" 
+                                  width="100px"
+                                  height="20px"
+                                  jsbarcode-value="<%= detail.get(i).getBarcode()%>"
+                              </img></td>
                     <% }%>
                     
                     <td><%=detail.get(i).getQuantity()%> ตัว </td>

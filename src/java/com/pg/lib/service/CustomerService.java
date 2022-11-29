@@ -18,6 +18,43 @@ public class CustomerService {
     private static PreparedStatement ps;
     private static ResultSet rs;
 
+    public static boolean UpdateBarcode(HashMap<String, String> item, List<OUTransactionCustomerDetail> detailDoc) {
+        boolean updateResult = false;
+
+        String sql = "update ou_transaction_customer set tran_cus_barcode = ?,tran_cus_status = ? where tran_cus_id=?";
+        try {
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement(sql);
+            for (int x = 0; x < detailDoc.size(); x++) {
+                int id = detailDoc.get(x).getTransactionID();
+                String barcode = item.get(detailDoc.get(x).getMatfullname().replace("000", ""));
+                ps.setString(1, barcode);
+                ps.setString(2, "uploaded");
+                ps.setString(3, String.valueOf(id));
+                ps.addBatch();
+                System.out.println(id);
+                System.out.println(barcode);
+            }
+
+            ps.executeBatch();
+            updateResult = true;
+        } catch (Exception e) {
+            updateResult = false;
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+        return updateResult;
+    }
+
     public ArrayList<OUTransactionCustomerDetail> GroupCustomerDepart(String doc_id) {
         TransactionCustomerService s_trancustomer = new TransactionCustomerService();
         List<OUTransactionCustomerDetail> listdepart = s_trancustomer.getDetailTransactionByDocumentId(doc_id);
@@ -56,8 +93,8 @@ public class CustomerService {
 
     public boolean addCustomerOneRow(OUUploadCustomer cms) {
         boolean insertResult = false;
-        int latestSeq = (getLatestSeqWithDepart(cms.getCompany())+1);
-        int latestPrimaryKey = (getLatestPrimarykey()+1);
+        int latestSeq = (getLatestSeqWithDepart(cms.getCompany()) + 1);
+        int latestPrimaryKey = (getLatestPrimarykey() + 1);
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);
 
