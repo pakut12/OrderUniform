@@ -12,8 +12,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <!--<link rel="icon" href="image/PG.gif" type="image/gif" sizes="16x16">-->
-     <script type="text/javascript" src="js/jquery-1.7.1.js"></script>
-  
+    <script type="text/javascript" src="js/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="js/DataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="js/DataTables/pdfmake-0.1.36/pdfmake.min.js"></script>
     
     <script type="text/javascript" src="js/bootstrap-5.0.1-dist/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/DataTables/datatables.min.js"></script>

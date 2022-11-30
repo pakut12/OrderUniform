@@ -27,7 +27,7 @@ public class CustomerService {
             ps = conn.prepareStatement(sql);
             for (int x = 0; x < detailDoc.size(); x++) {
                 int id = detailDoc.get(x).getTransactionID();
-                String barcode = item.get(detailDoc.get(x).getMatfullname().replace("000", ""));
+                String barcode = item.get(detailDoc.get(x).getMatfullname());
                 ps.setString(1, barcode);
                 ps.setString(2, "uploaded");
                 ps.setString(3, String.valueOf(id));
@@ -255,11 +255,29 @@ public class CustomerService {
             temp += " INTO ou_upload_customer VALUES ";
             latestPrimaryKey = latestPrimaryKey + 1;
             seq = i + 1;
-            String[] Fname = arr.get(i).getFullname().split(" ");
+            String[] Fname = arr.get(i).getFullname().replace("  ", " ").split(" ");
+            String name1 = "";
+            String name2 = "";
+            String name3 = "";
+            if (Fname.length == 2) {
+                name1 = "-";
+                name2 = Fname[0];
+                name3 = Fname[1];
+            } else if (Fname.length == 1) {
+                name1 = "-";
+                name2 = Fname[0];
+                name3 = "";
+            } else {
+                name1 = Fname[0];
+                name2 = Fname[1];
+                name3 = Fname[2];
+            }
+            //System.out.println(name1);
+            //System.out.println(name2);
+            //System.out.println(name3);
 
-
-
-            temp += "('" + latestPrimaryKey + "','" + arr.get(i).getCustomerID() + "','" + seq + "','" + Fname[0]/*arr.get(i).getPrename()*/ + "','" + Fname[1] + " " + Fname[2] + "','" + arr.get(i).getDepartment() + "'," + arr.get(i).getCompany() + "," + "'new'," + "TO_DATE('" + date + "','yyyy-mm-dd')," + "'') ";
+            System.out.println(Fname.length);
+            temp += "('" + latestPrimaryKey + "','" + arr.get(i).getCustomerID() + "','" + seq + "','" + name1/*arr.get(i).getPrename()*/ + "','" + name2 + " " + name3 + "','" + arr.get(i).getDepartment() + "'," + arr.get(i).getCompany() + "," + "'new'," + "TO_DATE('" + date + "','yyyy-mm-dd')," + "'') ";
         }
         temp += "select * from dual";
 

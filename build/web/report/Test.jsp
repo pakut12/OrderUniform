@@ -115,7 +115,7 @@
                             body: [
                                 [ 'ลำดับ', 'ชื่อ-นามสกุล', 'ชื่อสินค้า', 'รหัสสินค้า', 'รหัสสินค้า' , 'สี', 'ไซส์', 'รหัสสินค้า 18 หลัก' , 'Barcode', 'จำนวน' ],
                                 <%
-            String doc_id = "100";//request.getParameter("doc_id");
+            String doc_id = "103";//request.getParameter("doc_id");
 
             String cus_no = request.getParameter("cus_no");
 
@@ -126,7 +126,7 @@
                 sum += Integer.valueOf(detail.get(i).getQuantity().toString());
                                 %>
                                                         [ 
-                                                            '<%=detail.get(i).getCustomerCode()%>\nasdasd',
+                                                            '<%=detail.get(i).getCustomerCode()%>',
                                                             '<%=detail.get(i).getPrename()%> <%=detail.get(i).getFname()%>',
                                                             '<%=detail.get(i).getDepartmentname()%>',
                                                             '<%=detail.get(i).getDesc()%>',

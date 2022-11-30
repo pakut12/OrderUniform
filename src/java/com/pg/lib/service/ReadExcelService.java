@@ -250,7 +250,7 @@ public class ReadExcelService {
                                  */
                                 Cell contentCell = contentRow.getCell(item);
                                 materialID = (int) contentCell.getNumericCellValue();
-
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
                                 //เอาค่า size จาก row ตามรายชื่อพนักงาน 
                                 size = cell.getStringCellValue();
 
@@ -290,8 +290,8 @@ public class ReadExcelService {
 
     public List<OUUDepartmentOrder> readExcelFileTransactionDepartment(HashMap<String, String> pathFile) {
 
-        int itemStartAt = 5, countDetailItem = 0, materialID = 0;
-        String size = "",quantity  = "", materialCode = "";
+        int itemStartAt = 5,  countDetailItem = 0,  materialID = 0;
+        String size = "",quantity  = "",materialCode  = "";
         List<OUUDepartmentOrder> arrResult = new ArrayList<OUUDepartmentOrder>();
 
         try {

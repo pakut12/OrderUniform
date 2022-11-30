@@ -164,16 +164,16 @@ public class TransactionCustomerService {
 
     public List<OUTransactionCustomerDetail> GroupDepart(String doc_id) {
         List<OUTransactionCustomerDetail> listdetailtransaction = new ArrayList<OUTransactionCustomerDetail>();
-        String sqlquery = "SELECT "+	 
-		"c.cus_department as departmentname " +
-                "FROM ou_header_transaction_customer a "+
-              	"INNER JOIN ou_transaction_customer b ON a.h_id = b.header_id " +
+        String sqlquery = "SELECT " +
+                "c.cus_department as departmentname " +
+                "FROM ou_header_transaction_customer a " +
+                "INNER JOIN ou_transaction_customer b ON a.h_id = b.header_id " +
                 "INNER JOIN ou_upload_customer c ON b.cus_id = c.cus_id " +
                 "INNER JOIN ou_header_material d ON b.hmat_id = d.hmat_id " +
                 "INNER JOIN ou_company e ON b.compa_id = e.comp_id " +
                 "WHERE " +
                 "a.h_id = ? " +
-		" GROUP BY c.cus_department";
+                " GROUP BY c.cus_department";
         try {
 
             conn = ConnectDB.getConnection();
@@ -633,6 +633,7 @@ public class TransactionCustomerService {
     }
 
     private String generateSQLText(List<OUOrderList> orderlist, int headerpk) {
+
         String text = "";
         long millis = System.currentTimeMillis();
         java.sql.Timestamp Timestamp = new java.sql.Timestamp(millis);
@@ -641,13 +642,27 @@ public class TransactionCustomerService {
         if (headerpk != 0) {
             text += "INSERT ALL ";
             for (int i = 0; i <= orderlist.size() - 1; i++) {
-                text += " INTO ou_transaction_customer values ";
-                primarykey = primarykey + 1;
-                text += "( " + primarykey + ", " + orderlist.get(i).getCustomerId() + ", " + orderlist.get(i).getCompanyId() + ", " + orderlist.get(i).getMaterialId() + ", '" + orderlist.get(i).getSize() + "', '" + orderlist.get(i).getQuantity() + "', '" + orderlist.get(i).getMaterialfullname() + "', " + "'', " + "'new', " + headerpk + ", " + "to_timestamp('" + Timestamp + "', 'YYYY-MM-DD HH24:MI:SS.FF') )";
+                String z = orderlist.get(i).getMaterialfullname();
+                
+                if (orderlist.get(i).getSize().contains(",")) {
+                    String[] size = orderlist.get(i).getSize().split(",");
+                    String[] qre = orderlist.get(i).getQuantity().split(",");
+                    for (int a = 0; a < size.length; a++) {
+                        text += " INTO ou_transaction_customer values ";
+                        primarykey = primarykey + 1;
+                        text += "( " + primarykey + ", " + orderlist.get(i).getCustomerId() + ", " + orderlist.get(i).getCompanyId() + ", " + orderlist.get(i).getMaterialId() + ", '" + size[a] + "', '" + qre[a] + "', '" + orderlist.get(i).getMaterialfullname() + "', " + "'', " + "'new', " + headerpk + ", " + "to_timestamp('" + Timestamp + "', 'YYYY-MM-DD HH24:MI:SS.FF') )";
+                        
+                    }
+                      
+                } else {
+                    text += " INTO ou_transaction_customer values ";
+                    primarykey = primarykey + 1;
+                    text += "( " + primarykey + ", " + orderlist.get(i).getCustomerId() + ", " + orderlist.get(i).getCompanyId() + ", " + orderlist.get(i).getMaterialId() + ", '" + orderlist.get(i).getSize() + "', '" + orderlist.get(i).getQuantity() + "', '" + orderlist.get(i).getMaterialfullname() + "', " + "'', " + "'new', " + headerpk + ", " + "to_timestamp('" + Timestamp + "', 'YYYY-MM-DD HH24:MI:SS.FF') )";
+                }
+
             }
             text += " select * from dual";
         }
-
         return text;
     }
 
@@ -678,10 +693,12 @@ public class TransactionCustomerService {
 
     public List<OUOrderList> processData(List<OUUCustomerOrder> transactiondetail) {
         List<OUOrderList> result = new ArrayList<OUOrderList>();
-        String matCode, matSize, matQty, matFullname;
+        String matCode,matSize ,matQty ,matFullname ;
 
 
-        int matID, comID, cusID;
+
+
+        int matID,    comID,    cusID;
 
         for (int i = 0; i <= transactiondetail.size() - 1; i++) {
             for (int j = 0; j <= transactiondetail.get(i).getItem().size() - 1; j++) {
@@ -702,6 +719,9 @@ public class TransactionCustomerService {
                     //concat รหัสสินค้ารวมกับ Size และ Spacial Size
                     matFullname = generateMaterialCodeFullName(matCode, matSize);
 
+                    
+                    
+                    
                     //เซ็ต Obj
                     obj.setCustomerId(cusID);
                     obj.setCompanyId(comID);
