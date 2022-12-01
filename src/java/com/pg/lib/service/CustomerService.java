@@ -27,7 +27,7 @@ public class CustomerService {
             ps = conn.prepareStatement(sql);
             for (int x = 0; x < detailDoc.size(); x++) {
                 int id = detailDoc.get(x).getTransactionID();
-                String barcode = item.get(detailDoc.get(x).getMatfullname());
+                String barcode = item.get(detailDoc.get(x).getMatfullname().replace("000", ""));
                 ps.setString(1, barcode);
                 ps.setString(2, "uploaded");
                 ps.setString(3, String.valueOf(id));

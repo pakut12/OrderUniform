@@ -96,11 +96,9 @@ public class Customer extends HttpServlet {
         } else if (type.equalsIgnoreCase("deldetailcustomer")) {
             PrintWriter out = response.getWriter();
             String cms_id = request.getParameter("cms_id");
-
-
+            
             OUCustomerDetail data = new OUCustomerDetail();
             data.setCusId(cms_id);
-
 
             CustomerService cs = new CustomerService();
             out.print(cs.DeleteDataOneRow(data));

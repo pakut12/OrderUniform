@@ -296,8 +296,9 @@
                     'ดึงไม่สำเร็จ',
                     'error'
                 )
-                    location.reload();
+                    
                 }
+                location.reload();
                 
             }).done(function(){
                 

@@ -55,12 +55,12 @@
                 HTMLtag += "<table id=\"listdata\" class=\"table table-bordered border-dark text-center w-100 page-break \" >";
                 HTMLtag += "<thead>";
                 HTMLtag += "<tr>";
-                HTMLtag += "<th colspan=\"3\">" + list.get(0).getDocName() + " " + (i + 1) + "/" + (box) + "</th>";
+                HTMLtag += "<th colspan='3' class='p-0'>" + list.get(0).getDocName() + " " + (i + 1) + "/" + (box) + "</th>";
                 HTMLtag += "</tr>";
                 HTMLtag += "<tr>";
-                HTMLtag += "<th>ลำดับ</th>";
-                HTMLtag += "<th>ชื่อ</th>";
-                HTMLtag += "<th>เเผนก</th>";
+                HTMLtag += "<th  class='p-0'>ลำดับ</th>";
+                HTMLtag += "<th  class='p-0'>ชื่อ</th>";
+                HTMLtag += "<th  class='p-0'>เเผนก</th>";
                 HTMLtag += "</tr>";
                 HTMLtag += "</thead>";
                 HTMLtag += "<tbody>";
@@ -70,10 +70,10 @@
                     if (a != list.size()) {
                         Name = list.get(a).getPrename() + " " + list.get(a).getFname();
                         DepartmentName = list.get(a).getDepartmentname();
-                        HTMLtag += "<tr>";
-                        HTMLtag += "<td>" + (x + 1) + "</td>";
-                        HTMLtag += "<td>" + Name + "</td>";
-                        HTMLtag += "<td>" + DepartmentName + "</td>";
+                        HTMLtag += "<tr >";
+                        HTMLtag += "<td  class='p-0'>" + (x + 1) + "</td>";
+                        HTMLtag += "<td  class='p-0'>" + Name + "</td>";
+                        HTMLtag += "<td  class='p-0'>" + DepartmentName + "</td>";
                         HTMLtag += "</tr>";
                         a++;
                     }

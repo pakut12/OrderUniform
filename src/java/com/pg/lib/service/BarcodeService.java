@@ -49,9 +49,9 @@ public class BarcodeService {
         String strWhereClause = " SELECT mat_no, ean_upc FROM sap_mara_mat_all WHERE mat_no in ( ";
         for (int i = 0; i < data.size(); i++) {
             if (i == data.size() - 1) {
-                strWhereClause += "\'" + data.get(i).getMatfullname() + "\' )";
+                strWhereClause += "\'" + data.get(i).getMatfullname().replace("000", "") + "\' )";
             } else {
-                strWhereClause += "\'" + data.get(i).getMatfullname() + "\',";
+                strWhereClause += "\'" + data.get(i).getMatfullname().replace("000", "") + "\',";
             }
         }
         System.out.println(strWhereClause);

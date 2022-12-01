@@ -48,26 +48,23 @@
         <table class="table table-bordered border-dark text-center w-100 page-break">
             <thead>
                 <tr>
-                    <th colspan="7" class="text-center ">
+                    <th colspan="7" class="text-center p-0">
                         รายชื่อพนักงาน : <%=listdetail.get(0).getDocName()%>
                     </th> 
                 </tr>
                 <tr>
-                    <th colspan="7">
-                        เลขที่เอกสาร : <%=listdetail.get(0).getDocID()%> <br>
-                        รหัสพนักงาน : <%=listdetail.get(0).getCustomerCode()%> <br>
-                        ชื่อ : <%=listdetail.get(0).getPrename() + " " + listdetail.get(0).getFname()%> <br>
-                        เเผนก : <%=listdetail.get(0).getDepartmentname()%> <br>
+                    <th class="p-0" colspan="7">
+                        ชื่อ : <%=listdetail.get(0).getPrename() + " " + listdetail.get(0).getFname()%> เเผนก : <%=listdetail.get(0).getDepartmentname()%> <br>
                     </th> 
                 </tr>
                 <tr>
-                    <th>ลำดับ</th>
-                    <th>ชื่อสินค้า</th>
-                    <th>รหัสสินค้า</th> 
-                    <th>สี</th>
-                    <th>ไซส์</th>
-                    <th>รหัสสินค้า 18 หลัก</th> 
-                    <th>จำนวน</th>
+                    <th class="p-0">ลำดับ</th>
+                    <th class="p-0">ชื่อสินค้า</th>
+                    <th class="p-0">รหัสสินค้า</th> 
+                    <th class="p-0">สี</th>
+                    <th class="p-0">ไซส์</th>
+                    <th class="p-0">รหัสสินค้า 18 หลัก</th> 
+                    <th class="p-0">จำนวน</th>
                 </tr>
             </thead>
             <tbody>
@@ -90,10 +87,10 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="6" class="text-end">
+                    <th colspan="6" class="text-end p-0">
                         รวมทั้งหมด
                     </th> 
-                    <th>
+                    <th class="p-0">
                         <%=sum%>
                     </th> 
                 </tr>
