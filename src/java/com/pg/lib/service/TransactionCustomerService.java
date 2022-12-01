@@ -642,24 +642,22 @@ public class TransactionCustomerService {
         if (headerpk != 0) {
             text += "INSERT ALL ";
             for (int i = 0; i <= orderlist.size() - 1; i++) {
-                String z = orderlist.get(i).getMaterialfullname();
-                
+
                 if (orderlist.get(i).getSize().contains(",")) {
                     String[] size = orderlist.get(i).getSize().split(",");
                     String[] qre = orderlist.get(i).getQuantity().split(",");
                     for (int a = 0; a < size.length; a++) {
+                        String Materialfullname = generateMaterialCodeFullName(orderlist.get(i).getmatCode(), size[a]);
                         text += " INTO ou_transaction_customer values ";
                         primarykey = primarykey + 1;
-                        text += "( " + primarykey + ", " + orderlist.get(i).getCustomerId() + ", " + orderlist.get(i).getCompanyId() + ", " + orderlist.get(i).getMaterialId() + ", '" + size[a] + "', '" + qre[a] + "', '" + orderlist.get(i).getMaterialfullname() + "', " + "'', " + "'new', " + headerpk + ", " + "to_timestamp('" + Timestamp + "', 'YYYY-MM-DD HH24:MI:SS.FF') )";
-                        
+                        text += "( " + primarykey + ", " + orderlist.get(i).getCustomerId() + ", " + orderlist.get(i).getCompanyId() + ", " + orderlist.get(i).getMaterialId() + ", '" + size[a] + "', '" + qre[a] + "', '" + Materialfullname + "', " + "'', " + "'new', " + headerpk + ", " + "to_timestamp('" + Timestamp + "', 'YYYY-MM-DD HH24:MI:SS.FF') )";
                     }
-                      
+
                 } else {
                     text += " INTO ou_transaction_customer values ";
                     primarykey = primarykey + 1;
                     text += "( " + primarykey + ", " + orderlist.get(i).getCustomerId() + ", " + orderlist.get(i).getCompanyId() + ", " + orderlist.get(i).getMaterialId() + ", '" + orderlist.get(i).getSize() + "', '" + orderlist.get(i).getQuantity() + "', '" + orderlist.get(i).getMaterialfullname() + "', " + "'', " + "'new', " + headerpk + ", " + "to_timestamp('" + Timestamp + "', 'YYYY-MM-DD HH24:MI:SS.FF') )";
                 }
-
             }
             text += " select * from dual";
         }
@@ -698,7 +696,7 @@ public class TransactionCustomerService {
 
 
 
-        int matID,    comID,    cusID;
+        int matID,  comID,  cusID;
 
         for (int i = 0; i <= transactiondetail.size() - 1; i++) {
             for (int j = 0; j <= transactiondetail.get(i).getItem().size() - 1; j++) {
@@ -716,12 +714,10 @@ public class TransactionCustomerService {
                     matSize = transactiondetail.get(i).getItem().get(j).getSize();
                     matQty = transactiondetail.get(i).getItem().get(j).getQty();
 
+
                     //concat รหัสสินค้ารวมกับ Size และ Spacial Size
                     matFullname = generateMaterialCodeFullName(matCode, matSize);
 
-                    
-                    
-                    
                     //เซ็ต Obj
                     obj.setCustomerId(cusID);
                     obj.setCompanyId(comID);
@@ -729,7 +725,7 @@ public class TransactionCustomerService {
                     obj.setMaterialfullname(matFullname);
                     obj.setSize(matSize);
                     obj.setQuantity(matQty);
-
+                    obj.setmatCode(matCode);
                     result.add(obj);
                 }
             }
@@ -821,7 +817,7 @@ public class TransactionCustomerService {
         return latestpk;
     }
 
-    private String generateMaterialCodeFullName(String matCode, String matSize) {
+    public static String generateMaterialCodeFullName(String matCode, String matSize) {
         String matCodeFull = "";
         int countCharStandardSize;
         int countCharSpacialSize;

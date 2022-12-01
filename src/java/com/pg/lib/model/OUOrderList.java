@@ -1,26 +1,35 @@
 package com.pg.lib.model;
 
-
 public class OUOrderList {
-    
-        private int customerId;
-        private int companyId;
-        private int materialId;
-        private String materialfullname;
-        private String size;
-        private String quantity;
-        
-    public OUOrderList(){
+
+    private int customerId;
+    private int companyId;
+    private int materialId;
+    private String materialfullname;
+    private String size;
+    private String quantity;
+    private String matCode;
+
+    public OUOrderList() {
         super();
     }
 
-    public OUOrderList(int customerId, int companyId, int materialId, String materialfullname, String size, String quantity) {
+    public OUOrderList(int customerId, int companyId, int materialId, String materialfullname, String size, String quantity, String matCode) {
         this.customerId = customerId;
         this.companyId = companyId;
         this.materialId = materialId;
         this.materialfullname = materialfullname;
         this.size = size;
         this.quantity = quantity;
+        this.matCode = matCode;
+    }
+
+    public String getmatCode() {
+        return matCode;
+    }
+
+    public void setmatCode(String matCode) {
+        this.matCode = matCode;
     }
 
     public int getCompanyId() {
@@ -70,9 +79,4 @@ public class OUOrderList {
     public void setSize(String size) {
         this.size = size;
     }
-
-    
-
-        
-       
 }
