@@ -208,19 +208,20 @@ public class ReadExcelService {
                     switch (cell.getColumnIndex()) {
                         case 0:
                             cusOrder.setId((int) cell.getNumericCellValue());
-                            // System.out.println( (int) cell.getNumericCellValue());
+                            System.out.println((int) cell.getNumericCellValue());
                             break;
                         case 1:
+                            cell.setCellType(Cell.CELL_TYPE_STRING);
                             cusOrder.setCode(cell.getStringCellValue());
-                            // System.out.println(cell.getStringCellValue());
+                            System.out.println(cell.getStringCellValue());
                             break;
                         case 2:
                             cusOrder.setName(cell.getStringCellValue());
-                            // System.out.println(cell.getStringCellValue());
+                            System.out.println(cell.getStringCellValue());
                             break;
                         case 3:
                             cusOrder.setCompanyid((int) cell.getNumericCellValue());
-                            // System.out.println( (int) cell.getNumericCellValue());
+                            System.out.println((int) cell.getNumericCellValue());
                             break;
                         default:
                             Row contentRow = worksheet.getRow(1);
@@ -290,7 +291,7 @@ public class ReadExcelService {
 
     public List<OUUDepartmentOrder> readExcelFileTransactionDepartment(HashMap<String, String> pathFile) {
 
-        int itemStartAt = 5,  countDetailItem = 0,  materialID = 0;
+        int itemStartAt = 5,    countDetailItem = 0,    materialID = 0;
         String size = "",quantity  = "",materialCode  = "";
         List<OUUDepartmentOrder> arrResult = new ArrayList<OUUDepartmentOrder>();
 
