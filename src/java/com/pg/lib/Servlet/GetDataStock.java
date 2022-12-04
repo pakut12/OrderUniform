@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import net.sourceforge.barbecue.linear.twoOfFive.Int2of5Barcode;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
