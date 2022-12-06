@@ -98,15 +98,15 @@ public class ReadExcelService {
             fileInputStream.close();
 
         //Debug check data
-                    /*for(int i = 0 ; i < dataList.size() ; i++ ){
-        System.out.println("index : "+i);
-        System.out.println("CustomerID : "+dataList.get(i).getCustomerID());
-        System.out.println("Prename : "+dataList.get(i).getPrename());
-        System.out.println("Fullname : "+dataList.get(i).getFullname());
-        System.out.println("Department : "+dataList.get(i).getDepartment());
-        System.out.println("Company : "+dataList.get(i).getCompany());
-        System.out.println("===================");
-        } */
+//                    for(int i = 0 ; i < dataList.size() ; i++ ){
+//        System.out.println("index : "+i);
+//        System.out.println("CustomerID : "+dataList.get(i).getCustomerID());
+//        System.out.println("Prename : "+dataList.get(i).getPrename());
+//        System.out.println("Fullname : "+dataList.get(i).getFullname());
+//        System.out.println("Department : "+dataList.get(i).getDepartment());
+//        System.out.println("Company : "+dataList.get(i).getCompany());
+//        System.out.println("===================");
+//        } 
 
         } catch (Exception e) {
             e.printStackTrace();
