@@ -202,6 +202,7 @@ public class TransactionCustomerService {
     public List<OUTransactionCustomerDetail> getDetailFromBarcodeDepartAll(String doc_id) {
         List<OUTransactionCustomerDetail> listdetailtransaction = new ArrayList<OUTransactionCustomerDetail>();
         String sqlquery = "SELECT " +
+                " c.cus_id as id," +
                 " c.cus_prename as prename," +
                 " c.cus_fname as fullname," +
                 " c.cus_department as departmentname," +
@@ -211,8 +212,8 @@ public class TransactionCustomerService {
                 " INNER JOIN ou_upload_customer c ON b.cus_id = c.cus_id" +
                 " WHERE" +
                 " a.h_id = ?" +
-                " GROUP BY c.cus_prename,c.cus_fname, c.cus_department,a.H_NAME " +
-                " ORDER BY c.cus_fname asc";
+                " GROUP BY c.cus_prename,c.cus_fname, c.cus_department,a.H_NAME,c.cus_id " +
+                " ORDER BY c.cus_department asc";
         try {
 
             conn = ConnectDB.getConnection();
@@ -221,6 +222,7 @@ public class TransactionCustomerService {
             rs = ps.executeQuery();
             while (rs.next()) {
                 OUTransactionCustomerDetail obj = new OUTransactionCustomerDetail();
+                obj.setCustomerID(rs.getInt("id"));
                 obj.setPrename(rs.getString("prename"));
                 obj.setFname(rs.getString("fullname"));
                 obj.setDepartmentname(rs.getString("departmentname"));
@@ -242,6 +244,8 @@ public class TransactionCustomerService {
     }
 
     public List<OUTransactionCustomerDetail> getDetailFromBarcodeDepartTable(String doc_id, String cus_department) {
+        System.out.println(doc_id);
+        System.out.println(cus_department);
         List<OUTransactionCustomerDetail> listdetailtransaction = new ArrayList<OUTransactionCustomerDetail>();
         String sqlquery = "SELECT " +
                 "a.h_id as docID, " +
@@ -298,6 +302,8 @@ public class TransactionCustomerService {
                 obj.setBarcode(rs.getString("barcode"));
                 listdetailtransaction.add(obj);
             }
+            System.out.println(listdetailtransaction.size());
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -355,7 +361,10 @@ public class TransactionCustomerService {
         return listdetailtransaction;
     }
 
-    public List<OUTransactionCustomerDetail> getDetailFromBarcodeDepartForPrint(String doc_id, String cus_department, String cus_no) {
+    public List<OUTransactionCustomerDetail> getDetailFromBarcodeDepartForPrint(String doc_id, String cus_department, int cus_no) {
+        System.out.println(doc_id);
+        System.out.println(cus_department);
+        System.out.println(cus_no);
         List<OUTransactionCustomerDetail> listdetailtransaction = new ArrayList<OUTransactionCustomerDetail>();
         String sqlquery = "SELECT " +
                 "a.h_id as docID, " +
@@ -382,17 +391,18 @@ public class TransactionCustomerService {
                 "LEFT JOIN ou_header_material d ON b.hmat_id = d.hmat_id " +
                 "LEFT JOIN ou_company e ON b.compa_id = e.comp_id " +
                 "WHERE " +
-                "a.h_id = ? and c.cus_department = ? and c.cus_no= ?" +
-                "ORDER BY c.cus_department asc ";
+                "a.h_id = ? and c.cus_department = ? and c.cus_id= ? " +
+                "ORDER BY c.cus_department";
         try {
             conn = ConnectDB.getConnection();
             ps = conn.prepareStatement(sqlquery);
             ps.setString(1, doc_id);
             ps.setString(2, cus_department);
-            ps.setString(3, cus_no);
+            ps.setString(3, String.valueOf(cus_no));
             rs = ps.executeQuery();
             while (rs.next()) {
                 OUTransactionCustomerDetail obj = new OUTransactionCustomerDetail();
+                System.out.println(rs.getInt("customerID"));
                 obj.setDocID(rs.getInt("docID"));
                 obj.setTransactionID(rs.getInt("transactionID"));
                 obj.setCustomerID(rs.getInt("customerID"));
@@ -413,6 +423,7 @@ public class TransactionCustomerService {
                 obj.setBarcode(rs.getString("barcode"));
                 listdetailtransaction.add(obj);
             }
+            System.out.println(listdetailtransaction.size());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -427,7 +438,7 @@ public class TransactionCustomerService {
         return listdetailtransaction;
     }
 
-    public List<OUTransactionCustomerDetail> getDetailFromBarcode(String doc_id, String cus_no) {
+    public List<OUTransactionCustomerDetail> getDetailFromBarcode(String doc_id, int cus_no) {
         List<OUTransactionCustomerDetail> listdetailtransaction = new ArrayList<OUTransactionCustomerDetail>();
         String sqlquery = "SELECT " +
                 "a.h_id as docID, " +
@@ -454,13 +465,13 @@ public class TransactionCustomerService {
                 "LEFT JOIN ou_header_material d ON b.hmat_id = d.hmat_id " +
                 "LEFT JOIN ou_company e ON b.compa_id = e.comp_id " +
                 "WHERE " +
-                "a.h_id = ? and c.cus_no = ?" +
+                "a.h_id = ? and c.cus_id = ?" +
                 "ORDER BY c.cus_department asc ";
         try {
             conn = ConnectDB.getConnection();
             ps = conn.prepareStatement(sqlquery);
             ps.setString(1, doc_id);
-            ps.setString(2, cus_no);
+            ps.setInt(2, cus_no);
             rs = ps.executeQuery();
             while (rs.next()) {
                 OUTransactionCustomerDetail obj = new OUTransactionCustomerDetail();
@@ -691,12 +702,14 @@ public class TransactionCustomerService {
 
     public List<OUOrderList> processData(List<OUUCustomerOrder> transactiondetail) {
         List<OUOrderList> result = new ArrayList<OUOrderList>();
-        String matCode,matSize ,matQty ,matFullname ;
+        String matCode, matSize, matQty, matFullname;
 
 
 
 
-        int matID,  comID,  cusID;
+
+
+        int matID, comID, cusID;
 
         for (int i = 0; i <= transactiondetail.size() - 1; i++) {
             for (int j = 0; j <= transactiondetail.get(i).getItem().size() - 1; j++) {

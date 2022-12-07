@@ -108,7 +108,7 @@
                             var data = JSON.parse(msg);
                             $.each(data.depart,function(k,v){
                                 $("#depart").append('<option value="'+v+'">'+v+'</option>');
-                         
+                               
                             });
                         
                         }
@@ -119,6 +119,8 @@
             $("#btn-getdata").click(function(){
                 var data = $("#cus_no").val().split("/", 2);
                 var depart = $("#depart").val();
+                
+                console.log(depart);
                 $.ajax({
                     type:"post",
                     url:"GetDataStock",

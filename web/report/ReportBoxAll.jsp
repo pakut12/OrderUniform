@@ -42,8 +42,11 @@
             String doc_id = request.getParameter("doc_id");
             String num = request.getParameter("num");
 
-            CustomerService cms = new CustomerService();
-            ArrayList<OUTransactionCustomerDetail> list = cms.GroupCustomerCode(doc_id);
+            //CustomerService cms = new CustomerService();
+            //ArrayList<OUTransactionCustomerDetail> list = cms.GroupCustomerCode(doc_id);
+
+            TransactionCustomerService ts = new TransactionCustomerService();
+            List<OUTransactionCustomerDetail> list = ts.getDetailFromBarcodeDepartAll(doc_id);
             int box = (int) Math.ceil((double) list.size() / Integer.parseInt(num));
             String Name = "";
             String DepartmentName = "";
@@ -68,13 +71,14 @@
                 for (int x = 0; x < Integer.parseInt(num); x++) {
 
                     if (a != list.size()) {
+                        HTMLtag += "<tr>";
+                        HTMLtag += "<td  class='p-0'>" + (x + 1) + "</td>";
+                        HTMLtag += "<td  class='p-0'>" + list.get(a).getPrename() + " " + list.get(a).getFname() + "</td>";
+                        HTMLtag += "<td  class='p-0'>" + list.get(a).getDepartmentname() + "</td>";
+                        HTMLtag += "</tr>";
+
                         Name = list.get(a).getPrename() + " " + list.get(a).getFname();
                         DepartmentName = list.get(a).getDepartmentname();
-                        HTMLtag += "<tr >";
-                        HTMLtag += "<td  class='p-0'>" + (x + 1) + "</td>";
-                        HTMLtag += "<td  class='p-0'>" + Name + "</td>";
-                        HTMLtag += "<td  class='p-0'>" + DepartmentName + "</td>";
-                        HTMLtag += "</tr>";
                         a++;
                     }
                 }
@@ -92,4 +96,3 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     </body>
 </html>
-

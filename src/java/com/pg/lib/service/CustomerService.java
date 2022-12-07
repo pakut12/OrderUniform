@@ -77,6 +77,7 @@ public class CustomerService {
         for (int n = 0; n < listcus_no.size() - 1; n++) {
             if (!no.equals(listcus_no.get(n).getCustomerCode())) {
                 OUTransactionCustomerDetail list = new OUTransactionCustomerDetail();
+                list.setCustomerID(listcus_no.get(n).getCustomerID());
                 list.setCustomerCode(listcus_no.get(n).getCustomerCode());
                 list.setDepartmentname(listcus_no.get(n).getDepartmentname());
                 list.setPrename(listcus_no.get(n).getPrename());

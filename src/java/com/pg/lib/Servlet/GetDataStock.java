@@ -45,7 +45,7 @@ public class GetDataStock extends HttpServlet {
                 String cus_no = request.getParameter("cus_no");
 
                 TransactionCustomerService s_trancustomer = new TransactionCustomerService();
-                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcode(doc_id, cus_no);
+                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcode(doc_id, Integer.parseInt(cus_no));
 
                 String HTMLtag = "";
 

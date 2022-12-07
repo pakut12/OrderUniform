@@ -81,7 +81,7 @@ public class ReadExcelService {
                                     mp.put(indexOfHash, ouploadcus);
                                     break;
                                 case 2:
-                                    ouploadcus.setDepartment(cell.getStringCellValue());
+                                    ouploadcus.setDepartment(cell.getStringCellValue().trim());
                                     mp.put(indexOfHash, ouploadcus);
                                     break;
                             }

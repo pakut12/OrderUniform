@@ -124,7 +124,7 @@
                                      class="mt-1"
                                      width="100px"
                                      height="30px"
-                                     jsbarcode-value="<%=doc_id%>/<%=detail.get(i).getCustomerCode()%>"
+                                     jsbarcode-value="<%=doc_id%>/<%=detail.get(i).getCustomerID()%>"
                                      </img>
                             </div>
                         </div> 

@@ -41,13 +41,15 @@
             String doc_id = request.getParameter("doc_id");
             String cus_no = request.getParameter("cus_no");
 
-            CustomerService getcode = new CustomerService();
-            ArrayList<OUTransactionCustomerDetail> customercode = getcode.GroupCustomerCode(doc_id);
-
-            for (OUTransactionCustomerDetail x : customercode) {
+            //CustomerService getcode = new CustomerService();
+            //ArrayList<OUTransactionCustomerDetail> customercode = getcode.GroupCustomerCode(doc_id);
+            TransactionCustomerService ts = new TransactionCustomerService();
+            List<OUTransactionCustomerDetail> list = ts.getDetailFromBarcodeDepartAll(doc_id);
+           
+            for (OUTransactionCustomerDetail x : list) {
                 TransactionCustomerService s_trancustomer = new TransactionCustomerService();
-                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcode(doc_id, x.getCustomerCode());
-                
+                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcode(doc_id, x.getCustomerID());
+
         %>
         
         <table class="table table-bordered border-dark text-center w-100 page-break">

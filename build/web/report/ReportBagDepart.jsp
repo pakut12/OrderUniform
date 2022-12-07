@@ -43,12 +43,19 @@
                 String doc_id = request.getParameter("doc_id");
                 String cus_department = request.getParameter("cus_department");
 
-                CustomerService getcode = new CustomerService();
-                ArrayList<OUTransactionCustomerDetail> customercode = getcode.GroupCustomerCode(doc_id);
 
-                for (OUTransactionCustomerDetail x : customercode) {
+
+                //CustomerService getcode = new CustomerService();
+                //ArrayList<OUTransactionCustomerDetail> customercode = getcode.GroupCustomerCode(doc_id);
+
+                TransactionCustomerService ts = new TransactionCustomerService();
+                List<OUTransactionCustomerDetail> list = ts.getDetailFromBarcodeDepartAll(doc_id);
+    
+                for (OUTransactionCustomerDetail x : list) {
+                    
                     TransactionCustomerService s_trancustomer = new TransactionCustomerService();
-                    List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcodeDepartForPrint(doc_id, cus_department, x.getCustomerCode());
+                    List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcodeDepartForPrint(doc_id, cus_department, x.getCustomerID());
+
                     if (listdetail.size() > 0) {
         %>
         
@@ -77,9 +84,9 @@
             </thead>
             <tbody>
                 <%
-                int sum = 0;
-                for (int i = 0; i <= listdetail.size() - 1; i++) {
-                    sum += Integer.parseInt(listdetail.get(i).getQuantity());
+                    int sum = 0;
+                    for (int i = 0; i <= listdetail.size() - 1; i++) {
+                        sum += Integer.parseInt(listdetail.get(i).getQuantity());
                 %>
                 <tr>
                     <td class="p-0"><%=(i + 1)%></td>
