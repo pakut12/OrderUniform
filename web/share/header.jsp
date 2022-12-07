@@ -24,6 +24,9 @@
     <link href="css/mystyle.css" rel="stylesheet"> 
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pagedjs@0.4.0/dist/paged.min.js"></script>
+ 
+    
     
     <title>ระบบ สรุปรายการสั่งซื้อชุดเครื่องแบบพนักงาน</title>
     <div id="header-style">

@@ -24,7 +24,7 @@
     </head>
     <style> 
         
-         
+        
          @media screen {
              div.divFooter {
                  display: none;
@@ -34,10 +34,10 @@
              }
          }
          @media print{
-             
-             .page-number {
-                 content: "Page " counter(page) " of " counter(pages);
+             .page-number{
+                 content: counter(page)
              }
+             
              body{
                  font-size: 10px;
              }
@@ -75,15 +75,27 @@
             TransactionCustomerService s_trancustomer = new TransactionCustomerService();
             List<OUTransactionCustomerDetail> detail = s_trancustomer.getDetailTransactionByDocumentId(doc_id);
         %>
+        
         <table id="listdata" class="table table-bordered text-center w-100  border-dark">
             <thead >
                 <tr >
-                    <th colspan="8" class="h3 p-0"> 
-                        <b>รายชื่อพนักงาน : </b><%=detail.get(0).getCompanyname()%> 
+                    <th colspan="8" class=""> 
+                        <div class="row mb-1">
+                            <div class="col-6  "> 
+                                รายชื่อพนักงาน : <%=detail.get(0).getCompanyname()%>
+                            </div>
+                            <div class="col-6 ">
+                                <div class="row ">
+                                    <div class="col-6 text-end">วันที่ :</div> 
+                                    <div class="col-6 text-start"><div id="time"></div></div>
+                                </div> 
+                            </div>
+                        </div>
+                        
                     </th>  
-                    <th class="text-center p-0"> 
+                    <th class="text-center "> 
                         <img id="barcode" 
-                             class="mt-1"
+                             class=""
                              width="100px"
                              height="30px"
                              jsbarcode-value="<%=doc_id%>"
@@ -163,6 +175,30 @@
         </script>
         <script>
             $(document).ready(function(){
+                function today(){
+                    var date = new Date();
+                    var d =date.getDate()
+                    var m = date.getMonth()+1;
+                    var y = date.getFullYear();
+                    var h = date.getHours();
+                    var i = date.getMinutes()
+                    var s = date.getSeconds();
+                    if(m <10){
+                        m = "0"+m;
+                    }
+                    if(i<10){
+                        i = "0"+i;
+                    }
+
+                    if(d<10){
+                        d = "0"+d;
+                    }
+                    var today = d+"/"+m+"/"+y+" "+h+":"+i+":"+s;
+                    return today;
+                }
+                
+                $("#time").text(today());
+        
                 var groupColumn = 1;
                 var table = $('#listdata').DataTable({
                     columnDefs: [
