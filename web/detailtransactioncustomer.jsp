@@ -270,7 +270,7 @@
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
                 const doc_id = urlParams.get('doc_id');
-                window.open('report/ReportBarcode.jsp?doc_id='+doc_id); 
+                window.open('report/ReportPdf.jsp?doc_id='+doc_id); 
                 
             });
 
