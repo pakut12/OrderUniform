@@ -67,7 +67,7 @@
 
                 for (int x = 0; x < Integer.parseInt(num); x++) {
                     if (a != list.size()) {
-                        String Name = list.get(a).getFname();
+                        String Name = list.get(a).getPrename()+" "+list.get(a).getFname();
                         String DepartmentName = list.get(a).getDepartmentname();
 
                         HTMLtag += "<tr>";

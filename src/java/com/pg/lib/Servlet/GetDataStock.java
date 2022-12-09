@@ -129,7 +129,7 @@ public class GetDataStock extends HttpServlet {
                 JSONArray jsarr = new JSONArray();
                 JSONObject obj = new JSONObject();
                 for (OUTransactionCustomerDetail arrlist : list) {
-                   
+
                     jsarr.put(arrlist.getDepartmentname());
                 }
                 obj.put("depart", jsarr);
@@ -249,64 +249,8 @@ public class GetDataStock extends HttpServlet {
                     String doc_id = request.getParameter("doc_id");
                     String num = request.getParameter("num");
 
-                    CustomerService cms = new CustomerService();
-                    ArrayList<OUTransactionCustomerDetail> list = cms.GroupCustomerCode(doc_id);
-                    int box = (int) Math.ceil((double) list.size() / Integer.parseInt(num));
-
-                    String HTMLtag = "";
-                    HTMLtag += "<div class=\"mb-3 text-end\">";
-                    HTMLtag += "<a href=\"report/ReportBoxAll.jsp?doc_id=" + doc_id + "&num=" + num + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
-                    HTMLtag += "";
-                    HTMLtag += "</div>";
-                    HTMLtag += "<table id=\"listdata\" class=\"table w-100 \" >";
-                    HTMLtag += "<thead>";
-                    HTMLtag += "<tr>";
-                    HTMLtag += "<th>ลำดับ</th>";
-                    HTMLtag += "<th>ลำดับ</th>";
-                    HTMLtag += "<th>ชื่อ</th>";
-                    HTMLtag += "<th>เเผนก</th>";
-                    HTMLtag += "</tr>";
-                    HTMLtag += "</thead>";
-                    HTMLtag += "<tbody>";
-                    int x = 1;
-                    int z = 0;
-                    for (int i = 0; i <= list.size() - 1; i++) {
-                        String Name = list.get(i).getFname();
-                        String DepartmentName = list.get(i).getDepartmentname();
-                        if (x == Integer.parseInt(num)) {
-                            HTMLtag += "<tr>";
-                            HTMLtag += "<td>" + list.get(0).getDocName() + " " + (z + 1) + "/" + (box) + "</td>";
-                            HTMLtag += "<td>" + (i + 1) + "</td>";
-                            HTMLtag += "<td>" + Name + "</td>";
-                            HTMLtag += "<td>" + DepartmentName + "</td>";
-                            HTMLtag += "</tr>";
-                            x = 1;
-                            z++;
-                        } else {
-                            HTMLtag += "<tr>";
-                            HTMLtag += "<td>" + list.get(0).getDocName() + " " + (z + 1) + "/" + (box) + "</td>";
-                            HTMLtag += "<td>" + (i + 1) + "</td>";
-                            HTMLtag += "<td>" + Name + "</td>";
-                            HTMLtag += "<td>" + DepartmentName + "</td>";
-                            HTMLtag += "</tr>";
-                            x++;
-                        }
-                    }
-                    HTMLtag += "</tbody>";
-                    HTMLtag += "</table>";
-
-                    out.print(HTMLtag);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            } else if (type.equalsIgnoreCase("getdataformbarcodebox")) {
-                try {
-                    String doc_id = request.getParameter("doc_id");
-                    String num = request.getParameter("num");
-
-                    CustomerService cms = new CustomerService();
-                    ArrayList<OUTransactionCustomerDetail> list = cms.GroupCustomerCode(doc_id);
+                    TransactionCustomerService ts = new TransactionCustomerService();
+                    List<OUTransactionCustomerDetail> list = ts.getDetailFromBarcodeDepartAll(doc_id);
                     int box = (int) Math.ceil((double) list.size() / Integer.parseInt(num));
 
                     String HTMLtag = "";

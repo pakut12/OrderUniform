@@ -213,7 +213,7 @@ public class TransactionCustomerService {
                 " WHERE" +
                 " a.h_id = ?" +
                 " GROUP BY c.cus_prename,c.cus_fname, c.cus_department,a.H_NAME,c.cus_id " +
-                " ORDER BY c.cus_department asc";
+                " ORDER BY c.cus_department,c.cus_fname asc";
         try {
 
             conn = ConnectDB.getConnection();
@@ -402,7 +402,7 @@ public class TransactionCustomerService {
             rs = ps.executeQuery();
             while (rs.next()) {
                 OUTransactionCustomerDetail obj = new OUTransactionCustomerDetail();
-                System.out.println(rs.getInt("customerID"));
+               // System.out.println(rs.getInt("customerID"));
                 obj.setDocID(rs.getInt("docID"));
                 obj.setTransactionID(rs.getInt("transactionID"));
                 obj.setCustomerID(rs.getInt("customerID"));
@@ -423,7 +423,7 @@ public class TransactionCustomerService {
                 obj.setBarcode(rs.getString("barcode"));
                 listdetailtransaction.add(obj);
             }
-            System.out.println(listdetailtransaction.size());
+            //System.out.println(listdetailtransaction.size());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

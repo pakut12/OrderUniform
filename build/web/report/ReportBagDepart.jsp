@@ -68,7 +68,6 @@
                 </tr>
                 <tr>
                     <th class='p-0' colspan="7">
-                        
                         ชื่อ : <%=listdetail.get(0).getPrename() + " " + listdetail.get(0).getFname()%> เเผนก : <%=listdetail.get(0).getDepartmentname()%> <br>
                     </th> 
                 </tr>
@@ -102,10 +101,10 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="6" class="text-end p-0">
-                        รวมทั้งหมด
+                    <th colspan="6" class="text-end p-0 ">
+                        รวมทั้งหมด &nbsp;
                     </th> 
-                    <th>
+                    <th class="text-center p-0">
                         <%=sum%>
                     </th> 
                 </tr>

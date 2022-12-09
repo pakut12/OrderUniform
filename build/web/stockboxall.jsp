@@ -81,8 +81,6 @@
     
     <script language="javascript">
         $(document).ready(function(){
-            
-           
             $("#btn-getdata").click(function(){
                 $("#barcode_pass").addClass("was-validated");
                 var data = $("#cus_no").val().split("/", 2);
