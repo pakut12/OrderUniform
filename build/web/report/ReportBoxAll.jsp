@@ -58,7 +58,7 @@
                     HTMLtag += "<table id=\"listdata\" class=\"table table-bordered border-dark text-center w-100 page-break \" >";
                     HTMLtag += "<thead>";
                     HTMLtag += "<tr>";
-                    HTMLtag += "<th class='p-0' colspan=\"3\">" + list.get(0).getDocName() + " " + z.getDepartmentname()+ " " + (i + 1) + "/" + (box) + "</th>";
+                    HTMLtag += "<th class='p-0' colspan=\"3\">" + list.get(0).getDocName() + " / " + z.getDepartmentname()+ " / Box No : " + (i + 1) + "/" + (box) + "</th>";
                     HTMLtag += "</tr>";
                     HTMLtag += "<tr>";
                     HTMLtag += "<th class='p-0'>ลำดับ</th>";
