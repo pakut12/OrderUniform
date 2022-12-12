@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
+import org.apache.catalina.connector.Request;
 
 public class TransactionDepartmentService {
 
@@ -118,12 +119,254 @@ public class TransactionDepartmentService {
                     obj.setMaterialfullname(matFullname);
                     obj.setSize(matSize);
                     obj.setQuantity(matQuatity);
-
+                    obj.setmatCode(matCode);
                     result.add(obj);
                 }
             }
         }
         return result;
+    }
+
+    public List<OUTransactionDepartmentDetail> getDetailTransactionByDocumentIdAndAgency(String doc_id, String depart_agency) {
+        List<OUTransactionDepartmentDetail> listreturn = new ArrayList<OUTransactionDepartmentDetail>();
+        String plainSQL = "SELECT " +
+                "a.h_id as docID, " +
+                "a.h_name as docName, " +
+                "b.tran_depart_id as transactionID, " +
+                "c.depart_id as departmentID, " +
+                "d.hmat_id as materialID, " +
+                "e.comp_id as companyID, " +
+                "b.tran_depart_size as matsize, " +
+                "b.tran_depart_quantity as matquantity, " +
+                "c.depart_agency as agency, " +
+                "c.depart_division as division, " +
+                "c.depart_name as departname, " +
+                "d.hmat_code as materialname, " +
+                "d.hmat_color as materialcolor, " +
+                "d.hmat_desc as materialdesc, " +
+                "e.comp_name as companyname, " +
+                "b.tran_depart_matcode as matcodefullname, " +
+                "b.tran_depart_barcode as barcode " +
+                "FROM ou_header_transaction_depart a " +
+                "LEFT JOIN ou_transaction_department b ON a.h_id = b.header_depart_id " +
+                "LEFT JOIN ou_upload_department c ON b.depart_id = c.depart_id " +
+                "LEFT JOIN ou_header_material d ON b.hmat_id = d.hmat_id " +
+                "LEFT JOIN ou_company e ON b.comp_id = e.comp_id " +
+                "WHERE a.h_id = ? and c.depart_agency = ? " +
+                "ORDER BY b.tran_depart_id asc ";
+        try {
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement(plainSQL);
+            ps.setString(1, doc_id);
+            ps.setString(2, depart_agency);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                OUTransactionDepartmentDetail objtran = new OUTransactionDepartmentDetail();
+                objtran.setDocID(rs.getInt("docID"));
+                objtran.setTransactionID(rs.getInt("transactionID"));
+                objtran.setDepartID(rs.getInt("departmentID"));
+                objtran.setMaterialID(rs.getInt("materialID"));
+                objtran.setCompanyID(rs.getInt("companyID"));
+                objtran.setDocName(rs.getString("docName"));
+                objtran.setMaterialsize(rs.getString("matsize"));
+                objtran.setMaterialquantity(rs.getString("matquantity"));
+                objtran.setAgency(rs.getString("agency"));
+                objtran.setDivision(rs.getString("division"));
+                objtran.setDepartmentname(rs.getString("departname"));
+                objtran.setMaterialname(rs.getString("materialname"));
+                objtran.setMaterialcolor(rs.getString("materialcolor"));
+                objtran.setMaterialdesc(rs.getString("materialdesc"));
+                objtran.setCompanyname(rs.getString("companyname"));
+                objtran.setMaterialfullname(rs.getString("matcodefullname"));
+                objtran.setBarcode(rs.getString("barcode"));
+                listreturn.add(objtran);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return listreturn;
+    }
+
+    public List<OUTransactionDepartmentDetail> getDepariID(String doc_id) {
+        List<OUTransactionDepartmentDetail> listreturn = new ArrayList<OUTransactionDepartmentDetail>();
+        String plainSQL = "SELECT " +
+                "depart_id " +
+                "FROM ou_header_transaction_depart a " +
+                "INNER JOIN ou_transaction_department b ON a.h_id = b.header_depart_id " +
+                "INNER JOIN ou_upload_department c ON b.depart_id = c.depart_id  " +
+                "WHERE a.h_id = ?  " +
+                "GROUP BY depart_id ";
+        try {
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement(plainSQL);
+            ps.setString(1, doc_id);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                OUTransactionDepartmentDetail objtran = new OUTransactionDepartmentDetail();
+                objtran.setDepartID(rs.getInt("depart_id"));
+                listreturn.add(objtran);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return listreturn;
+    }
+
+    public List<OUTransactionDepartmentDetail> getDetailTransactionByDocumentIdAndDepariIDAndAgency(String doc_id, String depart_agency, String depart_id) {
+
+       
+        List<OUTransactionDepartmentDetail> listreturn = new ArrayList<OUTransactionDepartmentDetail>();
+        String plainSQL = "SELECT " +
+                "a.h_id as docID, " +
+                "a.h_name as docName, " +
+                "b.tran_depart_id as transactionID, " +
+                "c.depart_id as departmentID, " +
+                "d.hmat_id as materialID, " +
+                "e.comp_id as companyID, " +
+                "b.tran_depart_size as matsize, " +
+                "b.tran_depart_quantity as matquantity, " +
+                "c.depart_agency as agency, " +
+                "c.depart_division as division, " +
+                "c.depart_name as departname, " +
+                "d.hmat_code as materialname, " +
+                "d.hmat_color as materialcolor, " +
+                "d.hmat_desc as materialdesc, " +
+                "e.comp_name as companyname, " +
+                "b.tran_depart_matcode as matcodefullname, " +
+                "b.tran_depart_barcode as barcode " +
+                "FROM ou_header_transaction_depart a " +
+                "LEFT JOIN ou_transaction_department b ON a.h_id = b.header_depart_id " +
+                "LEFT JOIN ou_upload_department c ON b.depart_id = c.depart_id " +
+                "LEFT JOIN ou_header_material d ON b.hmat_id = d.hmat_id " +
+                "LEFT JOIN ou_company e ON b.comp_id = e.comp_id " +
+                "WHERE a.h_id = ? and c.depart_agency = ? and c.depart_id = ? " +
+                "ORDER BY b.tran_depart_id asc ";
+         
+        try {
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement(plainSQL);
+            ps.setString(1, doc_id);
+            ps.setString(2, depart_agency);
+            ps.setString(3, depart_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                OUTransactionDepartmentDetail objtran = new OUTransactionDepartmentDetail();
+                objtran.setDocID(rs.getInt("docID"));
+                objtran.setTransactionID(rs.getInt("transactionID"));
+                objtran.setDepartID(rs.getInt("departmentID"));
+                objtran.setMaterialID(rs.getInt("materialID"));
+                objtran.setCompanyID(rs.getInt("companyID"));
+                objtran.setDocName(rs.getString("docName"));
+                objtran.setMaterialsize(rs.getString("matsize"));
+                objtran.setMaterialquantity(rs.getString("matquantity"));
+                objtran.setAgency(rs.getString("agency"));
+                objtran.setDivision(rs.getString("division"));
+                objtran.setDepartmentname(rs.getString("departname"));
+                objtran.setMaterialname(rs.getString("materialname"));
+                objtran.setMaterialcolor(rs.getString("materialcolor"));
+                objtran.setMaterialdesc(rs.getString("materialdesc"));
+                objtran.setCompanyname(rs.getString("companyname"));
+                objtran.setMaterialfullname(rs.getString("matcodefullname"));
+                objtran.setBarcode(rs.getString("barcode"));
+                listreturn.add(objtran);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return listreturn;
+    }
+
+    public List<OUTransactionDepartmentDetail> getDetailTransactionByDocumentIdAndDepariID(String doc_id, String depart_id) {
+        List<OUTransactionDepartmentDetail> listreturn = new ArrayList<OUTransactionDepartmentDetail>();
+        String plainSQL = "SELECT " +
+                "a.h_id as docID, " +
+                "a.h_name as docName, " +
+                "b.tran_depart_id as transactionID, " +
+                "c.depart_id as departmentID, " +
+                "d.hmat_id as materialID, " +
+                "e.comp_id as companyID, " +
+                "b.tran_depart_size as matsize, " +
+                "b.tran_depart_quantity as matquantity, " +
+                "c.depart_agency as agency, " +
+                "c.depart_division as division, " +
+                "c.depart_name as departname, " +
+                "d.hmat_code as materialname, " +
+                "d.hmat_color as materialcolor, " +
+                "d.hmat_desc as materialdesc, " +
+                "e.comp_name as companyname, " +
+                "b.tran_depart_matcode as matcodefullname, " +
+                "b.tran_depart_barcode as barcode " +
+                "FROM ou_header_transaction_depart a " +
+                "LEFT JOIN ou_transaction_department b ON a.h_id = b.header_depart_id " +
+                "LEFT JOIN ou_upload_department c ON b.depart_id = c.depart_id " +
+                "LEFT JOIN ou_header_material d ON b.hmat_id = d.hmat_id " +
+                "LEFT JOIN ou_company e ON b.comp_id = e.comp_id " +
+                "WHERE a.h_id = ? and c.depart_id = ? " +
+                "ORDER BY b.tran_depart_id asc ";
+        try {
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement(plainSQL);
+            ps.setString(1, doc_id);
+            ps.setString(2, depart_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                OUTransactionDepartmentDetail objtran = new OUTransactionDepartmentDetail();
+                objtran.setDocID(rs.getInt("docID"));
+                objtran.setTransactionID(rs.getInt("transactionID"));
+                objtran.setDepartID(rs.getInt("departmentID"));
+                objtran.setMaterialID(rs.getInt("materialID"));
+                objtran.setCompanyID(rs.getInt("companyID"));
+                objtran.setDocName(rs.getString("docName"));
+                objtran.setMaterialsize(rs.getString("matsize"));
+                objtran.setMaterialquantity(rs.getString("matquantity"));
+                objtran.setAgency(rs.getString("agency"));
+                objtran.setDivision(rs.getString("division"));
+                objtran.setDepartmentname(rs.getString("departname"));
+                objtran.setMaterialname(rs.getString("materialname"));
+                objtran.setMaterialcolor(rs.getString("materialcolor"));
+                objtran.setMaterialdesc(rs.getString("materialdesc"));
+                objtran.setCompanyname(rs.getString("companyname"));
+                objtran.setMaterialfullname(rs.getString("matcodefullname"));
+                objtran.setBarcode(rs.getString("barcode"));
+                listreturn.add(objtran);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return listreturn;
     }
 
     public List<OUTransactionDepartmentDetail> getDetailTransactionByDocumentId(String doc_id) {
@@ -351,19 +594,40 @@ public class TransactionDepartmentService {
     }
 
     private String generateSQLText(List<OUOrderListDepartment> orderList, int headerpk) {
+
         String text = "";
         long milis = System.currentTimeMillis();
         java.sql.Timestamp Timestamp = new java.sql.Timestamp(milis);
         int lastestPK = getLatestPrimaryKey();
+        try {
+            if (headerpk != 0) {
+                text += "INSERT ALL ";
+                for (int i = 0; i <= orderList.size() - 1; i++) {
+                    if (orderList.get(i).getSize().contains(",")) {
+                        String[] size = orderList.get(i).getSize().split(",");
+                        String[] qre = orderList.get(i).getQuantity().split(",");
 
-        if (headerpk != 0) {
-            text += "INSERT ALL ";
-            for (int i = 0; i <= orderList.size() - 1; i++) {
-                text += " INTO ou_transaction_department values ";
-                lastestPK += 1;
-                text += "( " + lastestPK + ", " + orderList.get(i).getDepart_id() + ", " + orderList.get(i).getCompanyID() + ", " + orderList.get(i).getMaterialID() + ", '" + orderList.get(i).getSize() + "', '" + orderList.get(i).getQuantity() + "', '" + orderList.get(i).getMaterialfullname() + "', " + "'', " + "'new', " + headerpk + ", " + "to_timestamp('" + Timestamp + "', 'YYYY-MM-DD HH24:MI:SS.FF') )";
+                        for (int a = 0; a < size.length; a++) {
+                            String Materialfullname = generateMaterialCodeFullName(orderList.get(i).getmatCode(), size[a]);
+
+                            text += " INTO ou_transaction_department values ";
+                            lastestPK += 1;
+                            text += "( " + lastestPK + ", " + orderList.get(i).getDepart_id() + ", " + orderList.get(i).getCompanyID() + ", " + orderList.get(i).getMaterialID() + ", '" + size[a] + "', '" + qre[a] + "', '" + Materialfullname + "', " + "'', " + "'new', " + headerpk + ", " + "to_timestamp('" + Timestamp + "', 'YYYY-MM-DD HH24:MI:SS.FF') )";
+                        }
+
+                    } else {
+                        text += " INTO ou_transaction_department values ";
+                        lastestPK += 1;
+                        text += "( " + lastestPK + ", " + orderList.get(i).getDepart_id() + ", " + orderList.get(i).getCompanyID() + ", " + orderList.get(i).getMaterialID() + ", '" + orderList.get(i).getSize() + "', '" + orderList.get(i).getQuantity() + "', '" + orderList.get(i).getMaterialfullname() + "', " + "'', " + "'new', " + headerpk + ", " + "to_timestamp('" + Timestamp + "', 'YYYY-MM-DD HH24:MI:SS.FF') )";
+
+                    }
+
+                }
+                text += " select * from dual ";
             }
-            text += " select * from dual ";
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return text;

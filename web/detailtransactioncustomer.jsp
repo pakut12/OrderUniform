@@ -280,7 +280,8 @@
         function updateBarcode(docid){
            
             $.post("Barcode",{
-                documentID : docid
+                documentID : docid,
+                type:"Customer"
             },
             function(result){
                 
