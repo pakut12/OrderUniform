@@ -53,6 +53,14 @@ public class GetDataStock extends HttpServlet {
 
                 String HTMLtag = "";
 
+                String status = "";
+
+                if (!listdetail.get(0).getStatus().equalsIgnoreCase("success")) {
+                    status = "ยังไม่ได้จัด";
+                } else {
+                    status = "จัดเเล้ว";
+                }
+
                 HTMLtag += "<div class=\"row mb-3\">";
                 HTMLtag += "<div class=\"col-4 text-end\">เลขที่เอกสาร : </div>";
                 HTMLtag += "<div class=\"col-4\">";
@@ -77,8 +85,18 @@ public class GetDataStock extends HttpServlet {
                 HTMLtag += "<input class=\"form-control form-control-sm text-center\" type=\"text\" id=\"cus_no\" value=\"" + listdetail.get(0).getDepartmentname() + "\" readonly></input>";
                 HTMLtag += "</div>";
                 HTMLtag += "</div>";
+                HTMLtag += "<div class=\"row mb-3\">";
+                HTMLtag += "<div class=\"col-4 text-end\">สถานะ : </div>";
+                HTMLtag += "<div class=\"col-4\">";
+                HTMLtag += "<input class=\"form-control form-control-sm text-center\" type=\"text\" id=\"cus_no\" value=\"" + status + "\" readonly></input>";
+                HTMLtag += "</div>";
+                HTMLtag += "</div>";
 
-
+                HTMLtag += "<div class=\"row mb-3\">";
+                HTMLtag += "<div class=\"col-12 text-center\">";
+                HTMLtag += "<input class=\"btn btn-success btn-sm\" type=\"button\" id=\"btn_confirm\" value='ยืนยัน'></input>";
+                HTMLtag += "</div>";
+                HTMLtag += "</div>";
                 HTMLtag += "</table>";
                 HTMLtag += "<div class=\"mb-3 text-end\">";
                 HTMLtag += "<a href=\"report/ReportBag.jsp?doc_id=" + doc_id + "&cus_no=" + cus_no + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์</button></a>";
@@ -520,6 +538,179 @@ public class GetDataStock extends HttpServlet {
                 HTMLtag += "<th>" + sum + "</th>";
                 HTMLtag += "</tr>";
                 HTMLtag += "</tfoot>";
+
+                out.print(HTMLtag);
+            } else if (type.equalsIgnoreCase("Departgetdataformbarcodelistall")) {
+                String doc_id = request.getParameter("doc_id");
+
+                TransactionDepartmentService s_trancustomer = new TransactionDepartmentService();
+                List<OUTransactionDepartmentDetail> listdetail = s_trancustomer.getDetailTransactionByDocumentId(doc_id);
+
+                String HTMLtag = "";
+                HTMLtag += "<div class=\"mb-3 text-end\">";
+                HTMLtag += "<a href=\"report/Department/ReportBagAll.jsp?doc_id=" + doc_id + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
+                HTMLtag += "";
+                HTMLtag += "</div>";
+                HTMLtag += "<table id=\"listdata\" class=\"table w-100 \" >";
+                HTMLtag += "<thead>";
+                HTMLtag += "<tr>";
+                HTMLtag += "<th>ลำดับ</th>";
+                HTMLtag += "<th>ชื่อ</th>";
+                HTMLtag += "<th>ชื่อสินค้า</th>";
+                HTMLtag += "<th>รหัสสินค้า</th>";
+                HTMLtag += "<th>สี</th>";
+                HTMLtag += "<th>ไซส์</th>";
+                HTMLtag += "<th>รหัสสินค้า 18 หลัก</th>";
+                HTMLtag += "<th>Barcode</th>";
+                HTMLtag += "<th>จำนวน</th>";
+                HTMLtag += "</tr>";
+                HTMLtag += "</thead>";
+                HTMLtag += "<tbody>";
+
+                int sum = 0;
+                for (int i = 0; i <= listdetail.size() - 1; i++) {
+                    HTMLtag += "<tr>";
+                    HTMLtag += "<td>" + (i + 1) + "</td>";
+                    HTMLtag += "<td>หน่วยงานที่ 1 : " + listdetail.get(i).getAgency() + "<br>หน่วยงานที่ 2 : " + listdetail.get(i).getDivision() + "<br>หน่วยงานที่ 3 : " + listdetail.get(i).getDepartmentname() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getMaterialdesc() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getMaterialname() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getMaterialcolor() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getMaterialsize() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getMaterialfullname() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getBarcode() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getMaterialquantity() + "</td>";
+                    HTMLtag += "</tr>";
+
+                    sum += Integer.parseInt(listdetail.get(i).getMaterialquantity());
+                }
+                HTMLtag += "<tfoot>";
+                HTMLtag += "<tr>";
+                HTMLtag += "<th colspan=\"8\" class=\"text-end\">รวมทั้งหมด</th>";
+                HTMLtag += "<th>" + sum + "</th>";
+                HTMLtag += "</tr>";
+                HTMLtag += "</tfoot>";
+                HTMLtag += "</table>";
+
+                out.print(HTMLtag);
+            } else if (type.equalsIgnoreCase("Departgetdataformbarcodebox")) {
+                try {
+                    String doc_id = request.getParameter("doc_id");
+                    String num = request.getParameter("num");
+
+                    TransactionDepartmentService s_trancustomer = new TransactionDepartmentService();
+                    List<OUTransactionDepartmentDetail> list = s_trancustomer.getDepariID(doc_id);
+
+                    int box = (int) Math.ceil((double) list.size() / Integer.parseInt(num));
+
+                    String HTMLtag = "";
+                    HTMLtag += "<div class=\"mb-3 text-end\">";
+                    HTMLtag += "<a href=\"report/Department/ReportBoxAll.jsp?doc_id=" + doc_id + "&num=" + num + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
+                    HTMLtag += "";
+                    HTMLtag += "</div>";
+                    HTMLtag += "<table id=\"listdata\" class=\"table w-100 \" >";
+                    HTMLtag += "<thead>";
+                    HTMLtag += "<tr>";
+                    HTMLtag += "<th>ลำดับ</th>";
+                    HTMLtag += "<th>ลำดับ</th>";
+                    HTMLtag += "<th>ชื่อ</th>";
+
+                    HTMLtag += "</tr>";
+                    HTMLtag += "</thead>";
+                    HTMLtag += "<tbody>";
+                    int x = 1;
+                    int z = 0;
+                    for (int i = 0; i <= list.size() - 1; i++) {
+                        String Name = "หน่วยงานที่ 1 : " + list.get(i).getAgency() + "<br>หน่วยงานที่ 2 : " + list.get(i).getDivision() + "<br>หน่วยงานที่ 3 : " + list.get(i).getDepartmentname();
+
+                        if (x == Integer.parseInt(num)) {
+                            HTMLtag += "<tr>";
+                            HTMLtag += "<td>" + list.get(0).getDocName() + " " + (z + 1) + "/" + (box) + "</td>";
+                            HTMLtag += "<td>" + (i + 1) + "</td>";
+                            HTMLtag += "<td>" + Name + "</td>";
+
+                            HTMLtag += "</tr>";
+                            x = 1;
+                            z++;
+                        } else {
+                            HTMLtag += "<tr>";
+                            HTMLtag += "<td>" + list.get(0).getDocName() + " " + (z + 1) + "/" + (box) + "</td>";
+                            HTMLtag += "<td>" + (i + 1) + "</td>";
+                            HTMLtag += "<td>" + Name + "</td>";
+
+                            HTMLtag += "</tr>";
+                            x++;
+                        }
+                    }
+                    HTMLtag += "</tbody>";
+                    HTMLtag += "</table>";
+
+                    out.print(HTMLtag);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } else if (type.equalsIgnoreCase("getdetail")) {
+                String doc_id = request.getParameter("doc_id");
+                String depart = request.getParameter("cus_department");
+
+                TransactionCustomerService s_trancustomer = new TransactionCustomerService();
+                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailTransactionByDocumentId(doc_id);
+
+
+                String HTMLtag = "";
+                HTMLtag += "<div class=\"mb-3 text-end\">";
+                HTMLtag += "<a href=\"report/ReportBagDepart.jsp?doc_id=" + doc_id + "&cus_department=" + depart + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
+                HTMLtag += "";
+                HTMLtag += "</div>";
+                HTMLtag += "<table id=\"listdata\" class=\"table w-100 \" >";
+                HTMLtag += "<thead>";
+                HTMLtag += "<tr>";
+                HTMLtag += "<th>ลำดับ</th>";
+                HTMLtag += "<th>ชื่อ</th>";
+                HTMLtag += "<th>ชื่อสินค้า</th>";
+                HTMLtag += "<th>รหัสสินค้า</th>";
+                HTMLtag += "<th>สี</th>";
+                HTMLtag += "<th>ไซส์</th>";
+                HTMLtag += "<th>รหัสสินค้า 18 หลัก</th>";
+                HTMLtag += "<th>Barcode</th>";
+                HTMLtag += "<th>จำนวน</th>";
+                HTMLtag += "<th>สถานะ</th>";
+                HTMLtag += "</tr>";
+                HTMLtag += "</thead>";
+                HTMLtag += "<tbody>";
+
+                int sum = 0;
+                for (int i = 0; i <= listdetail.size() - 1; i++) {
+                    String status = "";
+                    if (listdetail.get(i).getStatus().equals("success")) {
+                        status = "จัดเเล้ว";
+                    } else {
+                        status = "ยังไม่ได้จัด";
+                    }
+
+
+                    HTMLtag += "<tr>";
+                    HTMLtag += "<td>" + (i + 1) + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getPrename() + " " + listdetail.get(i).getFname() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getDesc() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getMaterialname() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getColor() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getSize() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getMatfullname() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getBarcode() + "</td>";
+                    HTMLtag += "<td>" + listdetail.get(i).getQuantity() + "</td>";
+                    HTMLtag += "<td>" + status + "</td>";
+                    HTMLtag += "</tr>";
+
+                    sum += Integer.parseInt(listdetail.get(i).getQuantity());
+                }
+                HTMLtag += "<tfoot>";
+                HTMLtag += "<tr>";
+                HTMLtag += "<th colspan=\"9\" class=\"text-end\">รวมทั้งหมด</th>";
+                HTMLtag += "<th>" + sum + "</th>";
+                HTMLtag += "</tr>";
+                HTMLtag += "</tfoot>";
+                HTMLtag += "</table>";
 
                 out.print(HTMLtag);
             }

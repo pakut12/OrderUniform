@@ -96,7 +96,7 @@ public class Customer extends HttpServlet {
         } else if (type.equalsIgnoreCase("deldetailcustomer")) {
             PrintWriter out = response.getWriter();
             String cms_id = request.getParameter("cms_id");
-            
+
             OUCustomerDetail data = new OUCustomerDetail();
             data.setCusId(cms_id);
 
@@ -119,7 +119,7 @@ public class Customer extends HttpServlet {
             upc.setDepartment(adddepart);
             upc.setFullname(addfname);
             upc.setPrename(addpname);
-           
+
             CustomerService cms = new CustomerService();
             boolean status = cms.addCustomerOneRow(upc);
 
@@ -129,6 +129,17 @@ public class Customer extends HttpServlet {
                 out.print("false");
             }
 
+            out.close();
+
+        } else if (type.equalsIgnoreCase("updatestatuscustomer")) {
+            PrintWriter out = response.getWriter();
+            String cm_id = request.getParameter("cm_id");
+
+            CustomerService cs = new CustomerService();
+            boolean stutus = cs.UpdateStatus(cm_id);
+
+
+            out.print(stutus);
             out.close();
 
         }

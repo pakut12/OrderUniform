@@ -230,23 +230,35 @@
                                      alt="Bootstrap"
                                      width="20"
                                      height="20">
-                                ระบบสต็อก (รายชื่อพนักงาน)
+                                ระบบจัดการสต็อก (รายชื่อพนักงาน)
                             </span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li class="dropdown-header">เเบบถุง</li>
+                            
+                            <li class="dropdown-header">ควบคุม</li>
                             <li>
                                 <a class="dropdown-item" href="stocklistbag.jsp">
                                     <span>
-                                        <img src="css/bootstrap-icons-1.5.0/printer.svg" 
+                                        <img src="css/bootstrap-icons-1.5.0/bucket.svg" 
                                              alt="Bootstrap" 
                                              width="20" 
                                              height="20">&nbsp;
-                                        พิมพ์สติ๊กเกอร์ (รายชื่อ)
+                                       โปรเเกรมจัดสินค้า
                                     </span>
                                 </a>
                             </li>
                             <li>
+                                <a class="dropdown-item" href="stockcustomeviewstatus.jsp">
+                                    <span>
+                                        <img src="css/bootstrap-icons-1.5.0/bucket.svg" 
+                                             alt="Bootstrap" 
+                                             width="20" 
+                                             height="20">&nbsp;
+                                       โปรเเกรมดูรายละเอียด
+                                    </span>
+                                </a>
+                            </li>
+                            <!--<li>
                                 <a class="dropdown-item" href="stockdepartmentbag.jsp">
                                     <span>
                                         <img src="css/bootstrap-icons-1.5.0/printer.svg" 
@@ -268,7 +280,7 @@
                                     </span>
                                 </a>
                             </li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li><hr class="dropdown-divider"></li>-->
                             <li>
                                 <li class="dropdown-header">เเบบกล่อง</li>
                                 <a class="dropdown-item" href="stockboxall.jsp">
@@ -292,7 +304,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown">
+                    <!-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle"
                            href="#"
                            id="navbarDropdown"
@@ -365,7 +377,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
+                    </li>-->
                 </ul>
                 <a class="btn btn-secondary" href="manageorder.jsp">
                     ดาวน์โหลดออเดอร์ 

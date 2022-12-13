@@ -104,6 +104,7 @@ public class TransactionCustomerService {
                 "c.cus_prename as prename, " +
                 "c.cus_fname as fullname, " +
                 "c.cus_no as customerCode, " +
+                 "b.tran_cus_status as status, " +
                 "c.cus_department as departmentname, " +
                 "d.hmat_code as materialname, " +
                 "d.hmat_color as materialcolor, " +
@@ -146,6 +147,7 @@ public class TransactionCustomerService {
                 obj.setCompanyname(rs.getString("companyname"));
                 obj.setMatfullname(rs.getString("matfullname"));
                 obj.setBarcode(rs.getString("barcode"));
+                obj.setStatus(rs.getString("status"));
                 listdetailtransaction.add(obj);
             }
         } catch (Exception e) {
@@ -450,6 +452,7 @@ public class TransactionCustomerService {
                 "c.cus_prename as prename, " +
                 "c.cus_fname as fullname, " +
                 "c.cus_no as customerCode, " +
+                "b.tran_cus_status as status, " +
                 "c.cus_department as departmentname, " +
                 "d.hmat_code as materialname, " +
                 "d.hmat_color as materialcolor, " +
@@ -493,6 +496,7 @@ public class TransactionCustomerService {
                 obj.setCompanyname(rs.getString("companyname"));
                 obj.setMatfullname(rs.getString("matfullname"));
                 obj.setBarcode(rs.getString("barcode"));
+                obj.setStatus(rs.getString("status"));
                 listdetailtransaction.add(obj);
             }
         } catch (Exception e) {

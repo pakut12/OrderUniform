@@ -30,7 +30,7 @@
                 <div class="shadow p-3 mb-5 bg-body rounded" id="card-department"> 
                     <div class="card text-start" >
                         <div class="card-header">
-                            <div class="">พิมพ์สติ๊กเกอร์ (รายชื่อ)</div>
+                            <div class="">โปรเเกรมจัดสินค้า </div>
                         </div>
                         <div class="card-body">
                             <div class="card">
@@ -74,8 +74,48 @@
     </footer>
     
     <script language="javascript">
+ 
+        function confirmid(){
+            var data = $("#cus_no").val().split("/", 2);
+            Swal.fire({
+                title: 'คุณต้องการบันทึกหรือไม่',
+                text: "คุณต้องการบันทึกหรือไม่",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'OK'
+            }).then(function(result){
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type:"post",
+                        url:"Customer",
+                        data:{
+                            type:"updatestatuscustomer",
+                            cm_id:data[1]
+                        },
+                        success:function(msg){     
+                            if(msg == "true"){
+                                Swal.fire(
+                                'บันทึกสำเร็จ',
+                                'บันทึกสำเร็จ',
+                                'success'
+                            )
+                                        
+                            }else if(msg == "false"){
+                                Swal.fire(
+                                'บันทึกไม่สำเร็จ',
+                                'บันทึกไม่สำเร็จ',
+                                'error'
+                            )
+                            }          
+                        }
+                    });
+                }
+            });
+        }
+        
         $(document).ready(function(){
-      
             $("#btn-getdata").click(function(){
                 var data = $("#cus_no").val().split("/", 2);
                 $("#myform").addClass("was-validated");
@@ -92,9 +132,25 @@
                         success:function(msg){
                             $(".viewdata").html(msg);
                             $("#listdata").DataTable();
+                            $("#btn_confirm").click(function (){
+                                $.ajax({
+                                    type:"post",
+                                    url:"GetDataStock",
+                                    data:{
+                                        type:"updatestatuscustomer"
+                                    },
+                                    success:function(msg){
+                                        confirmid();
+                                    }
+                                });     
+                            });
                         }
                     });
+                    
                 }
+                
+
+
             });
             
         })

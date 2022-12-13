@@ -86,7 +86,7 @@
                 %>
                 <tr>
                     <td class="p-0"><%=(i + 1)%></td>
-                    <td class="p-0"><%=listdetail.get(i).getMaterialquantity()%></td>
+                    <td class="p-0"><%=listdetail.get(i).getMaterialdesc()%></td>
                     <td class="p-0"><%=listdetail.get(i).getMaterialname()%></td>
                     <td class="p-0"><%=listdetail.get(i).getMaterialcolor()%></td>
                     <td class="p-0"><%=listdetail.get(i).getMaterialsize()%></td>

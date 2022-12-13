@@ -1,7 +1,7 @@
 package com.pg.lib.model;
 
-
 public class OUTransactionCustomerDetail {
+
     private int docID;
     private int transactionID;
     private int customerID;
@@ -21,12 +21,13 @@ public class OUTransactionCustomerDetail {
     private String companyname;
     private String matfullname;
     private String barcode;
-    
-    public OUTransactionCustomerDetail(){
+    private String status;
+
+    public OUTransactionCustomerDetail() {
         super();
     }
 
-    public OUTransactionCustomerDetail(int docID, int transactionID, int customerID, int companyID, int materialID, String docName, String prename, String fname, String customerCode, String departmentname, String materialname, String materialdesc, String color, String desc, String size, String quantity, String companyname, String matfullname, String barcode) {
+    public OUTransactionCustomerDetail(int docID, int transactionID, int customerID, int companyID, int materialID, String docName, String prename, String fname, String customerCode, String departmentname, String materialname, String materialdesc, String color, String desc, String size, String quantity, String companyname, String matfullname, String barcode, String status) {
         this.docID = docID;
         this.transactionID = transactionID;
         this.customerID = customerID;
@@ -46,14 +47,21 @@ public class OUTransactionCustomerDetail {
         this.companyname = companyname;
         this.matfullname = matfullname;
         this.barcode = barcode;
+        this.status = status;
     }
 
     public Object get(int n) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    
-    
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getBarcode() {
         return barcode;
     }
@@ -205,8 +213,4 @@ public class OUTransactionCustomerDetail {
     public void setTransactionID(int transactionID) {
         this.transactionID = transactionID;
     }
-
-    
-    
-    
 }

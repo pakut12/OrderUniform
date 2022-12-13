@@ -30,7 +30,7 @@
                 <div class="shadow p-3 mb-5 bg-body rounded" id="card-department"> 
                     <div class="card text-start" >
                         <div class="card-header">
-                            <div class="">ระบบจัดการสต็อก (เเบบกล่อง)</div>
+                            <div class="">โปรเเกรมดูรายละเอียด</div>
                         </div>
                         <div class="card-body">
                             <div class="card">
@@ -43,18 +43,10 @@
                                         <div class="col-4">
                                             <input class="form-control form-control-sm " type="text" id="cus_no" required></input>
                                         </div> 
-                                        
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-4 text-end">จำนวนคนต่อ 1 กล่อง : </div>
-                                        <div class="col-4">
-                                            <input class="form-control form-control-sm " type="number" id="num" value="1" readonly required></input>
-                                        </div> 
                                         <div class="col-4">
                                             <button class="btn btn-success btn-sm" id="btn-getdata">ค้นหา</button>
                                         </div>
                                     </div>
-                                    
                                 </div>
                             </div>
                             <div class="card mt-3">
@@ -62,8 +54,11 @@
                                     <div class="">เเสดงข้อมูล</div>
                                 </div>
                                 <div class="card-body">
+                                    
                                     <div class="viewdata">
+                                        
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -81,61 +76,58 @@
             $("#btn-getdata").click(function(){
                 $("#barcode_pass").addClass("was-validated");
                 var data = $("#cus_no").val().split("/", 2);
-                if(data != ""){
-                    $.ajax({
-                        type:"post",
-                        url:"GetDataStock",
-                        data:{
-                            type:"Departgetdataformbarcodebox",
-                            doc_id:data[0],
-                            num:$("#num").val()
-                        },
-                        success:function(msg){
-                            $(".viewdata").html(msg);
+                
+                $.ajax({
+                    type:"post",
+                    url:"GetDataStock",
+                    data:{
+                        type:"getdetail",
+                        doc_id:data[0],
+                        num:$("#num").val()
+                    },
+                    success:function(msg){
+                        $(".viewdata").html(msg);
                        
-                            var groupColumn = 0;
-                            var table = $('#listdata').DataTable({
-                                columnDefs: [
-                                    { 
-                                        visible: false, 
-                                        targets: groupColumn
-                                    }
-                                ],
-                                order: [[1, 'asc']],
+                        var groupColumn = 1;
+                        var table = $('#listdata').DataTable({
+                            columnDefs: [
+                                { 
+                                    visible: false, 
+                                    targets: groupColumn
+                                }
+                            ],
+                            order: [[1, 'asc']],
                            
-                                drawCallback: function (settings) {
-                                    var api = this.api();
-                                    var rows = api.rows({ page: 'current' }).nodes();
-                                    var last = null;
+                            drawCallback: function (settings) {
+                                var api = this.api();
+                                var rows = api.rows({ page: 'current' }).nodes();
+                                var last = null;
  
-                                    api
-                                    .column(groupColumn, { page: 'current' })
-                                    .data()
-                                    .each(function (group, i) {
-                                        if (last !== group) {
-                                            $(rows)
-                                            .eq(i)
-                                            .before('<tr class="group"><td colspan="3" style="background-color: #ddd;" >' + group + '</td></tr>');
-                                            last = group;
-                                        }
-                                    });
-                                }
-                            });
-                            $('#listdata tbody').on('click', 'tr.group', function () {
-                                var currentOrder = table.order()[0];
-                                if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
-                                    table.order([groupColumn, 'desc']).draw();
-                                } else {
-                                    table.order([groupColumn, 'asc']).draw();
-                                }
-                            });
+                                api
+                                .column(groupColumn, { page: 'current' })
+                                .data()
+                                .each(function (group, i) {
+                                    if (last !== group) {
+                                        $(rows)
+                                        .eq(i)
+                                        .before('<tr class="group"><td colspan="9" style="background-color: #ddd;" >' + group + '</td></tr>');
+                                        last = group;
+                                    }
+                                });
+                            }
+                        });
+                        $('#listdata tbody').on('click', 'tr.group', function () {
+                            var currentOrder = table.order()[0];
+                            if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+                                table.order([groupColumn, 'desc']).draw();
+                            } else {
+                                table.order([groupColumn, 'asc']).draw();
+                            }
+                        });
         
-                        }
-                    });
+                    }
+                });
                  
-                }
-
-
             });
             
         })

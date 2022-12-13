@@ -86,7 +86,7 @@
                         type:"post",
                         url:"GetDataStock",
                         data:{
-                            type:"getdataformbarcodelistall",
+                            type:"Departgetdataformbarcodelistall",
                             doc_id:data[0]
                         
                         },

@@ -3,11 +3,10 @@
     Created on : 15 พ.ย. 2565, 9:45:37
     Author     : pakutsing
 --%>
-<%@page import="com.pg.lib.service.TransactionCustomerService" %>
-<%@page import="com.pg.lib.model.OUTransactionCustomerDetail" %>
-<%@page import="com.pg.lib.model.OUSummaryOrderByCustomer" %>
-<%@page import="com.pg.lib.service.CustomerService" %>
+<%@page import="com.pg.lib.service.*" %>
+<%@page import="com.pg.lib.model.*" %>
 <%@page import="java.util.*" %>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -43,12 +42,13 @@
 
             //CustomerService getcode = new CustomerService();
             //ArrayList<OUTransactionCustomerDetail> customercode = getcode.GroupCustomerCode(doc_id);
-            TransactionCustomerService ts = new TransactionCustomerService();
-            List<OUTransactionCustomerDetail> list = ts.getDetailFromBarcodeDepartAll(doc_id);
-           
-            for (OUTransactionCustomerDetail x : list) {
-                TransactionCustomerService s_trancustomer = new TransactionCustomerService();
-                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcode(doc_id, x.getCustomerID());
+            TransactionDepartmentService ds = new TransactionDepartmentService();
+            List<OUTransactionDepartmentDetail> list = ds.getDepariID(doc_id);
+
+            for (OUTransactionDepartmentDetail x : list) {
+
+                TransactionDepartmentService dx = new TransactionDepartmentService();
+                List<OUTransactionDepartmentDetail> listdetail = dx.getDetailTransactionByDocumentIdAndDepariID(doc_id, String.valueOf(x.getDepartID()));
 
         %>
         
@@ -61,8 +61,7 @@
                 </tr>
                 <tr>
                     <th class="p-0" colspan="7">
-                        ชื่อ : <%=listdetail.get(0).getPrename() + " " + listdetail.get(0).getFname()%> 
-                        เเผนก : <%=listdetail.get(0).getDepartmentname()%> <br>
+                        หน่วยงานที่ 1 : <%=listdetail.get(0).getAgency()%> / หน่วยงานที่ 2 : <%=listdetail.get(0).getDivision()%> / หน่วยงานที่ 3 : <%=listdetail.get(0).getDepartmentname()%> 
                     </th> 
                 </tr>
                 <tr>
@@ -79,16 +78,16 @@
                 <%
             int sum = 0;
             for (int i = 0; i <= listdetail.size() - 1; i++) {
-                sum += Integer.parseInt(listdetail.get(i).getQuantity());
+                sum += Integer.parseInt(listdetail.get(i).getMaterialquantity());
                 %>
                 <tr>
                     <td class="p-0"><%=(i + 1)%></td>
-                    <td class="p-0"><%=listdetail.get(i).getDesc()%></td>
+                    <td class="p-0"><%=listdetail.get(i).getMaterialdesc()%></td>
                     <td class="p-0"><%=listdetail.get(i).getMaterialname()%></td>
-                    <td class="p-0"><%=listdetail.get(i).getColor()%></td>
-                    <td class="p-0"><%=listdetail.get(i).getSize()%></td>
-                    <td class="p-0"><%=listdetail.get(i).getMatfullname()%></td>
-                    <td class="p-0"><%=listdetail.get(i).getQuantity()%></td>
+                    <td class="p-0"><%=listdetail.get(i).getMaterialcolor()%></td>
+                    <td class="p-0"><%=listdetail.get(i).getMaterialsize()%></td>
+                    <td class="p-0"><%=listdetail.get(i).getMaterialfullname()%></td>
+                    <td class="p-0"><%=listdetail.get(i).getMaterialquantity()%></td>
                 </tr>
                 <%}%>
             </tbody>

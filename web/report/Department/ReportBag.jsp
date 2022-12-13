@@ -52,7 +52,6 @@
                 </tr>
                 <tr>
                     <th class="p-0" colspan="7">
-                      
                         หน่วยงานที่ 1 : <%=listdetail.get(0).getAgency()%> / หน่วยงานที่ 2 : <%=listdetail.get(0).getDivision()%> / หน่วยงานที่ 3 : <%=listdetail.get(0).getDepartmentname()%> 
                     </th> 
                 </tr>

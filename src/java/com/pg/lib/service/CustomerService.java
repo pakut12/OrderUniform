@@ -18,6 +18,36 @@ public class CustomerService {
     private static PreparedStatement ps;
     private static ResultSet rs;
 
+    public static boolean UpdateStatus(String cm_id) {
+        boolean updateResult = false;
+
+        String sql = "update ou_transaction_customer set tran_cus_status = ? where cus_id=?";
+        try {
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, "success");
+            ps.setString(2, cm_id);
+
+            if (ps.executeUpdate() > 0) {
+                updateResult = true;
+            } else {
+                updateResult = false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return updateResult;
+    }
+
     public static boolean UpdateBarcode(HashMap<String, String> item, List<OUTransactionCustomerDetail> detailDoc) {
         boolean updateResult = false;
 

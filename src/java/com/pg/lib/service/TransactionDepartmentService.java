@@ -195,15 +195,62 @@ public class TransactionDepartmentService {
         return listreturn;
     }
 
+    public List<OUTransactionDepartmentDetail> getDepariIDAnddDocId(String doc_id,String depart_agency) {
+        List<OUTransactionDepartmentDetail> listreturn = new ArrayList<OUTransactionDepartmentDetail>();
+        String plainSQL = "SELECT " +
+                " depart_id ," +
+                " depart_agency," +
+                " depart_division," +
+                " depart_name, " +
+                " h_name " +
+                " FROM ou_header_transaction_depart a " +
+                " INNER JOIN ou_transaction_department b ON a.h_id = b.header_depart_id " +
+                " INNER JOIN ou_upload_department c ON b.depart_id = c.depart_id  " +
+                " WHERE a.h_id = ? and  depart_agency = ? " +
+                "   GROUP BY depart_id,depart_agency,depart_division,depart_name,h_name ";
+        try {
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement(plainSQL);
+            ps.setString(1, doc_id);
+            ps.setString(2, depart_agency);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                OUTransactionDepartmentDetail objtran = new OUTransactionDepartmentDetail();
+                objtran.setDepartID(rs.getInt("depart_id"));
+                objtran.setAgency(rs.getString("depart_agency"));
+                objtran.setDivision(rs.getString("depart_division"));
+                objtran.setDepartmentname(rs.getString("depart_name"));
+                objtran.setDocName(rs.getString("h_name"));
+                listreturn.add(objtran);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return listreturn;
+    }
+
     public List<OUTransactionDepartmentDetail> getDepariID(String doc_id) {
         List<OUTransactionDepartmentDetail> listreturn = new ArrayList<OUTransactionDepartmentDetail>();
         String plainSQL = "SELECT " +
-                "depart_id " +
-                "FROM ou_header_transaction_depart a " +
-                "INNER JOIN ou_transaction_department b ON a.h_id = b.header_depart_id " +
-                "INNER JOIN ou_upload_department c ON b.depart_id = c.depart_id  " +
-                "WHERE a.h_id = ?  " +
-                "GROUP BY depart_id ";
+                " depart_id ," +
+                " depart_agency," +
+                " depart_division," +
+                " depart_name, " +
+                " h_name " +
+                " FROM ou_header_transaction_depart a " +
+                " INNER JOIN ou_transaction_department b ON a.h_id = b.header_depart_id " +
+                " INNER JOIN ou_upload_department c ON b.depart_id = c.depart_id  " +
+                " WHERE a.h_id = ?  " +
+                " GROUP BY depart_id,depart_agency,depart_division,depart_name,h_name " + 
+                " order by depart_agency"; 
         try {
             conn = ConnectDB.getConnection();
             ps = conn.prepareStatement(plainSQL);
@@ -213,6 +260,10 @@ public class TransactionDepartmentService {
             while (rs.next()) {
                 OUTransactionDepartmentDetail objtran = new OUTransactionDepartmentDetail();
                 objtran.setDepartID(rs.getInt("depart_id"));
+                objtran.setAgency(rs.getString("depart_agency"));
+                objtran.setDivision(rs.getString("depart_division"));
+                objtran.setDepartmentname(rs.getString("depart_name"));
+                objtran.setDocName(rs.getString("h_name"));
                 listreturn.add(objtran);
             }
         } catch (Exception e) {
@@ -231,7 +282,7 @@ public class TransactionDepartmentService {
 
     public List<OUTransactionDepartmentDetail> getDetailTransactionByDocumentIdAndDepariIDAndAgency(String doc_id, String depart_agency, String depart_id) {
 
-       
+
         List<OUTransactionDepartmentDetail> listreturn = new ArrayList<OUTransactionDepartmentDetail>();
         String plainSQL = "SELECT " +
                 "a.h_id as docID, " +
@@ -258,7 +309,7 @@ public class TransactionDepartmentService {
                 "LEFT JOIN ou_company e ON b.comp_id = e.comp_id " +
                 "WHERE a.h_id = ? and c.depart_agency = ? and c.depart_id = ? " +
                 "ORDER BY b.tran_depart_id asc ";
-         
+
         try {
             conn = ConnectDB.getConnection();
             ps = conn.prepareStatement(plainSQL);

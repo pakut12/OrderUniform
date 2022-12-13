@@ -48,7 +48,7 @@
                                     <div class="row mb-3">
                                         <div class="col-4 text-end">จำนวนคนต่อ 1 กล่อง : </div>
                                         <div class="col-4">
-                                            <input class="form-control form-control-sm " type="number" id="num" required></input>
+                                            <input class="form-control form-control-sm " type="number" id="num" value="1" readonly required></input>
                                         </div> 
                                         <div class="col-4">
                                             <button class="btn btn-success btn-sm" id="btn-getdata">ค้นหา</button>
@@ -62,11 +62,8 @@
                                     <div class="">เเสดงข้อมูล</div>
                                 </div>
                                 <div class="card-body">
-                                    
                                     <div class="viewdata">
-                                        
                                     </div>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -84,58 +81,61 @@
             $("#btn-getdata").click(function(){
                 $("#barcode_pass").addClass("was-validated");
                 var data = $("#cus_no").val().split("/", 2);
-                
-                $.ajax({
-                    type:"post",
-                    url:"GetDataStock",
-                    data:{
-                        type:"getdataformbarcodebox",
-                        doc_id:data[0],
-                        num:$("#num").val()
-                    },
-                    success:function(msg){
-                        $(".viewdata").html(msg);
+                if(data != ""){
+                    $.ajax({
+                        type:"post",
+                        url:"GetDataStock",
+                        data:{
+                            type:"Departgetdataformbarcodebox",
+                            doc_id:data[0],
+                            num:$("#num").val()
+                        },
+                        success:function(msg){
+                            $(".viewdata").html(msg);
                        
-                        var groupColumn = 0;
-                        var table = $('#listdata').DataTable({
-                            columnDefs: [
-                                { 
-                                    visible: false, 
-                                    targets: groupColumn
-                                }
-                            ],
-                            order: [[1, 'asc']],
-                           
-                            drawCallback: function (settings) {
-                                var api = this.api();
-                                var rows = api.rows({ page: 'current' }).nodes();
-                                var last = null;
- 
-                                api
-                                .column(groupColumn, { page: 'current' })
-                                .data()
-                                .each(function (group, i) {
-                                    if (last !== group) {
-                                        $(rows)
-                                        .eq(i)
-                                        .before('<tr class="group"><td colspan="3" style="background-color: #ddd;" >' + group + '</td></tr>');
-                                        last = group;
+                            var groupColumn = 0;
+                            var table = $('#listdata').DataTable({
+                                columnDefs: [
+                                    { 
+                                        visible: false, 
+                                        targets: groupColumn
                                     }
-                                });
-                            }
-                        });
-                        $('#listdata tbody').on('click', 'tr.group', function () {
-                            var currentOrder = table.order()[0];
-                            if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
-                                table.order([groupColumn, 'desc']).draw();
-                            } else {
-                                table.order([groupColumn, 'asc']).draw();
-                            }
-                        });
+                                ],
+                                order: [[1, 'asc']],
+                           
+                                drawCallback: function (settings) {
+                                    var api = this.api();
+                                    var rows = api.rows({ page: 'current' }).nodes();
+                                    var last = null;
+ 
+                                    api
+                                    .column(groupColumn, { page: 'current' })
+                                    .data()
+                                    .each(function (group, i) {
+                                        if (last !== group) {
+                                            $(rows)
+                                            .eq(i)
+                                            .before('<tr class="group"><td colspan="3" style="background-color: #ddd;" >' + group + '</td></tr>');
+                                            last = group;
+                                        }
+                                    });
+                                }
+                            });
+                            $('#listdata tbody').on('click', 'tr.group', function () {
+                                var currentOrder = table.order()[0];
+                                if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+                                    table.order([groupColumn, 'desc']).draw();
+                                } else {
+                                    table.order([groupColumn, 'asc']).draw();
+                                }
+                            });
         
-                    }
-                });
+                        }
+                    });
                  
+                }
+
+
             });
             
         })

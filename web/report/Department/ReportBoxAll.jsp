@@ -3,10 +3,8 @@
     Created on : 15 พ.ย. 2565, 9:45:37
     Author     : pakutsing
 --%>
-<%@page import="com.pg.lib.service.TransactionCustomerService" %>
-<%@page import="com.pg.lib.model.OUTransactionCustomerDetail" %>
-<%@page import="com.pg.lib.model.OUSummaryOrderByCustomer" %>
-<%@page import="com.pg.lib.service.CustomerService" %>
+<%@page import="com.pg.lib.service.*" %>
+<%@page import="com.pg.lib.model.*" %>
 <%@page import="java.util.*" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -43,58 +41,47 @@
             String num = request.getParameter("num");
             String depart = request.getParameter("depart");
 
-            TransactionCustomerService ts1 = new TransactionCustomerService();
-            List<OUTransactionCustomerDetail> list1 = ts1.GroupDepart(doc_id);
-            for (OUTransactionCustomerDetail z : list1) {
-                TransactionCustomerService ts = new TransactionCustomerService();
-                List<OUTransactionCustomerDetail> list = ts.getDetailFromBarcodeDepart(doc_id, z.getDepartmentname());
-                int box = (int) Math.ceil((double) list.size() / Integer.parseInt(num));
-
-                String HTMLtag = "";
-                int a = 0;
-                int b = 0;
-                int n = 0;
-                for (int i = 0; i < box; i++) {
-                    HTMLtag += "<table id=\"listdata\" class=\"table table-bordered border-dark text-center w-100 page-break \" >";
-                    HTMLtag += "<thead>";
-                    HTMLtag += "<tr>";
-                    HTMLtag += "<th class='p-0' colspan=\"3\">" + list.get(0).getDocName() + " / " + z.getDepartmentname()+ " / Box No : " + (i + 1) + "/" + (box) + "</th>";
-                    HTMLtag += "</tr>";
-                    HTMLtag += "<tr>";
-                    HTMLtag += "<th class='p-0'>ลำดับ</th>";
-                    HTMLtag += "<th class='p-0'>ชื่อ</th>";
-                    HTMLtag += "<th class='p-0'>เเผนก</th>";
-                    HTMLtag += "</tr>";
-                    HTMLtag += "</thead>";
-                    HTMLtag += "<tbody>";
-
-                    for (int x = 0; x < Integer.parseInt(num); x++) {
-                        if (a != list.size()) {
-                            String Name = list.get(a).getPrename()+" "+list.get(a).getFname();
-                            String DepartmentName = list.get(a).getDepartmentname();
-
-                            HTMLtag += "<tr>";
-                            HTMLtag += "<td class='p-0'>" + (x + 1) + "</td>";
-                            HTMLtag += "<td class='p-0'>" + Name + "</td>";
-                            HTMLtag += "<td class='p-0'>" + DepartmentName + "</td>";
-                            HTMLtag += "</tr>";
-                            a++;
-                        }
-                    }
-
-                    HTMLtag += "</tbody>";
-                    HTMLtag += "</table>";
-
-                }
 
 
-                out.print(HTMLtag);
+            TransactionDepartmentService dx = new TransactionDepartmentService();
+            List<OUTransactionDepartmentDetail> listdetail = dx.getDepariID(doc_id);
+            int a = 0;
+            int b = 0;
+            int n = 0;
+            int box = 3;
+
+            String HTMLtag = "";
+
+            for (int i = 0; i < box; i++) {
+                HTMLtag += "<table id=\"listdata\" class=\"table table-bordered border-dark text-center w-100 page-break \" >";
+                HTMLtag += "<thead>";
+                HTMLtag += "<tr>";
+                HTMLtag += "<th class='p-0' colspan=\"3\">" + listdetail.get(0).getDocName() + " / " + listdetail.get(a).getAgency() + " / Box No : " + (i + 1) + "/" + (box) + "</th>";
+                HTMLtag += "</tr>";
+                HTMLtag += "<tr>";
+                HTMLtag += "<th class='p-0'>ลำดับ</th>";
+                HTMLtag += "<th class='p-0'>ชื่อ</th>";
+                HTMLtag += "</tr>";
+                HTMLtag += "</thead>";
+                HTMLtag += "<tbody>";
+
+                String Name = "หน่วยงานที่ 1 : " + listdetail.get(i).getAgency() + "<br>หน่วยงานที่ 2 : " + listdetail.get(i).getDivision() + "<br>หน่วยงานที่ 3 : " + listdetail.get(i).getDepartmentname();
+                HTMLtag += "<tr>";
+                HTMLtag += "<td class='p-0'>" + (n + 1) + "</td>";
+                HTMLtag += "<td class='p-0'>" + Name + "</td>";
+                HTMLtag += "</tr>";
             }
+
+            HTMLtag += "</tbody>";
+            HTMLtag += "</table>";
+
+            out.print(HTMLtag);
+
         %>
         
         
         <script>
-            window.print();
+            // window.print();
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     </body>
