@@ -24,6 +24,7 @@ import javax.servlet.http.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.ls.LSException;
 
 /**
  *
@@ -56,9 +57,9 @@ public class GetDataStock extends HttpServlet {
                 String status = "";
 
                 if (!listdetail.get(0).getStatus().equalsIgnoreCase("success")) {
-                    status = "ยังไม่ได้จัด";
+                    status = "ยังไม่ได้จัดสินค้า";
                 } else {
-                    status = "จัดเเล้ว";
+                    status = "จัดสินค้าเรียบร้อย";
                 }
 
                 HTMLtag += "<div class=\"row mb-3\">";
@@ -88,22 +89,19 @@ public class GetDataStock extends HttpServlet {
                 HTMLtag += "<div class=\"row mb-3\">";
                 HTMLtag += "<div class=\"col-4 text-end\">สถานะ : </div>";
                 HTMLtag += "<div class=\"col-4\">";
-                HTMLtag += "<input class=\"form-control form-control-sm text-center\" type=\"text\" id=\"cus_no\" value=\"" + status + "\" readonly></input>";
+                HTMLtag += "<input class=\"form-control form-control-sm text-center\" type=\"text\" id=\"cus_status\" value=\"" + status + "\" readonly></input>";
                 HTMLtag += "</div>";
                 HTMLtag += "</div>";
 
                 HTMLtag += "<div class=\"row mb-3\">";
                 HTMLtag += "<div class=\"col-12 text-center\">";
                 HTMLtag += "<input class=\"btn btn-success btn-sm\" type=\"button\" id=\"btn_confirm\" value='ยืนยัน'></input>";
-                HTMLtag += "</div>";
-                HTMLtag += "</div>";
-                HTMLtag += "</table>";
-                HTMLtag += "<div class=\"mb-3 text-end\">";
-                HTMLtag += "<a href=\"report/ReportBag.jsp?doc_id=" + doc_id + "&cus_no=" + cus_no + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์</button></a>";
+                HTMLtag += "&nbsp&nbsp";
+                HTMLtag += "<button id='print_sticker' class=\"btn btn-sm btn-secondary disabled\" >พิมพ์สติ๊กเกอร์</button>";
 
-                HTMLtag += "";
                 HTMLtag += "</div>";
 
+                HTMLtag += "</div>";
                 HTMLtag += "<table id=\"listdata\" class=\"table w-100 text-center\" >";
                 HTMLtag += "<thead>";
                 HTMLtag += "<tr>";
@@ -654,26 +652,16 @@ public class GetDataStock extends HttpServlet {
                 String depart = request.getParameter("cus_department");
 
                 TransactionCustomerService s_trancustomer = new TransactionCustomerService();
-                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailTransactionByDocumentId(doc_id);
+                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcodeDepartAll(doc_id);
 
 
                 String HTMLtag = "";
-                HTMLtag += "<div class=\"mb-3 text-end\">";
-                HTMLtag += "<a href=\"report/ReportBagDepart.jsp?doc_id=" + doc_id + "&cus_department=" + depart + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
-                HTMLtag += "";
-                HTMLtag += "</div>";
-                HTMLtag += "<table id=\"listdata\" class=\"table w-100 \" >";
+                HTMLtag += "<table id=\"listdata\" class=\"table  w-100 \" >";
                 HTMLtag += "<thead>";
                 HTMLtag += "<tr>";
                 HTMLtag += "<th>ลำดับ</th>";
+                HTMLtag += "<th>รหัสพนักงาน</th>";
                 HTMLtag += "<th>ชื่อ</th>";
-                HTMLtag += "<th>ชื่อสินค้า</th>";
-                HTMLtag += "<th>รหัสสินค้า</th>";
-                HTMLtag += "<th>สี</th>";
-                HTMLtag += "<th>ไซส์</th>";
-                HTMLtag += "<th>รหัสสินค้า 18 หลัก</th>";
-                HTMLtag += "<th>Barcode</th>";
-                HTMLtag += "<th>จำนวน</th>";
                 HTMLtag += "<th>สถานะ</th>";
                 HTMLtag += "</tr>";
                 HTMLtag += "</thead>";
@@ -681,38 +669,54 @@ public class GetDataStock extends HttpServlet {
 
                 int sum = 0;
                 for (int i = 0; i <= listdetail.size() - 1; i++) {
+
                     String status = "";
                     if (listdetail.get(i).getStatus().equals("success")) {
-                        status = "จัดเเล้ว";
+                        status = "<div class='text-success'>จัดสินค้าเรียบร้อย</div>";
                     } else {
-                        status = "ยังไม่ได้จัด";
+                        status = "<div class='text-danger'>ยังไม่ได้จัดสินค้า</div>";
                     }
-
-
                     HTMLtag += "<tr>";
                     HTMLtag += "<td>" + (i + 1) + "</td>";
+                    HTMLtag += "<td>" + doc_id+ "/" + listdetail.get(i).getCustomerID() + "</td>";
                     HTMLtag += "<td>" + listdetail.get(i).getPrename() + " " + listdetail.get(i).getFname() + "</td>";
-                    HTMLtag += "<td>" + listdetail.get(i).getDesc() + "</td>";
-                    HTMLtag += "<td>" + listdetail.get(i).getMaterialname() + "</td>";
-                    HTMLtag += "<td>" + listdetail.get(i).getColor() + "</td>";
-                    HTMLtag += "<td>" + listdetail.get(i).getSize() + "</td>";
-                    HTMLtag += "<td>" + listdetail.get(i).getMatfullname() + "</td>";
-                    HTMLtag += "<td>" + listdetail.get(i).getBarcode() + "</td>";
-                    HTMLtag += "<td>" + listdetail.get(i).getQuantity() + "</td>";
                     HTMLtag += "<td>" + status + "</td>";
                     HTMLtag += "</tr>";
-
-                    sum += Integer.parseInt(listdetail.get(i).getQuantity());
                 }
-                HTMLtag += "<tfoot>";
-                HTMLtag += "<tr>";
-                HTMLtag += "<th colspan=\"9\" class=\"text-end\">รวมทั้งหมด</th>";
-                HTMLtag += "<th>" + sum + "</th>";
-                HTMLtag += "</tr>";
-                HTMLtag += "</tfoot>";
-                HTMLtag += "</table>";
 
+                HTMLtag += "</table>";
                 out.print(HTMLtag);
+            } else if (type.equalsIgnoreCase("getnumbydoc")) {
+                String doc_id = request.getParameter("doc_id");
+
+                TransactionCustomerService s_trancustomer = new TransactionCustomerService();
+                List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcodeDepartAll(doc_id);
+                int packsuccess = 0;
+                int packerror = 0;
+                int packtotal = 0;
+                for (int i = 0; i <= listdetail.size() - 1; i++) {
+                    String status = "";
+                    if (listdetail.get(i).getStatus().equals("success")) {
+                        packsuccess++;
+                    } else {
+                        packerror++;
+                    }
+                    packtotal++;
+                }
+                String result = "";
+
+                if (packtotal != packsuccess) {
+                    result = "ยังไม่ได้จัดสินค้า";
+                } else {
+                    result = "จัดสินค้าเรียบร้อย";
+                }
+
+                JSONObject obj = new JSONObject();
+                obj.put("success", packsuccess);
+                obj.put("error", packerror);
+                obj.put("total", packtotal);
+                obj.put("result", result);
+                out.print(obj);
             }
         } finally {
             out.close();

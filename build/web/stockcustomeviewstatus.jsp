@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="card-body" id="barcode_pass">
                                     <div class="row mb-3">
-                                        <div class="col-4 text-end">รหัสบาร์โค้ด : </div>
+                                        <div class="col-4 text-end">รหัสบาร์โค้ด (เอกสาร) : </div>
                                         <div class="col-4">
                                             <input class="form-control form-control-sm " type="text" id="cus_no" required></input>
                                         </div> 
@@ -49,16 +49,67 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="card mt-3">
                                 <div class="card-header">
-                                    <div class="">เเสดงข้อมูล</div>
+                                    <div class="">เเสดงข้อมูลรายชื่อ</div>
                                 </div>
                                 <div class="card-body">
-                                    
-                                    <div class="viewdata">
-                                        
+                                    <div class="row mb-5">
+                                        <div class="col-3">
+                                            <div class="card bg-success text-white text-center shadow-lg">
+                                                <div class="card-header ">
+                                                    รายชื่อที่จัดสินค้าเเล้ว
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="h3" id="cms_packsuccess">
+                                                        0 คน
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="card bg-danger text-white  text-center shadow-lg">
+                                                <div class="card-header">
+                                                    รายชื่อที่ยังไม่ได้จัดสินค้า
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="h3" id="cms_packerror">
+                                                        0 คน
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="card bg-warning text-dark text-center shadow-lg">
+                                                <div class="card-header">
+                                                    รายชื่อทั้งหมด
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class=" h3" id="cms_packtotal">
+                                                        0 คน
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="card bg-primary text-white text-center shadow-lg">
+                                                <div class="card-header">
+                                                    ผลสรุป
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="h3" id="cms_packresult">
+                                                        -
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    
+                                    <div class="text-center h3">
+                                        ดูข้อมูลสรุปทั้งหมด : <a id="result_docid" class="text-primary">>>Link<<</a>
+                                    </div>
+                                    <div class="viewdata">     
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -72,64 +123,68 @@
     </footer>
     
     <script language="javascript">
-        $(document).ready(function(){
-            $("#btn-getdata").click(function(){
-                $("#barcode_pass").addClass("was-validated");
-                var data = $("#cus_no").val().split("/", 2);
-                
-                $.ajax({
-                    type:"post",
-                    url:"GetDataStock",
-                    data:{
-                        type:"getdetail",
-                        doc_id:data[0],
-                        num:$("#num").val()
-                    },
-                    success:function(msg){
-                        $(".viewdata").html(msg);
-                       
-                        var groupColumn = 1;
-                        var table = $('#listdata').DataTable({
-                            columnDefs: [
-                                { 
-                                    visible: false, 
-                                    targets: groupColumn
-                                }
-                            ],
-                            order: [[1, 'asc']],
-                           
-                            drawCallback: function (settings) {
-                                var api = this.api();
-                                var rows = api.rows({ page: 'current' }).nodes();
-                                var last = null;
- 
-                                api
-                                .column(groupColumn, { page: 'current' })
-                                .data()
-                                .each(function (group, i) {
-                                    if (last !== group) {
-                                        $(rows)
-                                        .eq(i)
-                                        .before('<tr class="group"><td colspan="9" style="background-color: #ddd;" >' + group + '</td></tr>');
-                                        last = group;
-                                    }
-                                });
-                            }
-                        });
-                        $('#listdata tbody').on('click', 'tr.group', function () {
-                            var currentOrder = table.order()[0];
-                            if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
-                                table.order([groupColumn, 'desc']).draw();
-                            } else {
-                                table.order([groupColumn, 'asc']).draw();
-                            }
-                        });
-        
-                    }
-                });
-                 
+        function gettabeldata(){
+            $("#barcode_pass").addClass("was-validated");
+            var data = $("#cus_no").val().split("/", 2);
+            $.ajax({
+                type:"post",
+                url:"GetDataStock",
+                data:{
+                    type:"getdetail",
+                    doc_id:data[0],
+                    num:$("#num").val()
+                },
+                beforeSend:function(){
+                    $("#btn-getdata").addClass("disabled");
+                    $("#btn-getdata").text("กำลังค้นหา");
+                },
+                success:function(msg){
+                    $("#btn-getdata").removeClass("disabled");
+                    $("#btn-getdata").text("ค้นหา");
+                    $(".viewdata").html(msg);
+                    $('#listdata').DataTable();
+                }
             });
+        }
+        function getsumbydoc(){
+            var data = $("#cus_no").val().split("/", 2);
+            $.ajax({
+                type:"post",
+                url:"GetDataStock",
+                data:{
+                    type:"getnumbydoc",
+                    doc_id:data[0]
+                },
+                success:function(msg){
+                    console.log(msg);
+                    var jsondata = JSON.parse(msg);
+                    $("#cms_packsuccess").text(jsondata.success + " คน");
+                    $("#cms_packerror").text(jsondata.error + " คน");
+                    $("#cms_packtotal").text(jsondata.total + " คน");
+                    $("#cms_packresult").text(jsondata.result);
+                }
+            });
+        }
+        $(document).ready(function(){
+        
+            $("#btn-getdata").click(function(){
+                gettabeldata();
+                getsumbydoc();
+            }); 
             
+            $("#result_docid").click(function(){
+                var data = $("#cus_no").val().split("/", 2);
+                if(data[0] == "" ){
+                    Swal.fire({
+                        title:"กรุณาใส่รหัส Barcode",
+                        text:"กรุณาใส่รหัส Barcode",
+                        icon:"error"
+                    })
+                }else{
+                    window.open("TransactionCustomer?doc_id="+ data[0], 'new')
+                }
+               
+            });
         })
 
     </script>  

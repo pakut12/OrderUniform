@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="card-body" id="barcode_pass">
                                     <div class="row mb-3">
-                                        <div class="col-4 text-end">รหัสบาร์โค้ด : </div>
+                                        <div class="col-4 text-end">รหัสบาร์โค้ด (เอกสาร): </div>
                                         <div class="col-4">
                                             <input class="form-control form-control-sm " type="text" id="cus_no" required></input>
                                         </div> 
@@ -87,7 +87,7 @@
                 
                 $.ajax({
                     type:"post",
-                    url:"GetDataStock",
+                    url:"TransactionCustomer",
                     data:{
                         type:"getdataformbarcodebox",
                         doc_id:data[0],

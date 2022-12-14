@@ -47,7 +47,6 @@
                                         </div>
                                         <div class="col-4">
                                             <button class="btn btn-sm btn-success" id="btn-getdata">ค้นหา</button>
-                                            
                                         </div>
                                     </div>
                                 </div>
@@ -101,14 +100,20 @@
                                 'บันทึกสำเร็จ',
                                 'success'
                             )
-                                        
+                                $("#cus_status").val("จัดสินค้าเรียบร้อย");     
+                                $("#print_sticker").removeClass("disabled");     
+                                $("#print_sticker").click(function(){
+                                    window.open("report/ReportBag.jsp?doc_id="+ data[0] +"&cus_no=" +data[1], 'new')
+                                })
+                                
                             }else if(msg == "false"){
                                 Swal.fire(
                                 'บันทึกไม่สำเร็จ',
                                 'บันทึกไม่สำเร็จ',
                                 'error'
                             )
-                            }          
+                            } 
+                                          
                         }
                     });
                 }
@@ -130,20 +135,27 @@
                             cus_no:data[1]
                         },
                         success:function(msg){
-                            $(".viewdata").html(msg);
-                            $("#listdata").DataTable();
-                            $("#btn_confirm").click(function (){
-                                $.ajax({
-                                    type:"post",
-                                    url:"GetDataStock",
-                                    data:{
-                                        type:"updatestatuscustomer"
-                                    },
-                                    success:function(msg){
-                                        confirmid();
-                                    }
-                                });     
-                            });
+                            if(msg != ""){
+                                Swal.fire({
+                                    title:"ดึงข้อมูลสำเร็จ",
+                                    text:"ดึงข้อมูลสำเร็จ",
+                                    icon:"success"
+                                })
+                            
+                                $(".viewdata").html(msg);
+                                $("#listdata").DataTable();
+                                $("#btn_confirm").click(function (){
+                                    confirmid();  
+                                    
+                                });
+                            }else{
+                                Swal.fire({
+                                    title:"ดึงข้อมูลไม่สำเร็จ",
+                                    text:"ดึงข้อมูลไม่สำเร็จ",
+                                    icon:"error"
+                                })
+                            }
+                           
                         }
                     });
                     

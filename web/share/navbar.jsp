@@ -237,24 +237,57 @@
                             
                             <li class="dropdown-header">ควบคุม</li>
                             <li>
-                                <a class="dropdown-item" href="stocklistbag.jsp">
+                                <a class="dropdown-item" href="listtransactioncustomer.jsp">
                                     <span>
-                                        <img src="css/bootstrap-icons-1.5.0/bucket.svg" 
+                                        <img src="css/bootstrap-icons-1.5.0/file-earmark-check.svg" 
                                              alt="Bootstrap" 
                                              width="20" 
                                              height="20">&nbsp;
-                                       โปรเเกรมจัดสินค้า
+                                        โปรเเกรมค้นหาเอกสาร
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="stocklistbag.jsp">
+                                    <span>
+                                        <img src="css/bootstrap-icons-1.5.0/bag-check.svg" 
+                                             alt="Bootstrap" 
+                                             width="20" 
+                                             height="20">&nbsp;
+                                        โปรเเกรมจัดสินค้า
                                     </span>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="stockcustomeviewstatus.jsp">
                                     <span>
-                                        <img src="css/bootstrap-icons-1.5.0/bucket.svg" 
+                                        <img src="css/bootstrap-icons-1.5.0/book.svg" 
                                              alt="Bootstrap" 
                                              width="20" 
                                              height="20">&nbsp;
-                                       โปรเเกรมดูรายละเอียด
+                                        โปรเเกรมดูรายละเอียด
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="stockboxall.jsp">
+                                    <span>
+                                        <img src="css/bootstrap-icons-1.5.0/box.svg" 
+                                             alt="Bootstrap" 
+                                             width="20" 
+                                             height="20">&nbsp;
+                                        โปรเเกรมจัดสินค้าลงกล่อง
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="stockconfirm.jsp">
+                                    <span>
+                                        <img src="css/bootstrap-icons-1.5.0/clipboard-check.svg" 
+                                             alt="Bootstrap" 
+                                             width="20" 
+                                             height="20">&nbsp;
+                                        โปรเเกรมสรุปผลการจัดสินค้า
                                     </span>
                                 </a>
                             </li>
@@ -280,7 +313,7 @@
                                     </span>
                                 </a>
                             </li>
-                            <li><hr class="dropdown-divider"></li>-->
+                            <li><hr class="dropdown-divider"></li>
                             <li>
                                 <li class="dropdown-header">เเบบกล่อง</li>
                                 <a class="dropdown-item" href="stockboxall.jsp">
@@ -301,7 +334,7 @@
                                         พิมพ์สติ๊กเกอร์ (เเผนก)
                                     </span>
                                 </a>
-                            </li>
+                            </li>-->
                         </ul>
                     </li>
                     <!-- <li class="nav-item dropdown">

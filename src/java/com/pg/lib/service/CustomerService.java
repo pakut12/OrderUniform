@@ -50,7 +50,8 @@ public class CustomerService {
 
     public static boolean UpdateBarcode(HashMap<String, String> item, List<OUTransactionCustomerDetail> detailDoc) {
         boolean updateResult = false;
-
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
         String sql = "update ou_transaction_customer set tran_cus_barcode = ?,tran_cus_status = ? where tran_cus_id=?";
         try {
             conn = ConnectDB.getConnection();
@@ -61,6 +62,7 @@ public class CustomerService {
                 ps.setString(1, barcode);
                 ps.setString(2, "uploaded");
                 ps.setString(3, String.valueOf(id));
+                ps.setDate(4, date);
                 ps.addBatch();
                 System.out.println(id);
                 System.out.println(barcode);

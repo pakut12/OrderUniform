@@ -104,7 +104,7 @@ public class TransactionCustomerService {
                 "c.cus_prename as prename, " +
                 "c.cus_fname as fullname, " +
                 "c.cus_no as customerCode, " +
-                 "b.tran_cus_status as status, " +
+                "b.tran_cus_status as status, " +
                 "c.cus_department as departmentname, " +
                 "d.hmat_code as materialname, " +
                 "d.hmat_color as materialcolor, " +
@@ -208,13 +208,14 @@ public class TransactionCustomerService {
                 " c.cus_prename as prename," +
                 " c.cus_fname as fullname," +
                 " c.cus_department as departmentname," +
+                " b.tran_cus_status as status," +
                 " a.H_NAME as docname" +
                 " FROM ou_header_transaction_customer a" +
                 " INNER JOIN ou_transaction_customer b ON a.h_id = b.header_id" +
                 " INNER JOIN ou_upload_customer c ON b.cus_id = c.cus_id" +
                 " WHERE" +
                 " a.h_id = ?" +
-                " GROUP BY c.cus_prename,c.cus_fname, c.cus_department,a.H_NAME,c.cus_id " +
+                " GROUP BY c.cus_prename,c.cus_fname, c.cus_department,a.H_NAME,c.cus_id,b.tran_cus_status " +
                 " ORDER BY c.cus_department,c.cus_fname asc";
         try {
 
@@ -229,6 +230,7 @@ public class TransactionCustomerService {
                 obj.setFname(rs.getString("fullname"));
                 obj.setDepartmentname(rs.getString("departmentname"));
                 obj.setDocName(rs.getString("docName"));
+                obj.setStatus(rs.getString("status"));
                 listdetailtransaction.add(obj);
             }
         } catch (Exception e) {
@@ -404,7 +406,7 @@ public class TransactionCustomerService {
             rs = ps.executeQuery();
             while (rs.next()) {
                 OUTransactionCustomerDetail obj = new OUTransactionCustomerDetail();
-               // System.out.println(rs.getInt("customerID"));
+                // System.out.println(rs.getInt("customerID"));
                 obj.setDocID(rs.getInt("docID"));
                 obj.setTransactionID(rs.getInt("transactionID"));
                 obj.setCustomerID(rs.getInt("customerID"));
@@ -425,7 +427,7 @@ public class TransactionCustomerService {
                 obj.setBarcode(rs.getString("barcode"));
                 listdetailtransaction.add(obj);
             }
-            //System.out.println(listdetailtransaction.size());
+        //System.out.println(listdetailtransaction.size());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -616,6 +618,36 @@ public class TransactionCustomerService {
         }
 
         return result;
+    }
+
+    public List<TreeMap> getHeaderTransactionwithid(String id) {
+        List<TreeMap> arrlist = new ArrayList<TreeMap>();
+        try {
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement("SELECT h_id, h_name, h_filename, h_filename, h_create_date FROM ou_header_transaction_customer WHERE h_id = ? ");
+            ps.setString(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String datetime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(rs.getTimestamp("h_create_date"));
+                TreeMap<String, String> objtree = new TreeMap<String, String>();
+                objtree.put("h_id", String.valueOf(rs.getInt("h_id")));
+                objtree.put("h_name", rs.getString("h_name"));
+                objtree.put("h_filename", rs.getString("h_filename"));
+                objtree.put("h_create_date", datetime);
+                arrlist.add(objtree);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return arrlist;
     }
 
     public List<TreeMap> getHeaderTransaction() {

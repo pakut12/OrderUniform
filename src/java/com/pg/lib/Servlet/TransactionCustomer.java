@@ -9,6 +9,8 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -21,11 +23,13 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Header;
 import org.apache.poi.ss.usermodel.Row;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class TransactionCustomer extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, JSONException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String doc_id = request.getParameter("doc_id") == null ? "" : request.getParameter("doc_id");
@@ -171,7 +175,7 @@ public class TransactionCustomer extends HttpServlet {
                     Quantity.setCellValue(listSummaryByCustomer.get(n).getQuantity());
 
                     Cell Barcode = row.createCell(1);
-                    Barcode.setCellValue("*" + doc_id +"/"+listSummaryByCustomer.get(n).getCustomerno() + "*");
+                    Barcode.setCellValue("*" + doc_id + "/" + listSummaryByCustomer.get(n).getCustomerno() + "*");
 
                     row.getCell(2).setCellStyle(details);
                     row.getCell(3).setCellStyle(details);
@@ -213,6 +217,16 @@ public class TransactionCustomer extends HttpServlet {
             HTMLtag += "</tbody>";
             HTMLtag += "</table>";
             out.print(HTMLtag);
+        } else if (type.equals("getheadertransactionwihtid")) {
+            String id = request.getParameter("h_id");
+            List<TreeMap> headerDetail = s_trancustomer.getHeaderTransactionwithid(id);
+            JSONObject obj = new JSONObject();
+            obj.put("id", headerDetail.get(0).get("h_id"));
+            obj.put("name", headerDetail.get(0).get("h_name"));
+            obj.put("filename", headerDetail.get(0).get("h_filename"));
+            obj.put("date", headerDetail.get(0).get("h_create_date"));
+            
+            out.print(obj);
         } else {
             //ค้นหาข้อมูล transaction
             List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailTransactionByDocumentId(doc_id);
@@ -240,7 +254,11 @@ public class TransactionCustomer extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (JSONException ex) {
+            Logger.getLogger(TransactionCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 
@@ -250,7 +268,11 @@ public class TransactionCustomer extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (JSONException ex) {
+            Logger.getLogger(TransactionCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 
