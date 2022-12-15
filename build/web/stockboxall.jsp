@@ -87,7 +87,7 @@
                 
                 $.ajax({
                     type:"post",
-                    url:"TransactionCustomer",
+                    url:"GetDataStock",
                     data:{
                         type:"getdataformbarcodebox",
                         doc_id:data[0],
@@ -124,21 +124,21 @@
                                 });
                             }
                         });
-                        $('#listdata tbody').on('click', 'tr.group', function () {
-                            var currentOrder = table.order()[0];
-                            if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
-                                table.order([groupColumn, 'desc']).draw();
-                            } else {
-                                table.order([groupColumn, 'asc']).draw();
-                            }
-                        });
+                            $('#listdata tbody').on('click', 'tr.group', function () {
+                                var currentOrder = table.order()[0];
+                                if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+                                    table.order([groupColumn, 'desc']).draw();
+                                } else {
+                                    table.order([groupColumn, 'asc']).draw();
+                                }
+                            });
         
-                    }
-                });
+                        }
+                    });
                  
-            });
+                });
             
-        })
+            })
 
     </script>  
 </html>

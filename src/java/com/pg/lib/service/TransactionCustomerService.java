@@ -561,6 +561,36 @@ public class TransactionCustomerService {
         return listResult;
     }
 
+    public Boolean UpdateStatusHeader(String h_id) {
+
+        boolean status = false;
+
+        try {
+            conn = ConnectDB.getConnection();
+            ps = conn.prepareStatement("Update ou_header_transaction_customer SET h_status = 'success' WHERE h_id = ?  ");
+            ps.setString(1, h_id);
+
+            if (ps.executeUpdate() > 0) {
+                status = true;
+            } else {
+                status = false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+
+                ps.close();
+                ConnectDB.closeConnection(conn);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return status;
+    }
+
     public List<OUSummaryOrderCustomerByMaterialAndSize> summaryOrderByMaterialAndSize(String doc_id) {
         List<OUSummaryOrderCustomerByMaterialAndSize> result = new ArrayList<OUSummaryOrderCustomerByMaterialAndSize>();
         String sqlString = "SELECT " +
@@ -624,7 +654,7 @@ public class TransactionCustomerService {
         List<TreeMap> arrlist = new ArrayList<TreeMap>();
         try {
             conn = ConnectDB.getConnection();
-            ps = conn.prepareStatement("SELECT h_id, h_name, h_filename, h_filename, h_create_date FROM ou_header_transaction_customer WHERE h_id = ? ");
+            ps = conn.prepareStatement("SELECT h_id, h_name, h_filename, h_filename, h_create_date, h_status FROM ou_header_transaction_customer WHERE h_id = ? ");
             ps.setString(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -634,6 +664,7 @@ public class TransactionCustomerService {
                 objtree.put("h_name", rs.getString("h_name"));
                 objtree.put("h_filename", rs.getString("h_filename"));
                 objtree.put("h_create_date", datetime);
+                objtree.put("h_status", rs.getString("h_status"));
                 arrlist.add(objtree);
             }
         } catch (Exception e) {
@@ -654,7 +685,7 @@ public class TransactionCustomerService {
         List<TreeMap> arrlist = new ArrayList<TreeMap>();
         try {
             conn = ConnectDB.getConnection();
-            ps = conn.prepareStatement("SELECT h_id, h_name, h_filename, h_filename, h_create_date FROM ou_header_transaction_customer WHERE h_id != 99 ");
+            ps = conn.prepareStatement("SELECT h_id, h_name, h_filename, h_filename, h_create_date FROM ou_header_transaction_customer WHERE h_id != 99 and h_status = 'new' ");
             rs = ps.executeQuery();
             while (rs.next()) {
                 String datetime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(rs.getTimestamp("h_create_date"));
@@ -819,9 +850,9 @@ public class TransactionCustomerService {
         int lastestpk = getPrimarykeyHeaderTransaction();
         long millis = System.currentTimeMillis();
         java.sql.Timestamp Timestamp = new java.sql.Timestamp(millis);
-        String sqltext = "INSERT INTO ou_header_transaction_customer " + "(h_id,h_name,h_filename,h_create_date) " + "VALUES (";
+        String sqltext = "INSERT INTO ou_header_transaction_customer " + "(h_id,h_name,h_filename,h_create_date,h_status) " + "VALUES (";
         lastestpk = lastestpk + 1;
-        sqltext += lastestpk + ", '" + topic + "', '" + filename[3] + "', " + "to_timestamp('" + Timestamp + "', 'YYYY-MM-DD HH24:MI:SS.FF') )";
+        sqltext += lastestpk + ", '" + topic + "', '" + filename[3] + "', " + "to_timestamp('" + Timestamp + "', 'YYYY-MM-DD HH24:MI:SS.FF'),'new' )";
         try {
             conn = ConnectDB.getConnection();
             ps = conn.prepareStatement(sqltext);

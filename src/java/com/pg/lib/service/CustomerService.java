@@ -62,7 +62,7 @@ public class CustomerService {
                 ps.setString(1, barcode);
                 ps.setString(2, "uploaded");
                 ps.setString(3, String.valueOf(id));
-                ps.setDate(4, date);
+                
                 ps.addBatch();
                 System.out.println(id);
                 System.out.println(barcode);

@@ -231,8 +231,6 @@ public class WriteExcelService {
             cellItemID.setCellStyle(cellStyle);
             //กำหนดตำแหน่ง cell ถัดไปให้เริ่มห่างจาก cell เก่าไป 2 ตำแหน่ง
             coulumnItemID = coulumnItemID + 2;
-
-
         }
 
         //***** สร้าง column รายละเอียดย่อย ไว้สำหรับกรอกข้อมูล *****//    

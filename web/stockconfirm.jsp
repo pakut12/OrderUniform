@@ -65,18 +65,18 @@
                                                 <div class="card-body text-center">
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class=" h6">เลขที่เอกสาร</label>
-                                                        <input type="text" class="form-control form-control-sm " id="h_id" aria-describedby="emailHelp" readonly>
+                                                        <input type="text" class="form-control form-control-sm text-center" id="h_id" readonly>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class=" h6">ชื่อไฟล์เอกสาร</label>
-                                                        <input type="text" class="form-control form-control-sm" id="h_name" aria-describedby="emailHelp">
+                                                        <input type="text" class="form-control form-control-sm text-center" id="h_name" readonly>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class=" h6">สถานะเอกสาร</label>
-                                                        <input type="text" class="form-control form-control-sm" id="h_status" aria-describedby="emailHelp">
+                                                        <input type="text" class="form-control form-control-sm text-center" id="h_status" readonly>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <button class="btn btn-sm btn-success" type="button" id="btn_send_status">ยืนยัน</button>
+                                                        <button class="btn btn-sm btn-success disabled" type="button" id="btn_send_status" >ยืนยัน</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -110,23 +110,19 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type:"post",
-                        url:"Customer",
+                        url:"TransactionCustomer",
                         data:{
-                            type:"updatestatuscustomer",
-                            cm_id:data[1]
+                            type:"updatestatusheadertransaction",
+                            h_id:data[0]
                         },
-                        success:function(msg){     
+                        success:function(msg){                        
                             if(msg == "true"){
                                 Swal.fire(
                                 'บันทึกสำเร็จ',
                                 'บันทึกสำเร็จ',
                                 'success'
                             )
-                                $("#cus_status").val("จัดสินค้าเรียบร้อย");     
-                                $("#print_sticker").removeClass("disabled");     
-                                $("#print_sticker").click(function(){
-                                    window.open("report/ReportBag.jsp?doc_id="+ data[0] +"&cus_no=" +data[1], 'new')
-                                })
+                                
                                 
                             }else if(msg == "false"){
                                 Swal.fire(
@@ -134,54 +130,59 @@
                                 'บันทึกไม่สำเร็จ',
                                 'error'
                             )
-                            } 
-                                          
+                            }     
                         }
                     });
                 }
             });
         }
         
+        
+        function getdata(){
+            var data = $("#cus_no").val().split("/", 2);
+            $("#myform").addClass("was-validated");
+                
+            if(data != ""){
+                $.ajax({
+                    type:"post",
+                    url:"TransactionCustomer",
+                    data:{
+                        type:"getheadertransactionwihtid",
+                        h_id:data[0],
+                        cus_no:data[1]
+                    },
+                    success:function(msg){
+                        var data = JSON.parse(msg);
+                        console.log(data);
+                        if(msg != ""){
+                            Swal.fire({
+                                title:"ดึงข้อมูลสำเร็จ",
+                                text:"ดึงข้อมูลสำเร็จ",
+                                icon:"success"
+                            })
+                            $("#btn_send_status").removeClass("disabled");
+                            $("#h_id").val(data.id);
+                            $("#h_name").val(data.name);
+                            $("#h_status").val(data.status);
+                            
+                        }else{
+                            Swal.fire({
+                                title:"ดึงข้อมูลไม่สำเร็จ",
+                                text:"ดึงข้อมูลไม่สำเร็จ",
+                                icon:"error"
+                            })
+                        }
+                             
+                    }
+                });
+            }
+        }
         $(document).ready(function(){
             $("#btn-getdata").click(function(){
-                var data = $("#cus_no").val().split("/", 2);
-                $("#myform").addClass("was-validated");
-                
-                if(data != ""){
-                    $.ajax({
-                        type:"post",
-                        url:"TransactionCustomer",
-                        data:{
-                            type:"getheadertransactionwihtid",
-                            h_id:data[0],
-                            cus_no:data[1]
-                        },
-                        success:function(msg){
-                            var data = JSON.parse(msg);
-                          
-                            if(msg != ""){
-                                Swal.fire({
-                                    title:"ดึงข้อมูลสำเร็จ",
-                                    text:"ดึงข้อมูลสำเร็จ",
-                                    icon:"success"
-                                })
-                                $("#h_id").val(data.id);
-                                $("#h_name").val(data.name);
-                                $("#btn_confirm").click(function (){
-                                    //confirmid();  
-                                    
-                                });
-                            }else{
-                                Swal.fire({
-                                    title:"ดึงข้อมูลไม่สำเร็จ",
-                                    text:"ดึงข้อมูลไม่สำเร็จ",
-                                    icon:"error"
-                                })
-                            }
-                             
-                        }
-                    });
-                }
+                getdata();
+            });
+            $("#btn_send_status").click(function (){
+                confirmid(); 
             });
         })
 

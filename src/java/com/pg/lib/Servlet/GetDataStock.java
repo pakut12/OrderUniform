@@ -660,7 +660,7 @@ public class GetDataStock extends HttpServlet {
                 HTMLtag += "<thead>";
                 HTMLtag += "<tr>";
                 HTMLtag += "<th>ลำดับ</th>";
-                HTMLtag += "<th>รหัสพนักงาน</th>";
+                HTMLtag += "<th>รหัสบาร์โค้ด</th>";
                 HTMLtag += "<th>ชื่อ</th>";
                 HTMLtag += "<th>สถานะ</th>";
                 HTMLtag += "</tr>";
@@ -706,9 +706,9 @@ public class GetDataStock extends HttpServlet {
                 String result = "";
 
                 if (packtotal != packsuccess) {
-                    result = "ยังไม่ได้จัดสินค้า";
+                    result = "จัดสินค้ายังไม่ครบ";
                 } else {
-                    result = "จัดสินค้าเรียบร้อย";
+                    result = "จัดสินค้าครบเเล้ว";
                 }
 
                 JSONObject obj = new JSONObject();

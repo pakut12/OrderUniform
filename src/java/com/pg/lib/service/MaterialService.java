@@ -131,7 +131,7 @@ public class MaterialService {
                 "FROM ou_header_material a " +
                 "LEFT JOIN ou_company b ON a.company_id = b.comp_id " +
                 "LEFT JOIN ou_material_group c ON a.group_id = c.group_id " +
-                "WHERE a.hmat_status = 'new' ";
+                "WHERE a.hmat_status = 'new'";
         try {
             conn = ConnectDB.getConnection();
             ps = conn.prepareStatement(sqlText);
