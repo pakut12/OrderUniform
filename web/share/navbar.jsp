@@ -9,6 +9,95 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
+    <style type="text/css">
+        
+        /* ============ desktop view ============ */
+        @media all and (min-width: 992px) {
+            
+            .dropdown-menu li{
+                position: relative;
+            }
+            .dropdown-menu .submenu{ 
+                display: none;
+                position: absolute;
+                left:100%; top:-7px;
+            }
+            .dropdown-menu .submenu-left{ 
+                right:100%; left:auto;
+            }
+            
+            .dropdown-menu > li:hover{ background-color: #f1f1f1 }
+            .dropdown-menu > li:hover > .submenu{
+                display: block;
+            }
+        }	
+        /* ============ desktop view .end// ============ */
+        
+        /* ============ small devices ============ */
+        @media (max-width: 991px) {
+            
+            .dropdown-menu .dropdown-menu{
+                margin-left:0.7rem; margin-right:0.7rem; margin-bottom: .5rem;
+            }
+            
+        }	
+        /* ============ small devices .end// ============ */
+        
+    </style>
+    <script type="text/javascript">
+        //	window.addEventListener("resize", function() {
+        //		"use strict"; window.location.reload(); 
+        //	});
+
+
+        document.addEventListener("DOMContentLoaded", function(){
+        
+
+            /////// Prevent closing from click inside dropdown
+            document.querySelectorAll('.dropdown-menu').forEach(function(element){
+                element.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+            })
+
+
+
+            // make it as accordion for smaller screens
+            if (window.innerWidth < 992) {
+
+                // close all inner dropdowns when parent is closed
+                document.querySelectorAll('.navbar .dropdown').forEach(function(everydropdown){
+                    everydropdown.addEventListener('hidden.bs.dropdown', function () {
+                        // after dropdown is hidden, then find all submenus
+                        this.querySelectorAll('.submenu').forEach(function(everysubmenu){
+                            // hide every submenu as well
+                            everysubmenu.style.display = 'none';
+                        });
+                    })
+                });
+                        
+                document.querySelectorAll('.dropdown-menu a').forEach(function(element){
+                    element.addEventListener('click', function (e) {
+                        var nextEl = this.nextElementSibling;
+                        if(nextEl && nextEl.classList.contains('submenu')) {	
+                            // prevent opening link if link needs to open dropdown
+                            e.preventDefault();
+                            console.log(nextEl);
+                            if(nextEl.style.display == 'block'){
+                                nextEl.style.display = 'none';
+                            } else {
+                                nextEl.style.display = 'block';
+                            }
+
+                        }
+                    });
+                })
+            }
+            // end if innerWidth
+
+        }); 
+        // DOMContentLoaded  end
+    </script>
     <nav class="navbar navbar-expand-md navbar-light bg-light">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" 
@@ -27,7 +116,6 @@
                             </span>
                         </a>
                     </li>
-                    
                     &nbsp;
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle"
@@ -37,159 +125,147 @@
                            data-bs-toggle="dropdown"
                            aria-expanded="false">
                             <span class="font-menu-style">
-                                <img src="css/bootstrap-icons-1.5.0/download.svg"
+                                <img src="css/bootstrap-icons-1.5.0/building.svg"
                                      alt="Bootstrap"
                                      width="20"
                                      height="20">
-                                ดาวน์โหลดฟอร์ม
+                                ระบบจัดการธุรกิจ (รายชื่อพนักงาน)
                             </span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="attachfile/download/form/Department.xls">
-                                    <span>
-                                        <img src="css/bootstrap-icons-1.5.0/info-square.svg" 
-                                             alt="Bootstrap" 
-                                             width="20" 
-                                             height="20">&nbsp;
-                                        แบบแผนก
-                                    </span>
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item" href="attachfile/download/form/OrderUniform_Customer.xls">
-                                    <span>
-                                        <img src="css/bootstrap-icons-1.5.0/info-square-fill.svg" 
-                                             alt="Bootstrap" 
-                                             width="20" 
-                                             height="20">&nbsp;
-                                        แบบรายชื่อพนักงาน
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    &nbsp;
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" 
-                           href="#" 
-                           id="navbarDropdown" 
-                           role="button" 
-                           data-bs-toggle="dropdown" 
-                           aria-expanded="false">
-                            <span class="font-menu-style">
-                                <img src="css/bootstrap-icons-1.5.0/list-ul.svg" 
-                                     alt="Bootstrap" 
-                                     width="20" 
-                                     height="20">
-                                จัดการข้อมูลมาสเตอร์
-                            </span>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a class="dropdown-item" href="managecompany.jsp">
-                                    <span>
-                                        <img src="css/bootstrap-icons-1.5.0/building.svg" 
-                                             alt="Bootstrap" 
-                                             width="20" 
-                                             height="20">&nbsp;
-                                        รายชื่อบริษัท
-                                    </span>
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item" href="managematerial.jsp">
-                                    <span>
-                                        <img src="css/bootstrap-icons-1.5.0/clipboard.svg" 
-                                             alt="Bootstrap" 
-                                             width="20" 
-                                             height="20">&nbsp;
-                                        รายการ Items
-                                    </span>
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <!--<li>
-                                <a class="dropdown-item" href="uploadmastercustomer.jsp">
-                                    <span>
-                                        <img src="css/bootstrap-icons-1.5.0/person-plus.svg" 
-                                         alt="Bootstrap" 
-                                         width="20" 
+                                <a class="dropdown-item" href="#"> 
+                                    <img src="css/bootstrap-icons-1.5.0/download.svg"
+                                         alt="Bootstrap"
+                                         width="20"
                                          height="20">&nbsp;
-                                        รูปแบบพนักงาน
-                                    </span>
-                                </a>
+                                ดาวน์โหลดฟอร์ม </a>
+                                <ul class="submenu dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="attachfile/download/form/Department.xls">
+                                            <span>
+                                                <img src="css/bootstrap-icons-1.5.0/info-square.svg" 
+                                                     alt="Bootstrap" 
+                                                     width="20" 
+                                                     height="20">&nbsp;
+                                                แบบแผนก
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="attachfile/download/form/OrderUniform_Customer.xls">
+                                            <span>
+                                                <img src="css/bootstrap-icons-1.5.0/info-square-fill.svg" 
+                                                     alt="Bootstrap" 
+                                                     width="20" 
+                                                     height="20">&nbsp;
+                                                แบบรายชื่อพนักงาน
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li><hr class="dropdown-divider"></li>
                             <li>
-                                <a class="dropdown-item" href="uploadmasterdepartment.jsp">
-                                    <span>
-                                        <img src="css/bootstrap-icons-1.5.0/building.svg" 
-                                         alt="Bootstrap" 
-                                         width="20" 
+                                <a class="dropdown-item" href="#"> 
+                                    <img src="css/bootstrap-icons-1.5.0/people.svg"
+                                         alt="Bootstrap"
+                                         width="20"
                                          height="20">&nbsp;
-                                        รูปแบบแผนก
-                                    </span>
-                                </a>
+                                จัดการข้อมูลมาสเตอร์</a>
+                                <ul class="submenu dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="managecompany.jsp">
+                                            <span>
+                                                <img src="css/bootstrap-icons-1.5.0/building.svg" 
+                                                     alt="Bootstrap" 
+                                                     width="20" 
+                                                     height="20">&nbsp;
+                                                รายชื่อบริษัท
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="managecustomer.jsp">
+                                            <span>
+                                                <img src="css/bootstrap-icons-1.5.0/person.svg" 
+                                                     alt="Bootstrap" 
+                                                     width="20" 
+                                                     height="20">&nbsp;
+                                                ลูกค้า
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="managematerial.jsp">
+                                            <span>
+                                                <img src="css/bootstrap-icons-1.5.0/clipboard.svg" 
+                                                     alt="Bootstrap" 
+                                                     width="20" 
+                                                     height="20">&nbsp;
+                                                รายการ Items
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="manageorder.jsp">
+                                            <span>
+                                                <img src="css/bootstrap-icons-1.5.0/file-earmark-arrow-down.svg" 
+                                                     alt="Bootstrap" 
+                                                     width="20" 
+                                                     height="20">&nbsp;
+                                                ดาวน์โหลดออเดอร์
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="uploadtransaction.jsp">
+                                            <span>
+                                                <img src="css/bootstrap-icons-1.5.0/file-earmark-arrow-up.svg" 
+                                                     alt="Bootstrap" 
+                                                     width="20" 
+                                                     height="20">&nbsp;
+                                                อัพโหลดออเดอร์
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li><hr class="dropdown-divider"></li>-->
                             <li>
-                                <a class="dropdown-item" href="managecustomer.jsp">
-                                    <span>
-                                        <img src="css/bootstrap-icons-1.5.0/person.svg" 
-                                             alt="Bootstrap" 
-                                             width="20" 
-                                             height="20">&nbsp;
-                                        ลูกค้า
-                                    </span>
-                                </a>
+                                <a class="dropdown-item" href="#"> 
+                                    <img src="css/bootstrap-icons-1.5.0/clipboard-data.svg"
+                                         alt="Bootstrap"
+                                         width="20"
+                                         height="20">&nbsp;
+                                จัดการข้อมูล Transaction</a>
+                                <ul class="submenu dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="listtransactioncustomer.jsp">
+                                            <span>
+                                                <img src="css/bootstrap-icons-1.5.0/file-earmark-person.svg" 
+                                                     alt="Bootstrap" 
+                                                     width="20" 
+                                                     height="20">&nbsp;
+                                                รูปแบบพนักงาน
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="listtransactiondepartment.jsp">
+                                            <span>
+                                                <img src="css/bootstrap-icons-1.5.0/briefcase-fill.svg" 
+                                                     alt="Bootstrap" 
+                                                     width="20" 
+                                                     height="20">&nbsp;
+                                                รูปแบบแผนก
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>
-                    &nbsp;
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" 
-                           href="#" 
-                           id="navbarDropdown" 
-                           role="button" 
-                           data-bs-toggle="dropdown" 
-                           aria-expanded="false">
-                            <span class="font-menu-style">
-                                <img src="css/bootstrap-icons-1.5.0/layout-text-sidebar.svg" 
-                                     alt="Bootstrap" 
-                                     width="20" 
-                                     height="20">
-                                จัดการข้อมูล Transaction 
-                            </span>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a class="dropdown-item" href="listtransactioncustomer.jsp">
-                                    <span>
-                                        <img src="css/bootstrap-icons-1.5.0/file-earmark-person.svg" 
-                                             alt="Bootstrap" 
-                                             width="20" 
-                                             height="20">&nbsp;
-                                        รูปแบบพนักงาน
-                                    </span>
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item" href="listtransactiondepartment.jsp">
-                                    <span>
-                                        <img src="css/bootstrap-icons-1.5.0/briefcase-fill.svg" 
-                                             alt="Bootstrap" 
-                                             width="20" 
-                                             height="20">&nbsp;
-                                        รูปแบบแผนก
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    
+                    
                     <li class="nav-item">
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
