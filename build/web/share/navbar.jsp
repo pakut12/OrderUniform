@@ -98,8 +98,8 @@
         }); 
         // DOMContentLoaded  end
     </script>
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
             <div class="collapse navbar-collapse" 
                  id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -341,7 +341,7 @@
                                              alt="Bootstrap" 
                                              width="20" 
                                              height="20">&nbsp;
-                                        โปรเเกรมดูรายละเอียด
+                                        โปรเเกรมดูรายละเอียดการจัดสินค้า
                                     </span>
                                 </a>
                             </li>
@@ -488,12 +488,40 @@
                         </ul>
                     </li>-->
                 </ul>
-                <a class="btn btn-secondary" href="manageorder.jsp">
+                <div class="d-flex">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               id="navbarDropdown"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <span class="font-menu-style">
+                                    <img src="css/bootstrap-icons-1.5.0/person-badge.svg"
+                                         alt="Bootstrap"
+                                         width="20"
+                                         height="20">
+                                    <%=request.getSession().getAttribute("name")%>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item text-danger text-center " href="Chklogout">
+                                            ออกจากระบบ
+                                </a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                </div>
+                
+                
+                <!-- <a class="btn btn-secondary" href="manageorder.jsp">
                     ดาวน์โหลดออเดอร์ 
                 </a>&nbsp;
                 <a class="btn btn-success" href="uploadtransaction.jsp">
                     อัพโหลดออเดอร์
-                </a>&nbsp;
+                </a>&nbsp;-->
             </div>
         </div>
     </nav>

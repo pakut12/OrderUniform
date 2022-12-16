@@ -64,6 +64,10 @@
         <servlet-name>GetDataStock</servlet-name>
         <servlet-class>com.pg.lib.Servlet.GetDataStock</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Chklogout</servlet-name>
+        <servlet-class>com.pg.lib.Servlet.Chklogout</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ChkAuthorized</servlet-name>
         <url-pattern>/ChkAuthorized</url-pattern>
@@ -127,6 +131,10 @@
     <servlet-mapping>
         <servlet-name>GetDataStock</servlet-name>
         <url-pattern>/GetDataStock</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Chklogout</servlet-name>
+        <url-pattern>/Chklogout</url-pattern>
     </servlet-mapping>
     <session-config>
     <session-timeout>

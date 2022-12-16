@@ -160,11 +160,19 @@
                                 text:"ดึงข้อมูลสำเร็จ",
                                 icon:"success"
                             })
+                            
                             $("#btn_send_status").removeClass("disabled");
                             $("#h_id").val(data.id);
                             $("#h_name").val(data.name);
-                            $("#h_status").val(data.status);
-                            
+                            if(data.status == 0){
+                                $("#h_status").removeClass("text-success");
+                                $("#h_status").addClass("text-danger");
+                                $("#h_status").val("ยังไม่ได้จัดสินค้าลงกล่อง");
+                            }else if(data.status == 1){
+                                $("#h_status").removeClass("text-danger");
+                                $("#h_status").addClass("text-success");
+                                $("#h_status").val("จัดสินค้าลงกล่องเรียบร้อย");
+                            }
                         }else{
                             Swal.fire({
                                 title:"ดึงข้อมูลไม่สำเร็จ",
@@ -175,6 +183,12 @@
                              
                     }
                 });
+            }else{
+                Swal.fire({
+                    title:"กรุณากรอกข้อมูลให้ถูกต้อง",
+                    text:"กรุณากรอกข้อมูลให้ถูกต้อง",
+                    icon:"error"
+                })
             }
         }
         $(document).ready(function(){

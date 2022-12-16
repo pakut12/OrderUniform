@@ -10,6 +10,7 @@
 
 
 <html>
+    
     <div id="footer-style">
         <p style="margin-bottom:0px" class="text-center">Copyright © People's garment public Co.Ltd.</p>
         <p style="margin-bottom:0px" class="text-center">666 Rama3 Bangpongpang Yannawa Bangkok 10120 Tel. 02-685-6500 Fax. 02-294-5159</p>

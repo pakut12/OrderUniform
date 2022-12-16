@@ -146,7 +146,6 @@
                                 $("#listdata").DataTable();
                                 $("#btn_confirm").click(function (){
                                     confirmid();  
-                                    
                                 });
                             }else{
                                 Swal.fire({
@@ -155,10 +154,16 @@
                                     icon:"error"
                                 })
                             }
-                           
                         }
                     });
                     
+                }else{
+                    Swal.fire({
+                        title:"Error",
+                        text:"กรุณากรอกข้อมูลให้ถูกต้อง",
+                        icon:"error"
+                    })
+
                 }
                 
 

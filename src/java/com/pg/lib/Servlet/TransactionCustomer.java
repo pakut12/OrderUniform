@@ -75,9 +75,9 @@ public class TransactionCustomer extends HttpServlet {
             String status = "";
 
             if (headerDetail.get(0).get("h_status").toString().equals("new")) {
-                status = "ยังไม่ได้จัดสินค้าลงกล่อง";
+                status = "0";
             } else {
-                status = "จัดสินค้าลงกล่องเรียบร้อย";
+                status = "1";
             }
 
             JSONObject obj = new JSONObject();

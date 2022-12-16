@@ -171,15 +171,27 @@
                             contentType : false,
                             data : transactionForm,
                             success : function(data){
-                               
                                 const json = JSON.parse(data);
-                                
-                                
-                                link = document.createElement("a");
-                                link.href = "TransactionCustomer?doc_id="+json.doc_id;
-                                document.body.appendChild(link);
-                                link.click();
-                                 
+                                console.log(json)
+                                if(json.status == "false"){
+                                    Swal.fire({
+                                        title:"Error",
+                                        icon:"error",
+                                        text:"กรุณาตรวจสอบไฟล์ที่ Upload"
+                                    })
+                                }else if(json.status == "true"){
+                                    Swal.fire({
+                                        title:"Success",
+                                        icon:"success",
+                                        text:"Upload ไฟล์เรียบร้อย"
+                                    })
+                                    setTimeout(function(){
+                                        link = document.createElement("a");
+                                        link.href = "TransactionCustomer?doc_id="+json.doc_id;
+                                        document.body.appendChild(link);
+                                        link.click();
+                                    },1000)
+                                }
                             },
                             error : function(){
 
@@ -220,10 +232,15 @@
                             data : transactionForm,
                             success : function(data){
                                 const json = JSON.parse(data);
+                                
+                                console.log(json);
+                                /*
                                 link = document.createElement("a");
                                 link.href = "TransactionDepartment?doc_id="+json.doc_id;
                                 document.body.appendChild(link);
                                 link.click();
+                                 */
+        
                             },
                             error: function(){
 

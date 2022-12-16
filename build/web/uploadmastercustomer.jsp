@@ -124,10 +124,28 @@
                             contentType: false,
                             data: formdata,
                             success: function(data){
-                                document.getElementById("tableDisplay").innerHTML = data;
-                                setupDatatable()
-                                document.getElementById("btnUpload").disabled = true;
-                                alert("อัพโหลดสำเร็จ...");
+                                if(data==""){
+                                    Swal.fire({
+                                        title:"Error",
+                                        icon:"error",
+                                        text:"กรุณาตรวจสอบไฟล์ที่ Upload"
+                                    })
+                                    document.getElementById("tableDisplay").innerHTML = data;
+                                    setupDatatable()
+                                    document.getElementById("btnUpload").disabled = true;
+                                    setTimeout(function(){
+                                       location.reload();
+                                    },1000)
+                                }else{
+                                    Swal.fire({
+                                        title:"Success",
+                                        icon:"success",
+                                        text:"กรุณาตรวจสอบไฟล์ที่ Upload"
+                                    })
+                                    document.getElementById("tableDisplay").innerHTML = data;
+                                    setupDatatable()
+                                    document.getElementById("btnUpload").disabled = true;
+                                }
                             },
                             error: function(msg){
                                 console.log(msg);
