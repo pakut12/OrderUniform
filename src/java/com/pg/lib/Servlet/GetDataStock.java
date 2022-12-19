@@ -16,6 +16,7 @@ import java.net.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.*;
@@ -271,51 +272,60 @@ public class GetDataStock extends HttpServlet {
 
                     TransactionCustomerService ts = new TransactionCustomerService();
                     List<OUTransactionCustomerDetail> list = ts.getDetailFromBarcodeDepartAll(doc_id);
-                    int box = (int) Math.ceil((double) list.size() / Integer.parseInt(num));
 
-                    String HTMLtag = "";
-                    HTMLtag += "<div class=\"mb-3 text-end\">";
-                    HTMLtag += "<a href=\"report/ReportBoxAll.jsp?doc_id=" + doc_id + "&num=" + num + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
-                    HTMLtag += "";
-                    HTMLtag += "</div>";
-                    HTMLtag += "<table id=\"listdata\" class=\"table w-100 \" >";
-                    HTMLtag += "<thead>";
-                    HTMLtag += "<tr>";
-                    HTMLtag += "<th>ลำดับ</th>";
-                    HTMLtag += "<th>ลำดับ</th>";
-                    HTMLtag += "<th>ชื่อ</th>";
-                    HTMLtag += "<th>เเผนก</th>";
-                    HTMLtag += "</tr>";
-                    HTMLtag += "</thead>";
-                    HTMLtag += "<tbody>";
-                    int x = 1;
-                    int z = 0;
-                    for (int i = 0; i <= list.size() - 1; i++) {
-                        String Name = list.get(i).getFname();
-                        String DepartmentName = list.get(i).getDepartmentname();
-                        if (x == Integer.parseInt(num)) {
-                            HTMLtag += "<tr>";
-                            HTMLtag += "<td>" + list.get(0).getDocName() + " " + (z + 1) + "/" + (box) + "</td>";
-                            HTMLtag += "<td>" + (i + 1) + "</td>";
-                            HTMLtag += "<td>" + Name + "</td>";
-                            HTMLtag += "<td>" + DepartmentName + "</td>";
-                            HTMLtag += "</tr>";
-                            x = 1;
-                            z++;
-                        } else {
-                            HTMLtag += "<tr>";
-                            HTMLtag += "<td>" + list.get(0).getDocName() + " " + (z + 1) + "/" + (box) + "</td>";
-                            HTMLtag += "<td>" + (i + 1) + "</td>";
-                            HTMLtag += "<td>" + Name + "</td>";
-                            HTMLtag += "<td>" + DepartmentName + "</td>";
-                            HTMLtag += "</tr>";
-                            x++;
-                        }
+                    if (list.size() > 0) {
+                        out.print("true");
+                    } else {
+                        out.print("false");
                     }
-                    HTMLtag += "</tbody>";
-                    HTMLtag += "</table>";
 
-                    out.print(HTMLtag);
+                /* 19/12/2565
+                int box = (int) Math.ceil((double) list.size() / Integer.parseInt(num));
+                
+                String HTMLtag = "";
+                HTMLtag += "<div class=\"mb-3 text-end\">";
+                HTMLtag += "<a href=\"report/ReportBoxAll.jsp?doc_id=" + doc_id + "&num=" + num + "\" target=\"_blank\"><button class=\"btn btn-sm btn-secondary\" >พิมพ์สติ๊กเกอร์ทั้งหมด</button></a>";
+                HTMLtag += "";
+                HTMLtag += "</div>";
+                HTMLtag += "<table id=\"listdata\" class=\"table w-100 \" >";
+                HTMLtag += "<thead>";
+                HTMLtag += "<tr>";
+                HTMLtag += "<th>ลำดับ</th>";
+                HTMLtag += "<th>ลำดับ</th>";
+                HTMLtag += "<th>ชื่อ</th>";
+                HTMLtag += "<th>เเผนก</th>";
+                HTMLtag += "</tr>";
+                HTMLtag += "</thead>";
+                HTMLtag += "<tbody>";
+                int x = 1;
+                int z = 0;
+                for (int i = 0; i <= list.size() - 1; i++) {
+                String Name = list.get(i).getFname();
+                String DepartmentName = list.get(i).getDepartmentname();
+                if (x == Integer.parseInt(num)) {
+                HTMLtag += "<tr>";
+                HTMLtag += "<td>" + list.get(0).getDocName() + " " + (z + 1) + "/" + (box) + "</td>";
+                HTMLtag += "<td>" + (i + 1) + "</td>";
+                HTMLtag += "<td>" + Name + "</td>";
+                HTMLtag += "<td>" + DepartmentName + "</td>";
+                HTMLtag += "</tr>";
+                x = 1;
+                z++;
+                } else {
+                HTMLtag += "<tr>";
+                HTMLtag += "<td>" + list.get(0).getDocName() + " " + (z + 1) + "/" + (box) + "</td>";
+                HTMLtag += "<td>" + (i + 1) + "</td>";
+                HTMLtag += "<td>" + Name + "</td>";
+                HTMLtag += "<td>" + DepartmentName + "</td>";
+                HTMLtag += "</tr>";
+                x++;
+                }
+                }
+                HTMLtag += "</tbody>";
+                HTMLtag += "</table>";
+                
+                out.print(HTMLtag);
+                 */
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -656,7 +666,7 @@ public class GetDataStock extends HttpServlet {
 
 
                 String HTMLtag = "";
-                HTMLtag += "<table id=\"listdata\" class=\"table  w-100 \" >";
+                HTMLtag += "<table id=\"listdata\" class=\"table table-bordered w-100 \" >";
                 HTMLtag += "<thead>";
                 HTMLtag += "<tr>";
                 HTMLtag += "<th>ลำดับ</th>";
@@ -678,7 +688,7 @@ public class GetDataStock extends HttpServlet {
                     }
                     HTMLtag += "<tr>";
                     HTMLtag += "<td>" + (i + 1) + "</td>";
-                    HTMLtag += "<td>" + doc_id+ "/" + listdetail.get(i).getCustomerID() + "</td>";
+                    HTMLtag += "<td>" + doc_id + "/" + listdetail.get(i).getCustomerID() + "</td>";
                     HTMLtag += "<td>" + listdetail.get(i).getPrename() + " " + listdetail.get(i).getFname() + "</td>";
                     HTMLtag += "<td>" + status + "</td>";
                     HTMLtag += "</tr>";
@@ -688,14 +698,20 @@ public class GetDataStock extends HttpServlet {
                 out.print(HTMLtag);
             } else if (type.equalsIgnoreCase("getnumbydoc")) {
                 String doc_id = request.getParameter("doc_id");
-
+                String status_header = "";
+                String result = "";
                 TransactionCustomerService s_trancustomer = new TransactionCustomerService();
+                List<TreeMap> headerDetail = s_trancustomer.getHeaderTransactionwithid(doc_id);
                 List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcodeDepartAll(doc_id);
+                if (headerDetail.get(0).get("h_status").toString().equals("new")) {
+                    status_header = "ยังไม่ได้จัดสินค้าลงกล่อง";
+                } else {
+                    status_header = "จัดสินค้าลงกล่องเรียบร้อยเเล้ว";
+                }
                 int packsuccess = 0;
                 int packerror = 0;
                 int packtotal = 0;
                 for (int i = 0; i <= listdetail.size() - 1; i++) {
-                    String status = "";
                     if (listdetail.get(i).getStatus().equals("success")) {
                         packsuccess++;
                     } else {
@@ -703,8 +719,6 @@ public class GetDataStock extends HttpServlet {
                     }
                     packtotal++;
                 }
-                String result = "";
-
                 if (packtotal != packsuccess) {
                     result = "จัดสินค้ายังไม่ครบ";
                 } else {
@@ -715,6 +729,7 @@ public class GetDataStock extends HttpServlet {
                 obj.put("success", packsuccess);
                 obj.put("error", packerror);
                 obj.put("total", packtotal);
+                obj.put("status_header", status_header);
                 obj.put("result", result);
                 out.print(obj);
             }

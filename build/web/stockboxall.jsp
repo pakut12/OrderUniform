@@ -41,7 +41,7 @@
                                     <div class="row mb-3">
                                         <div class="col-4 text-end">รหัสบาร์โค้ด (เอกสาร): </div>
                                         <div class="col-4">
-                                            <input class="form-control form-control-sm " type="text" id="cus_no" required></input>
+                                            <input class="form-control form-control-sm " type="text" id="doc_id" required></input>
                                         </div> 
                                         
                                     </div>
@@ -50,14 +50,17 @@
                                         <div class="col-4">
                                             <input class="form-control form-control-sm " type="number" id="num" required></input>
                                         </div> 
-                                        <div class="col-4">
-                                            <button class="btn btn-success btn-sm" id="btn-getdata">ค้นหา</button>
-                                        </div>
+                                        
                                     </div>
-                                    
+                                    <div class="row mb-3 text-center">
+                                        <div class="col-12">
+                                            <button class="btn btn-success btn-sm" id="btn-getdata">ค้นหา</button>&nbsp;
+                                            <button class="btn btn-secondary btn-sm disabled" id="btn-print" >พิมพ์สติ๊กเกอร์ทั้งหมด</button>
+                                        </div> 
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card mt-3">
+                            <!--<div class="card mt-3">
                                 <div class="card-header">
                                     <div class="">เเสดงข้อมูล</div>
                                 </div>
@@ -68,7 +71,7 @@
                                     </div>
                                     
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -80,22 +83,43 @@
     </footer>
     
     <script language="javascript">
-        $(document).ready(function(){
-            $("#btn-getdata").click(function(){
-                $("#barcode_pass").addClass("was-validated");
-                var data = $("#cus_no").val().split("/", 2);
-                if(data != ""){
-                    $.ajax({
-                        type:"post",
-                        url:"GetDataStock",
-                        data:{
-                            type:"getdataformbarcodebox",
-                            doc_id:data[0],
-                            num:$("#num").val()
-                        },
-                        success:function(msg){
-                            $(".viewdata").html(msg);
-                       
+        function print(){
+            var doc_id = $("#doc_id").val();
+            var num = $("#num").val();
+            window.open("report/ReportBoxAll.jsp?doc_id=" + doc_id + "&num=" + num ,"_blank");
+        }
+        
+        function getdata(){
+            $("#barcode_pass").addClass("was-validated");
+            var data = $("#doc_id").val().split("/", 2);
+            if(data != ""){
+                $.ajax({
+                    type:"post",
+                    url:"GetDataStock",
+                    data:{
+                        type:"getdataformbarcodebox",
+                        doc_id:data[0],
+                        num:$("#num").val()
+                    },
+                    success:function(msg){
+                        if(msg == "true"){
+                            Swal.fire({
+                                title:"ดึงข้อมูลเรียบร้อย",
+                                icon:"success",
+                                text:"ดึงข้อมูลเรียบร้อย"
+                            });
+                            $("#btn-print").removeClass("disabled");
+                        }else if(msg == "false"){
+                            Swal.fire({
+                                title:"ไม่พบข้อมูล",
+                                icon:"error",
+                                text:"ไม่พบข้อมูล"
+                            });
+                            $("#btn-print").addClass("disabled");
+                        }      
+                            
+                        /*
+                             $(".viewdata").html(msg);
                             var groupColumn = 0;
                             var table = $('#listdata').DataTable({
                                 columnDefs: [
@@ -132,19 +156,27 @@
                                     table.order([groupColumn, 'asc']).draw();
                                 }
                             });
-                        }
-                    });
-                }else{
-                    Swal.fire({
-                        title:"Error",
-                        icon:"error",
-                        text:"กรุณากรอกข้อมูลให้ถูกต้อง"
-                    })
-                }
-                
-                 
+                            
+                         */
+                    }
+                });
+            }else{
+                Swal.fire({
+                    title:"Error",
+                    icon:"error",
+                    text:"กรุณากรอกข้อมูลให้ถูกต้อง"
+                })
+            } 
+        }    
+        
+        $(document).ready(function(){
+        
+            $("#btn-getdata").click(function(){
+                getdata();
             });
-            
+            $("#btn-print").click(function(){
+                print();
+            });
         })
 
     </script>  

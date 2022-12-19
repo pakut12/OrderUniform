@@ -49,7 +49,7 @@ public class Material extends HttpServlet {
             String returnHTML = "";
             List<OUMaterialDetail> listmat = s_mat.getDataMaterial();
 
-            returnHTML += "<table id=\"material_detail\">";
+            returnHTML += "<table id=\"material_detail\" class='table table-bordered w-100'>";
             returnHTML += "<thead>";
             returnHTML += "<tr>";
             returnHTML += "<th>เลขที่</th>";

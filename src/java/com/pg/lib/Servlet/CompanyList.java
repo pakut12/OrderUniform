@@ -53,7 +53,7 @@ public class CompanyList extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
             String returnResult = "";
-            returnResult += "<table id=\"table_company\">";
+            returnResult += "<table id=\"table_company\" class='table table-bordered w-100'>";
             returnResult += "<thead>";
             returnResult += "<tr>";
             returnResult += "<th scope=\"col\">รหัสบริษัท</th>";

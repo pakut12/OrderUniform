@@ -98,7 +98,7 @@
         }); 
         // DOMContentLoaded  end
     </script>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light ">
         <div class="container">
             <div class="collapse navbar-collapse" 
                  id="navbarSupportedContent">
@@ -129,10 +129,11 @@
                                      alt="Bootstrap"
                                      width="20"
                                      height="20">
-                                ระบบจัดการธุรกิจ (รายชื่อพนักงาน)
+                                ระบบจัดการออเดอร์ (รายชื่อพนักงาน)
                             </span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-header">ควบคุม</div>
                             <li>
                                 <a class="dropdown-item" href="#"> 
                                     <img src="css/bootstrap-icons-1.5.0/download.svg"
@@ -141,7 +142,7 @@
                                          height="20">&nbsp;
                                 ดาวน์โหลดฟอร์ม </a>
                                 <ul class="submenu dropdown-menu">
-                                    <li>
+                                    <!--<li>
                                         <a class="dropdown-item" href="attachfile/download/form/Department.xls">
                                             <span>
                                                 <img src="css/bootstrap-icons-1.5.0/info-square.svg" 
@@ -151,7 +152,7 @@
                                                 แบบแผนก
                                             </span>
                                         </a>
-                                    </li>
+                                    </li>-->
                                     <li>
                                         <a class="dropdown-item" href="attachfile/download/form/OrderUniform_Customer.xls">
                                             <span>
@@ -249,7 +250,7 @@
                                             </span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <!-- <li>
                                         <a class="dropdown-item" href="listtransactiondepartment.jsp">
                                             <span>
                                                 <img src="css/bootstrap-icons-1.5.0/briefcase-fill.svg" 
@@ -259,7 +260,7 @@
                                                 รูปแบบแผนก
                                             </span>
                                         </a>
-                                    </li>
+                                    </li>-->
                                 </ul>
                             </li>
                         </ul>
@@ -310,8 +311,7 @@
                             </span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            
-                            <li class="dropdown-header">ควบคุม</li>
+                            <div class="dropdown-header">ควบคุม</div>
                             <li>
                                 <a class="dropdown-item" href="listtransactioncustomer.jsp">
                                     <span>
@@ -330,18 +330,7 @@
                                              alt="Bootstrap" 
                                              width="20" 
                                              height="20">&nbsp;
-                                        โปรเเกรมจัดสินค้า
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="stockcustomeviewstatus.jsp">
-                                    <span>
-                                        <img src="css/bootstrap-icons-1.5.0/book.svg" 
-                                             alt="Bootstrap" 
-                                             width="20" 
-                                             height="20">&nbsp;
-                                        โปรเเกรมดูรายละเอียดการจัดสินค้า
+                                        โปรเเกรมจัดสินค้าลงถุง
                                     </span>
                                 </a>
                             </li>
@@ -364,6 +353,17 @@
                                              width="20" 
                                              height="20">&nbsp;
                                         โปรเเกรมสรุปผลการจัดสินค้าลงกล่อง
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="stockcustomeviewstatus.jsp">
+                                    <span>
+                                        <img src="css/bootstrap-icons-1.5.0/book.svg" 
+                                             alt="Bootstrap" 
+                                             width="20" 
+                                             height="20">&nbsp;
+                                        โปรเเกรมดูรายละเอียดการจัดสินค้า
                                     </span>
                                 </a>
                             </li>
@@ -506,8 +506,11 @@
                                 </span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item text-danger text-center " href="Chklogout">
-                                            ออกจากระบบ
+                                <li><a class="dropdown-item  text-center " href="Chklogout">
+                                        <img src="css/bootstrap-icons-1.5.0/door-closed.svg"
+                                             alt="Bootstrap"
+                                             width="20"
+                                             height="20">  ออกจากระบบ
                                 </a></li>
                             </ul>
                         </li>

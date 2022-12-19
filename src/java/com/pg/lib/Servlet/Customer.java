@@ -39,7 +39,7 @@ public class Customer extends HttpServlet {
             List<OUCustomerDetail> cusobj = cs.getDataALL();
 
             if (cusobj != null) {
-                returnResult += "<table id=\"customerdetail\" >";
+                returnResult += "<table id=\"customerdetail\" class='table table-bordered w-100' >";
                 returnResult += "<thead>";
                 returnResult += "<tr>";
                 returnResult += "<th>ลำดับ</th>";

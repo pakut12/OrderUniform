@@ -49,9 +49,10 @@ public class TransactionCustomer extends HttpServlet {
         } else if (type.equals("getheadertransaction")) {
             String HTMLtag = "";
             List<TreeMap> headerDetail = s_trancustomer.getHeaderTransaction();
-            HTMLtag += "<table id=\"list-transaction\" >";
+            HTMLtag += "<table id=\"list-transaction\" class='table table-bordered w-100' >";
             HTMLtag += "<thead>";
             HTMLtag += "<tr>";
+            HTMLtag += "<th>เลขที่</th>";
             HTMLtag += "<th>หัวข้อ</th>";
             HTMLtag += "<th>ชื่อไฟล์ที่อัพโหลด</th>";
             HTMLtag += "<th>เวลา</th>";
@@ -60,7 +61,8 @@ public class TransactionCustomer extends HttpServlet {
             HTMLtag += "<tbody>";
             for (int i = 0; i <= headerDetail.size() - 1; i++) {
                 HTMLtag += "<tr>";
-                HTMLtag += "<td> <a href=\"TransactionCustomer?doc_id=" + headerDetail.get(i).get("h_id") + " \" >" + headerDetail.get(i).get("h_name") + "</a></td>";
+                HTMLtag += "<td>" + headerDetail.get(i).get("h_id") + "</td>";
+                HTMLtag += "<td><a href=\"TransactionCustomer?doc_id=" + headerDetail.get(i).get("h_id") + " \" >" + headerDetail.get(i).get("h_name") + "</a></td>";
                 HTMLtag += "<td>" + headerDetail.get(i).get("h_filename") + "</td>";
                 HTMLtag += "<td>" + headerDetail.get(i).get("h_create_date") + "</td>";
                 HTMLtag += "</tr>";
@@ -73,20 +75,24 @@ public class TransactionCustomer extends HttpServlet {
             String id = request.getParameter("h_id");
             List<TreeMap> headerDetail = s_trancustomer.getHeaderTransactionwithid(id);
             String status = "";
+            if (headerDetail.size() > 0) {
+                if (headerDetail.get(0).get("h_status").toString().equals("new")) {
+                    status = "0";
+                } else {
+                    status = "1";
+                }
 
-            if (headerDetail.get(0).get("h_status").toString().equals("new")) {
-                status = "0";
+                JSONObject obj = new JSONObject();
+                obj.put("id", headerDetail.get(0).get("h_id"));
+                obj.put("name", headerDetail.get(0).get("h_name"));
+                obj.put("filename", headerDetail.get(0).get("h_filename"));
+                obj.put("date", headerDetail.get(0).get("h_create_date"));
+                obj.put("status", status);
+                out.print(obj);
             } else {
-                status = "1";
+                out.print("false");
             }
 
-            JSONObject obj = new JSONObject();
-            obj.put("id", headerDetail.get(0).get("h_id"));
-            obj.put("name", headerDetail.get(0).get("h_name"));
-            obj.put("filename", headerDetail.get(0).get("h_filename"));
-            obj.put("date", headerDetail.get(0).get("h_create_date"));
-            obj.put("status", status);
-            out.print(obj);
             out.close();
         } else {
             //ค้นหาข้อมูล transaction

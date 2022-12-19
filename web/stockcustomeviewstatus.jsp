@@ -55,11 +55,11 @@
                                     <div class="">เเสดงข้อมูลรายชื่อ</div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row mb-5">
+                                    <div class="row mb-3">
                                         <div class="col-3">
                                             <div class="card bg-success text-white text-center shadow-lg">
                                                 <div class="card-header ">
-                                                    รายชื่อที่จัดสินค้าเเล้ว
+                                                    รายชื่อที่จัดสินค้าถุงเเล้ว
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="h3" id="cms_packsuccess">
@@ -71,7 +71,7 @@
                                         <div class="col-3">
                                             <div class="card bg-danger text-white  text-center shadow-lg">
                                                 <div class="card-header">
-                                                    รายชื่อที่ยังไม่ได้จัดสินค้า
+                                                    รายชื่อที่ยังไม่ได้จัดสินค้าลงถุง
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="h3" id="cms_packerror">
@@ -95,7 +95,7 @@
                                         <div class="col-3">
                                             <div class="card bg-primary text-white text-center shadow-lg">
                                                 <div class="card-header">
-                                                    ผลสรุป
+                                                    ผลสรุปการจัดสินค้าลงถุง
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="h3" id="cms_packresult">
@@ -105,7 +105,21 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-center h3">
+                                    <div class="row mb-3">
+                                        <div class="col-12">
+                                            <div class="card bg-secondary text-white text-center shadow-lg">
+                                                <div class="card-header">
+                                                    ผลสรุปการจัดสินค้าลงกล่อง
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="h3" id="cms_packresultbox">
+                                                        -
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center h3 ">
                                         ดูข้อมูลสรุปทั้งหมด : <a id="result_docid" class="text-primary">>>Link<<</a>
                                     </div>
                                     <div class="viewdata">     
@@ -117,6 +131,7 @@
                 </div>
             </div>
         </div>
+        
     </body>
     <footer>
         <%@ include file = "share/footer.jsp" %>
@@ -156,22 +171,28 @@
                     doc_id:data[0]
                 },
                 success:function(msg){
-                    console.log(msg);
-                    var jsondata = JSON.parse(msg);
-                    $("#cms_packsuccess").text(jsondata.success + " คน");
-                    $("#cms_packerror").text(jsondata.error + " คน");
-                    $("#cms_packtotal").text(jsondata.total + " คน");
-                    $("#cms_packresult").text(jsondata.result);
+                    if(!msg){
+                        $("#cms_packsuccess").text("0 คน");
+                        $("#cms_packerror").text("0 คน");
+                        $("#cms_packtotal").text("0 คน");
+                        $("#cms_packresult").text("-");
+                        $("#cms_packresultbox").text("-");
+                    }else{
+                        var jsondata = JSON.parse(msg);
+                        $("#cms_packsuccess").text(jsondata.success + " คน");
+                        $("#cms_packerror").text(jsondata.error + " คน");
+                        $("#cms_packtotal").text(jsondata.total + " คน");
+                        $("#cms_packresult").text(jsondata.result);
+                        $("#cms_packresultbox").text(jsondata.status_header);
+                    }
                 }
             });
         }
         $(document).ready(function(){
-        
             $("#btn-getdata").click(function(){
                 gettabeldata();
                 getsumbydoc();
             }); 
-            
             $("#result_docid").click(function(){
                 var data = $("#cus_no").val().split("/", 2);
                 if(data[0] == "" ){

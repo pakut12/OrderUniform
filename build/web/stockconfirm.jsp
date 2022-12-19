@@ -42,7 +42,7 @@
                                         <div class="col-4 text-end">รหัสบาร์โค้ด (เอกสาร) : </div>
                                         <div class="col-4">
                                             <form class="" id="myform">
-                                                <input class="form-control form-control-sm " type="text" id="cus_no" value="" required></input>
+                                                <input class="form-control form-control-sm " type="text" id="doc_id" value="" required></input>
                                             </form>
                                         </div>
                                         <div class="col-4">
@@ -97,7 +97,7 @@
     
     <script language="javascript">
         function confirmid(){
-            var data = $("#cus_no").val().split("/", 2);
+            var data = $("#doc_id").val().split("/", 2);
             Swal.fire({
                 title: 'คุณต้องการบันทึกหรือไม่',
                 text: "คุณต้องการบันทึกหรือไม่",
@@ -121,9 +121,7 @@
                                 'บันทึกสำเร็จ',
                                 'บันทึกสำเร็จ',
                                 'success'
-                            )
-                                
-                                
+                            )  
                             }else if(msg == "false"){
                                 Swal.fire(
                                 'บันทึกไม่สำเร็จ',
@@ -139,7 +137,7 @@
         
         
         function getdata(){
-            var data = $("#cus_no").val().split("/", 2);
+            var data = $("#doc_id").val().split("/", 2);
             $("#myform").addClass("was-validated");
                 
             if(data != ""){
@@ -154,7 +152,7 @@
                     success:function(msg){
                         var data = JSON.parse(msg);
                         console.log(data);
-                        if(msg != ""){
+                        if(msg != "false"){
                             Swal.fire({
                                 title:"ดึงข้อมูลสำเร็จ",
                                 text:"ดึงข้อมูลสำเร็จ",
@@ -179,8 +177,7 @@
                                 text:"ดึงข้อมูลไม่สำเร็จ",
                                 icon:"error"
                             })
-                        }
-                             
+                        }     
                     }
                 });
             }else{
@@ -196,7 +193,11 @@
                 getdata();
             });
             $("#btn_send_status").click(function (){
-                confirmid(); 
+                confirmid();  
+                setTimeout(function(){
+                    getdata();
+                },1500);
+                
             });
         })
 

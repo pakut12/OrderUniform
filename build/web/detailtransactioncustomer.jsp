@@ -100,7 +100,7 @@
                         
                         
                         <br>
-                        <table id="documentDetail">
+                        <table id="documentDetail" class='table table-bordered w-100'>
                             <thead >
                                 <tr >
                                     <th> ลำดับ </th>  
@@ -127,7 +127,6 @@
                                                 <br> 
                                                 <b>แผนก : </b> <%=detail.get(i).getDepartmentname()%>
                                             </div>
-                                            
                                         </div>
                                         
                                     </td>
@@ -187,7 +186,7 @@
                     <div class="tab-pane fade" id="sizesummary" role="tabpanel" aria-labelledby="profile-tab">
                         <br>
                         <div>
-                            <table class="table  table-bordered" >
+                            <table class='table table-bordered w-100' >
                                 <%  String tempmaterial = "";
             for (int k = 0; k <= summaryQuantity.size() - 1; k++) {
                 if (!summaryQuantity.get(k).getMaterialid().equals(tempmaterial)) {

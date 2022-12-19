@@ -1,6 +1,7 @@
 
 root { 
     display: block;
+  font-family: Arial,Helvetica,sans-serif;
 }
 .dropdown-menu-right {
     right: 0 !important;
