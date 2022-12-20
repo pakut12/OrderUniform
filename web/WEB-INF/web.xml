@@ -68,7 +68,7 @@
         <servlet-name>Chklogout</servlet-name>
         <servlet-class>com.pg.lib.Servlet.Chklogout</servlet-class>
     </servlet>
-    <servlet-mapping>
+    <servlet><servlet-name>Admin</servlet-name><servlet-class>com.pg.lib.Servlet.Admin</servlet-class></servlet><servlet-mapping>
         <servlet-name>ChkAuthorized</servlet-name>
         <url-pattern>/ChkAuthorized</url-pattern>
     </servlet-mapping>
@@ -136,7 +136,7 @@
         <servlet-name>Chklogout</servlet-name>
         <url-pattern>/Chklogout</url-pattern>
     </servlet-mapping>
-    <session-config>
+    <servlet-mapping><servlet-name>Admin</servlet-name><url-pattern>/Admin</url-pattern></servlet-mapping><session-config>
     <session-timeout>
         30
     </session-timeout>

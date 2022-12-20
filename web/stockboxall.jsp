@@ -84,21 +84,21 @@
     
     <script language="javascript">
         function print(){
-            var doc_id = $("#doc_id").val();
+            var doc_id = $("#doc_id").val().trim();
             var num = $("#num").val();
             window.open("report/ReportBoxAll.jsp?doc_id=" + doc_id + "&num=" + num ,"_blank");
         }
         
         function getdata(){
             $("#barcode_pass").addClass("was-validated");
-            var data = $("#doc_id").val().split("/", 2);
+            var data = $("#doc_id").val().trim();
             if(data != ""){
                 $.ajax({
                     type:"post",
                     url:"GetDataStock",
                     data:{
                         type:"getdataformbarcodebox",
-                        doc_id:data[0],
+                        doc_id:data,
                         num:$("#num").val()
                     },
                     success:function(msg){

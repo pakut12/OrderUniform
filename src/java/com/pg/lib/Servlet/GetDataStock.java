@@ -103,7 +103,7 @@ public class GetDataStock extends HttpServlet {
                 HTMLtag += "</div>";
 
                 HTMLtag += "</div>";
-                HTMLtag += "<table id=\"listdata\" class=\"table w-100 text-center\" >";
+                HTMLtag += "<table id=\"listdata\" class=\"table table-bordered w-100 text-center\" >";
                 HTMLtag += "<thead>";
                 HTMLtag += "<tr>";
                 HTMLtag += "<th>ลำดับ</th>";
@@ -137,7 +137,7 @@ public class GetDataStock extends HttpServlet {
                 HTMLtag += "<tfoot>";
                 HTMLtag += "<tr>";
                 HTMLtag += "<th colspan=\"7\" class=\"text-end\">รวมทั้งหมด</th>";
-                HTMLtag += "<th>" + sum + "</th>";
+                HTMLtag += "<th class='text-center'>" + sum + "</th>";
                 HTMLtag += "</tr>";
                 HTMLtag += "</tfoot>";
 
@@ -203,7 +203,7 @@ public class GetDataStock extends HttpServlet {
                 HTMLtag += "<tfoot>";
                 HTMLtag += "<tr>";
                 HTMLtag += "<th colspan=\"8\" class=\"text-end\">รวมทั้งหมด</th>";
-                HTMLtag += "<th>" + sum + "</th>";
+                HTMLtag += "<th class='text-center'>" + sum + "</th>";
                 HTMLtag += "</tr>";
                 HTMLtag += "</tfoot>";
                 HTMLtag += "</table>";

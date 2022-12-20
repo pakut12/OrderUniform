@@ -90,7 +90,7 @@
                         </div>
                     </div>
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCompanyModal">
+                    <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#addCompanyModal">
                         เพิ่มข้อมูลบริษัท
                     </button>
                     

@@ -41,7 +41,7 @@
                                     <div class="row mb-3">
                                         <div class="col-4 text-end">รหัสบาร์โค้ด (เอกสาร) : </div>
                                         <div class="col-4">
-                                            <input class="form-control form-control-sm " type="text" id="cus_no" required></input>
+                                            <input class="form-control form-control-sm " type="text" id="doc_id" required></input>
                                         </div> 
                                         <div class="col-4">
                                             <button class="btn btn-success btn-sm" id="btn-getdata">ค้นหา</button>
@@ -140,13 +140,13 @@
     <script language="javascript">
         function gettabeldata(){
             $("#barcode_pass").addClass("was-validated");
-            var data = $("#cus_no").val().split("/", 2);
+            var data = $("#doc_id").val().trim();
             $.ajax({
                 type:"post",
                 url:"GetDataStock",
                 data:{
                     type:"getdetail",
-                    doc_id:data[0],
+                    doc_id:data,
                     num:$("#num").val()
                 },
                 beforeSend:function(){
@@ -162,13 +162,13 @@
             });
         }
         function getsumbydoc(){
-            var data = $("#cus_no").val().split("/", 2);
+            var data = $("#doc_id").val().trim();
             $.ajax({
                 type:"post",
                 url:"GetDataStock",
                 data:{
                     type:"getnumbydoc",
-                    doc_id:data[0]
+                    doc_id:data
                 },
                 success:function(msg){
                     if(!msg){
@@ -194,15 +194,15 @@
                 getsumbydoc();
             }); 
             $("#result_docid").click(function(){
-                var data = $("#cus_no").val().split("/", 2);
-                if(data[0] == "" ){
+                var data = $("#doc_id").val().trim();
+                if(data == "" ){
                     Swal.fire({
                         title:"กรุณาใส่รหัส Barcode",
                         text:"กรุณาใส่รหัส Barcode",
                         icon:"error"
                     })
                 }else{
-                    window.open("TransactionCustomer?doc_id="+ data[0], 'new')
+                    window.open("TransactionCustomer?doc_id="+ data, 'new')
                 }
                
             });

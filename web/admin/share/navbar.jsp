@@ -503,7 +503,7 @@
                                          alt="Bootstrap"
                                          width="20"
                                          height="20">
-                                    <%=request.getSession().getAttribute("name")%>
+                                    admin
                                 </span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
