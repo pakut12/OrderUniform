@@ -54,13 +54,12 @@ public class GetDataStock extends HttpServlet {
                 List<OUTransactionCustomerDetail> listdetail = s_trancustomer.getDetailFromBarcode(doc_id, Integer.parseInt(cus_no));
 
                 String HTMLtag = "";
-
                 String status = "";
 
                 if (!listdetail.get(0).getStatus().equalsIgnoreCase("success")) {
-                    status = "ยังไม่ได้จัดสินค้า";
+                    status = "<input class=\"form-control form-control-sm text-center text-danger\" type=\"text\" id=\"cus_status\" value='ยังไม่ได้จัดสินค้า' readonly></input>";
                 } else {
-                    status = "จัดสินค้าเรียบร้อย";
+                    status = "<input class=\"form-control form-control-sm text-center text-success\" type=\"text\" id=\"cus_status\" value='จัดสินค้าเรียบร้อย' readonly></input>";
                 }
 
                 HTMLtag += "<div class=\"row mb-3\">";
@@ -90,7 +89,7 @@ public class GetDataStock extends HttpServlet {
                 HTMLtag += "<div class=\"row mb-3\">";
                 HTMLtag += "<div class=\"col-4 text-end\">สถานะ : </div>";
                 HTMLtag += "<div class=\"col-4\">";
-                HTMLtag += "<input class=\"form-control form-control-sm text-center\" type=\"text\" id=\"cus_status\" value=\"" + status + "\" readonly></input>";
+                HTMLtag += status;
                 HTMLtag += "</div>";
                 HTMLtag += "</div>";
 

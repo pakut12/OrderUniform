@@ -92,14 +92,15 @@
         function getdata(){
             $("#barcode_pass").addClass("was-validated");
             var data = $("#doc_id").val().trim();
-            if(data != ""){
+            var num = $("#num").val().trim();
+            if(data != "" && num != ""){
                 $.ajax({
                     type:"post",
                     url:"GetDataStock",
                     data:{
                         type:"getdataformbarcodebox",
                         doc_id:data,
-                        num:$("#num").val()
+                        num:num
                     },
                     success:function(msg){
                         if(msg == "true"){

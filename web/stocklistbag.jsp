@@ -75,7 +75,7 @@
     <script language="javascript">
  
         function confirmid(){
-            var data = $("#cus_no").val().split("/", 2).trim();
+            var data = $("#cus_no").val().split("/", 2);
             Swal.fire({
                 title: 'คุณต้องการบันทึกหรือไม่',
                 text: "คุณต้องการบันทึกหรือไม่",
