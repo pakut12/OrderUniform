@@ -38,3 +38,4 @@ public class AuthorizedService {
         return new OUPermission(role, oPermission);
     }
 }
+
