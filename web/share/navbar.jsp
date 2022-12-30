@@ -566,7 +566,35 @@
                         </ul>
                     </li>-->
             </ul>
-           
+            <div class="d-flex">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="navbarDropdown"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <span class="font-menu-style">
+                                <img src="css/bootstrap-icons-1.5.0/person-badge.svg"
+                                     alt="Bootstrap"
+                                     width="20"
+                                     height="20">
+                                <%=request.getSession().getAttribute("name")%>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item  text-center " href="Chklogout">
+                                    <img src="css/bootstrap-icons-1.5.0/door-closed.svg"
+                                         alt="Bootstrap"
+                                         width="20"
+                                         height="20">  ออกจากระบบ
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+                
+            </div>
         </div>
     </div>
 </nav>

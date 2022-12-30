@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="d-grid gap-2 col-3 ">
-                    <button type="submit" name="login" value="login" class="btn btn-outline-success rounded-5">Login</button>
+                    <button type="submit" name="login" value="login" class="btn btn-outline-success">Login</button>
                 </div>
             </div>
         </form>
