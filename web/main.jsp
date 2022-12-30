@@ -38,7 +38,7 @@
                                 <span style="color:green"> [>> <a href="manualorder.jsp">ระบบจัดการออเดอร์</a> <<] </span>
                             </div>
                             <div class="row mt-3">
-                                <li><b>คู่มือระบบจัดการสต็อก</b><span>: </span>
+                                <li><b>คู่มือระบบจัดการสต็อก</b><span> : </span>
                                 <span style="color:green"> [>> <a href="manualstock.jsp">ระบบจัดการสต็อก</a> <<] </span>
                             </div>
                         </div>

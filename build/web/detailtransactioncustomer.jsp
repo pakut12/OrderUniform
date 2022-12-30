@@ -240,8 +240,7 @@
         $(document).ready(function(){
             var groupColumn = 1;
             $('#documentDetail').DataTable({
-                //scrollY: '45vh',
-               
+                scrollY: '45vh',
                 scrollCollapse: true,
                 "columnDefs":[
                     { "visible" : false, "targets": groupColumn }
