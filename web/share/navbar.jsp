@@ -303,7 +303,7 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <div class="dropdown-header">ควบคุม</div>
+                        <div class="dropdown-header">ควบคุมสินค้า</div>
                         <li>
                             <a class="dropdown-item" href="listtransactioncustomer.jsp">
                                 <span>
@@ -349,6 +349,7 @@
                             </a>
                         </li>
                         <li><hr class="dropdown-divider"></li>
+                        <div class="dropdown-header">ตรวจสอบสินค้า</div>
                         <li>
                             <a class="dropdown-item" href="stockcustomeviewstatus.jsp">
                                 <span>
@@ -422,7 +423,7 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <div class="dropdown-header">ควบคุม</div>
+                        <div class="dropdown-header">คู่มือ</div>
                         <li>
                             <a class="dropdown-item" href="manualorder.jsp">
                                 <span>

@@ -64,7 +64,7 @@
                                     <li><b>ขั้นตอนที่ 4 </b><span>: เลือกโปรเเกรมจัดสินค้าลงกล่องเเละใส่ข้อมูลให้ถูกต้อง</span> 
                                     <span style="color:green"> - 
                                         [ 
-                                        <a href="stocklistbag.jsp">โปรเเกรมโปรเเกรมจัดสินค้าลงกล่อง</a> 
+                                        <a href="stockboxall.jsp">โปรเเกรมจัดสินค้าลงกล่อง</a> 
                                         ]
                                     </span>
                                 </div>
